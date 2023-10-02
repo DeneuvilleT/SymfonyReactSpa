@@ -1,5 +1,5 @@
 import React from "react";
-import App from "./components/App";
+import App from "./containers/App";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 
