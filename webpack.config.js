@@ -11,7 +11,7 @@ Encore
     .setPublicPath('/build')
 
     .addEntry('app', './assets/react/index.js')
-    .addStyleEntry('styles', './assets/styles/styles.scss')
+    .addStyleEntry('styles', './assets/react/styles/styles.scss')
 
     .splitEntryChunks()
     .enableSingleRuntimeChunk()
@@ -21,7 +21,6 @@ Encore
     .enableSourceMaps(!Encore.isProduction())
     .enableVersioning(Encore.isProduction())
 
-   
     .configureBabelPresetEnv((config) => {
         config.useBuiltIns = 'usage';
         config.corejs = '3.23';

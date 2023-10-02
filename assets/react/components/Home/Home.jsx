@@ -1,9 +1,10 @@
 import React from "react";
-import styles from "../Home/home.module.scss";
+// import styles from "./home.styles.scss";
 
 const Home = () => {
   return (
-    <div className={styles.home}>
+    // <div className={styles.home}>
+    <div>
       <h1>Bienvenue</h1>
     </div>
   );
