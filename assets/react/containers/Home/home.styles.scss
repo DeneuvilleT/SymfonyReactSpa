@@ -7,9 +7,23 @@
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   }
 
-  div {
-
-    background-color: rgb(94, 1, 1);
+  button {
+    font-size: 3em;
     padding: 30px;
   }
+
+  p {
+    font-size: 4em;
+    font-weight: 400;
+  }
+
+  div {
+    margin: auto;
+  }
+
+  input {
+    padding: 30px 50px;
+    font-size: 2em;
+  }
+
 }

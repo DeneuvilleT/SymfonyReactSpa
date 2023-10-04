@@ -1,9 +1,9 @@
 import React from "react";
-import Header from "./Header/Header";
-import Home from "./Home/Home";
-import Products from "./Products/Products";
-import Cart from "./Cart/Cart";
-import Profile from "./Profile/Profile";
+import Header from "./containers/Header/Header";
+import Home from "./containers/Home/Home";
+import Products from "./containers/Products/Products";
+import Cart from "./containers/Cart/Cart";
+import Profile from "./containers/Profile/Profile";
 import { Routes, Route } from "react-router-dom";
 
 const App = () => {

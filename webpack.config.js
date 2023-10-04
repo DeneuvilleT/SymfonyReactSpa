@@ -15,7 +15,7 @@ Encore.setOutputPath("public/build/")
     "./assets/react/containers/Nav/nav.styles.scss",
     "./assets/react/containers/Products/products.styles.scss",
     "./assets/react/containers/Profile/profile.styles.scss",
-    "./assets/react/styles/styles.scss",
+    "./assets/react/styles.scss",
   ])
 
   .splitEntryChunks()
