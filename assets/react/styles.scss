@@ -1,6 +1,6 @@
 * {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
   font-family: "Jost", sans-serif;
   box-sizing: border-box;
@@ -25,6 +25,7 @@
 html {
   background-color: whitesmoke;
   font-size: 62.5%;
+  color: #333;
 
   body {
     display: flex;
@@ -37,7 +38,7 @@ html {
     min-height: 100vh;
   }
 
-  body > div {
+  body>div {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -46,5 +47,48 @@ html {
 
   main {
     max-width: 1800px;
+    width: 90%;
+    margin: auto;
+  }
+
+  h2 {
+    font-size: 4rem;
+    margin: 20px 0;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  }
+
+  label,
+  h3 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+
+  p {
+    font-size: 2rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    gap: 20px;
+  }
+
+  input,
+  select,
+  textarea {
+    border: none;
+    border-radius: 2ex;
+    box-shadow: 0 14px 20px rgba(0, 0, 0, .12), 0 14px 20px rgba(0, 0, 0, .24);
+    padding: 20px 30px;
+  }
+
+  input[type="submit"] {
+    max-width: 50%;
+    margin: auto;
+  }
+
+  article {
+    margin-bottom: 40px;
   }
 }
