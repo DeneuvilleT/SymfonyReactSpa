@@ -1,13 +1,16 @@
 import React from "react";
 import { reactionAdded } from "../../slices/postSlices";
 import { useDispatch } from "react-redux";
+import { Icon } from '@iconify/react';
+
+import styles from '../posts/styles/emoji.styles.scss'
 
 const reactions = {
-  thumbsUp: ":p",
-  wow: "o:",
-  heart: "<3",
-  rocket: "==>",
-  coffee: "up",
+  thumbsUp: <Icon icon="twemoji:thumbs-up" />,
+  wow: <Icon icon="twemoji:face-with-open-mouth" />,
+  heart:<Icon icon="twemoji:beating-heart" />,
+  rocket: <Icon icon="twemoji:rocket" />,
+  coffee: <Icon icon="twemoji:face-savoring-food" />,
 };
 
 const ReactionsBoutons = ({ post }) => {
@@ -18,6 +21,7 @@ const ReactionsBoutons = ({ post }) => {
       <button
         key={name}
         type="button"
+        className={styles.emoji}
         onClick={() =>
           dispatch(reactionAdded({ postId: post.id, reaction: name }))
         }

@@ -1,33 +1,51 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-import PostAuthor from "./PostAuthor";
-import TimeAgo from "./TimeAgo";
-import ReactionsBoutons from "./ReactionsBoutons";
+import {
+  selectAllPosts,
+  getPostsErrors,
+  getPostsStatus,
+  fetchPosts,
+} from "../../slices/postAxiosSlice";
+
+import PostsExcerpt from "./PostsExcerpt";
 
 const Posts = () => {
-  const posts = useSelector((state) => state.posts);
+  const dispatch = useDispatch();
 
-  const orderedPosts = posts
-    .slice()
-    .sort((a, b) => b.date.localeCompare(a.date));
+  const posts = useSelector(selectAllPosts);
+  const postsStatus = useSelector(getPostsStatus);
+  const postsErrors = useSelector(getPostsErrors);
 
-  const renderedPosts = posts.map((post) => (
-    <article key={post.id}>
-      <h3>{post.title}</h3>
-      <p>{post.content}</p>
-      <p>
-        <PostAuthor userId={post.userId} />
-        <TimeAgo timestamp={post.date} />
-      </p>
-      <ReactionsBoutons post={post} />
-    </article>
-  ));
+  useEffect(() => {
+    if (postsStatus === "idle") {
+      dispatch(fetchPosts());
+    }
+  }, [postsStatus, dispatch]);
+
+  let content;
+  switch (postsStatus) {
+    case "Chargement":
+      content = <p>"Chargement ..."</p>;
+      break;
+    case "Succés":
+      const orderedPosts = posts
+        .slice()
+        .sort((a, b) => b.date.localeCompare(a.date));
+
+      content = orderedPosts.map((post) => (
+        <PostsExcerpt key={post.id} post={post} />
+      ));
+      break;
+    case "Echec":
+      content = <p>{postsErrors}</p>;
+      break;
+  }
 
   return (
     <section>
       <h2>Posts</h2>
-      {renderedPosts}
+      {content}
     </section>
   );
 };
