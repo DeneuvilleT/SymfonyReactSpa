@@ -6,7 +6,7 @@ import {
   getPostsErrors,
   getPostsStatus,
   fetchPosts,
-} from "../../slices/postAxiosSlice";
+} from "../../slices/postSlices";
 
 import PostsExcerpt from "./PostsExcerpt";
 
@@ -25,10 +25,10 @@ const Posts = () => {
 
   let content;
   switch (postsStatus) {
-    case "Chargement":
+    case "loading":
       content = <p>"Chargement ..."</p>;
       break;
-    case "Succés":
+    case "succeeded":
       const orderedPosts = posts
         .slice()
         .sort((a, b) => b.date.localeCompare(a.date));
@@ -37,16 +37,24 @@ const Posts = () => {
         <PostsExcerpt key={post.id} post={post} />
       ));
       break;
-    case "Echec":
+    case "failed":
       content = <p>{postsErrors}</p>;
       break;
   }
 
+  const countTest = () => {
+    const test = document.getElementById("test");
+    console.log(test.childNodes.length);
+  };
+
   return (
-    <section>
-      <h2>Posts</h2>
-      {content}
-    </section>
+    <>
+      <section id="test">
+        <h2>Posts</h2>
+        {content}
+      </section>
+      <button onClick={countTest}>Test</button>
+    </>
   );
 };
 

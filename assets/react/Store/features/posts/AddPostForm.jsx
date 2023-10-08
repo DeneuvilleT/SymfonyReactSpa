@@ -1,4 +1,3 @@
-// import { nanoid } from "@reduxjs/toolkit";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -8,34 +7,27 @@ const AddPostForm = () => {
   const users = useSelector((state) => state.users);
 
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [body, setBody] = useState("");
   const [userId, setUserId] = useState("");
 
   const dispatch = useDispatch();
 
   const onTitleChanged = (e) => setTitle(e.target.value);
-  const onContentChanged = (e) => setContent(e.target.value);
+  const onBodyChanged = (e) => setBody(e.target.value);
   const onUserIdChanged = (e) => setUserId(e.target.value);
 
   const onSavePostClicked = (e) => {
     e.preventDefault();
-    if (title && content && userId) {
-      //   dispatch(
-      //     postAdded({
-      //       id: nanoid(),
-      //       title,
-      //       content,
-      //     })
-      //   );
-      dispatch(postAdded(title, content, userId));
+    if (title && body && userId) {
+      dispatch(postAdded(title, body, userId));
 
       setTitle("");
-      setContent("");
+      setBody("");
       setUserId("");
     }
   };
 
-  const canSave = Boolean(title) && Boolean(content) && Boolean(userId);
+  const canSave = Boolean(title) && Boolean(body) && Boolean(userId);
 
   const usersOptions = users.map((user) => (
     <option key={user.id} value={user.id}>
@@ -61,12 +53,12 @@ const AddPostForm = () => {
           {usersOptions}
         </select>
 
-        <label htmlFor="postContent">Content :</label>
+        <label htmlFor="postBody">Body :</label>
         <textarea
-          name="postContent"
-          id="postContent"
-          value={content}
-          onChange={onContentChanged}
+          name="postBody"
+          id="postBody"
+          value={body}
+          onChange={onBodyChanged}
         />
 
         <input
