@@ -11,7 +11,7 @@ const Nav = () => {
         <Link to={"/products"}>Produits</Link>
         <Link to={"/cart"}>Panier</Link>
         <Link to={"/profile"}>Profil</Link>
-        <a href="/admin">Administration</a>
+        <a target="_blank" href="/admin">Administration</a>
       </ul>
     </nav>
   );
