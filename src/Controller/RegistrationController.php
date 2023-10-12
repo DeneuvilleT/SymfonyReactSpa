@@ -5,11 +5,13 @@ namespace App\Controller;
 use App\Entity\Customer;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
+
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
@@ -18,6 +20,7 @@ use Symfony\Component\Serializer\Serializer;
 
 use Symfony\Component\Mime\Address;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
@@ -32,47 +35,65 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/api/register', name: 'app_register', methods: ['POST', 'GET'])]
-    public function register(Request $request,  UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request,  UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, ValidatorInterface $validator): Response
     {
-        $customer = new Customer;
-
-        $req = $request->request;
-
-        $customer->setFirstname($req->get('firstname'));
-        $customer->setLastName($req->get('lastname'));
-        $customer->setPassword(
-            $userPasswordHasher->hashPassword(
-                $customer,
-                $req->get('password')
-            )
-        );
-        $customer->setEmail($req->get('email'));
-        $customer->setRoles(['ROLE_CUSTOMER']);
-        $customer->setIsVerified(0);
-
-        // $entityManager->persist($customer);
-        // $entityManager->flush();
-
-        // $this->emailVerifier->sendEmailConfirmation(
-        //     'app_verify_email',
-        //     $customer,
-        //     (new TemplatedEmail())
-        //         ->from(new Address('deneuville.thomas@gmail.com', 'Admin'))
-        //         ->to($customer->getEmail())
-        //         ->subject('Please Confirm your Email')
-        //         ->htmlTemplate('registration/confirmation_email.html.twig')
-        // );
-
         $encoders = [new XmlEncoder(), new JsonEncoder()];
         $normalizers = [new ObjectNormalizer()];
 
         $serializer = new Serializer($normalizers, $encoders);
+        $customer = new Customer;
 
-        $jsonContent = $serializer->serialize(["Success"], 'json');
+        $datas = json_decode($request->getContent(), true);
 
-        return $this->render('react/index.html.twig', [
-            'success' => $jsonContent
-        ]);
+        $customer->setFirstname($datas['firstname']);
+        $customer->setLastName($datas['lastname']);
+        $customer->setPassword($datas['password']);
+        $customer->setEmail($datas['email']);
+        $customer->setRoles(['ROLE_CUSTOMER']);
+        $customer->setIsVerified(0);
+
+        $errors = $validator->validate($customer);
+
+        if (count($errors) > 0) {
+            $errorMessages = [];
+            foreach ($errors as $error) {
+                $errorMessages[] = $error->getMessage();
+            }
+
+            $response = [
+                'status' => 'error',
+                'message' => 'Validation error',
+                'errors' => $errorMessages,
+            ];
+
+            $jsonContent = $serializer->serialize($response, 'json');
+
+            return new JsonResponse($jsonContent);
+        } else {
+            $customer->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $customer,
+                    $datas['password']
+                )
+            );
+
+            $entityManager->persist($customer);
+            $entityManager->flush();
+
+            $this->emailVerifier->sendEmailConfirmation(
+                'app_verify_email',
+                $customer,
+                (new TemplatedEmail())
+                    ->from(new Address('deneuville.thomas@gmail.com', 'Admin'))
+                    ->to($customer->getEmail())
+                    ->subject('Please Confirm your Email')
+                    ->htmlTemplate('registration/confirmation_email.html.twig')
+            );
+
+            $jsonContent = $serializer->serialize(["Success"], 'json');
+
+            return new JsonResponse($jsonContent);
+        }
     }
 
     #[Route('/verify/email', name: 'app_verify_email')]
