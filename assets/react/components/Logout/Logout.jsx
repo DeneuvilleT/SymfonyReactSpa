@@ -15,7 +15,7 @@ const Logout = () => {
   const handleLogout = async () => {
     try {
       dispatch(logout());
-      const submitLogout = await axios.get("/api/logout");
+      const submitLogout = await axios.get("/api/v1/logout");
       localStorage.removeItem("TOKEN");
 
       navigate("/");

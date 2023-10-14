@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
-import styles from "./home.styles.scss";
+import React, { useState } from "react";
 import axios from "axios";
 
-const Home = () => {
+import styles from "./logup.styles.scss";
+
+const Logup = () => {
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -19,7 +20,7 @@ const Home = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("/api/register", formData);
+      const response = await axios.post("/api/v1/register", formData);
       console.log(JSON.parse(response.data));
       return [...response.data];
     } catch (err) {
@@ -28,7 +29,7 @@ const Home = () => {
   };
 
   return (
-    <main className={styles.home}>
+    <main className={styles.logup}>
       <h2>Bienvenue</h2>
       <form onSubmit={handleSubmit}>
         <input
@@ -61,4 +62,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Logup;

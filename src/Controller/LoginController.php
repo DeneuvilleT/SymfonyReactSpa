@@ -25,7 +25,7 @@ class LoginController extends AbstractController
         $this->csrfTokenManager = $csrfTokenManager;
     }
 
-    #[Route('/api/login', name: 'app_login')]
+    #[Route('/api/v1/login', name: 'app_login')]
     public function index(AuthenticationUtils $authenticationUtils): JsonResponse
     {
         $encoders = [new XmlEncoder(), new JsonEncoder()];
@@ -42,7 +42,7 @@ class LoginController extends AbstractController
         }
     }
 
-    #[Route("/api/token", name: "get_token")]
+    #[Route("/api/v1/token", name: "get_token")]
     public function getToken(): JsonResponse
     {
         $encoders = [new XmlEncoder(), new JsonEncoder()];

@@ -27,10 +27,10 @@ const Login = () => {
       formDatas.append("_username", formData._username);
       formDatas.append("_password", formData._password);
 
-      const response = await axios.post("/api/login", formDatas);
+      const response = await axios.post("/api/v1/login", formDatas);
 
       if (response.status === 200) {
-        const getToken = await axios.get("/api/token");
+        const getToken = await axios.get("/api/v1/token");
 
         const { csrf_token, user } = JSON.parse(getToken.data);
 

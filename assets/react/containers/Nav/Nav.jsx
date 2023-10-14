@@ -7,11 +7,11 @@ const Nav = () => {
     <nav className={styles.nav}>
       <h1>Mes-rêves.com</h1>
       <ul>
-        <Link to={"/"}>Accueil</Link>
-        <Link to={"/products"}>Produits</Link>
+        <Link to={"/"}>Produits</Link>
         <Link to={"/cart"}>Panier</Link>
         <Link to={"/profile"}>Profil</Link>
         <Link to={"/login"}>Connexion</Link>
+        <Link to={"/register"}>Inscription</Link>
         <Link to={"/logout"}>Déconnexion</Link>
         
         <a target="_blank" href="/admin">Administration</a>

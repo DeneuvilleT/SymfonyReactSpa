@@ -11,7 +11,7 @@ Encore.setOutputPath("public/build/")
   .addStyleEntry("styles", [
     "./assets/react/containers/Cart/cart.styles.scss",
     "./assets/react/containers/Header/header.styles.scss",
-    "./assets/react/containers/Home/home.styles.scss",
+    "./assets/react/containers/Logup/logup.styles.scss",
     "./assets/react/containers/Nav/nav.styles.scss",
     "./assets/react/containers/Products/products.styles.scss",
     "./assets/react/containers/Profile/profile.styles.scss",

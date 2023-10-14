@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class SecurityController extends AbstractController
 {
-   #[Route('/api/logout', name: 'app_logout', methods: ['GET'])]
+   #[Route('/api/v1/logout', name: 'app_logout', methods: ['GET'])]
    public function logout(): JsonResponse
    {
     $encoders = [new XmlEncoder(), new JsonEncoder()];

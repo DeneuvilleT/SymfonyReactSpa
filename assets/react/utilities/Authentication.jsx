@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
 import { login } from "../Store/slices/authSlices";
 import axios from "axios";
 
@@ -9,7 +8,7 @@ const Authentication = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { isLog, infos } = useSelector((state) => ({ ...state.auth }));
+  const { isLog, infos, status } = useSelector((state) => ({ ...state.auth }));
 
   const Child = props.child;
 
@@ -21,7 +20,7 @@ const Authentication = (props) => {
     if (!isLog) {
       const token = localStorage.getItem("TOKEN");
       if (token !== null) {
-        const getToken = await axios.get("/api/token");
+        const getToken = await axios.get("/api/v1/token");
         if (getToken.status === 200) {
           const { user } = JSON.parse(getToken.data);
 
@@ -36,7 +35,7 @@ const Authentication = (props) => {
     }
   };
 
-  return <Child infos={infos} isLog={isLog} />;
+  return <Child infos={infos} isLog={isLog} status={status} />;
 };
 
 export default Authentication;

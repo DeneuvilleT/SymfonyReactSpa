@@ -14,7 +14,6 @@ const authSlice = createSlice({
       state.isLog = true;
       state.infos = action.payload;
       state.status = action.payload.roles[0];
-      console.log(state.isLog, state.infos, state.status);
     },
     logout(state, action) {
       state.infos = [];
