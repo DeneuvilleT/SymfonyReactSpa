@@ -35,12 +35,12 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/api/register', name: 'app_register', methods: ['POST', 'GET'])]
-    public function register(Request $request,  UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, ValidatorInterface $validator): Response
+    public function register(Request $request,  UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, ValidatorInterface $validator): JsonResponse
     {
         $encoders = [new XmlEncoder(), new JsonEncoder()];
         $normalizers = [new ObjectNormalizer()];
-
         $serializer = new Serializer($normalizers, $encoders);
+
         $customer = new Customer;
 
         $datas = json_decode($request->getContent(), true);
