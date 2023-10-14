@@ -1,9 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import styles from "./logup.styles.scss";
 
 const Logup = () => {
+  const navigate = useNavigate();
+
+  const [msgsErr, setMsgsErr] = useState([]);
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -21,10 +25,10 @@ const Logup = () => {
 
     try {
       const response = await axios.post("/api/v1/register", formData);
-      console.log(JSON.parse(response.data));
-      return [...response.data];
+      setMsgsErr([]);
+      return navigate("/");
     } catch (err) {
-      return console.error(err.message);
+      return setMsgsErr([...JSON.parse(err.response.data).errors]);
     }
   };
 
@@ -58,6 +62,15 @@ const Logup = () => {
         />
         <input type="submit" value="OK" />
       </form>
+      <ul>
+        {msgsErr.length > 0 && (
+          <div className="error-messages">
+            {msgsErr.map((err, index) => (
+              <p key={index}>{err}</p>
+            ))}
+          </div>
+        )}
+      </ul>
     </main>
   );
 };

@@ -47,7 +47,7 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(
         min: 2,
         max: 50,
-        minMessage: 'Votre prénom doit contenir au moiuns {{ limit }} cractéres.',
+        minMessage: 'Votre prénom doit contenir au moins {{ limit }} cractéres.',
         maxMessage: 'Votre prénom ne peut pas contenir plus de {{ limit }} cractéres.',
     )]
     #[Assert\NotBlank]

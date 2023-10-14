@@ -56,6 +56,6 @@ class LoginController extends AbstractController
             'user' => $user,
         ], 'json');
 
-        return new JsonResponse($jsonContent);
+        return new JsonResponse($jsonContent, Response::HTTP_OK);
     }
 }

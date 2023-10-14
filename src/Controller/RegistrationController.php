@@ -68,7 +68,7 @@ class RegistrationController extends AbstractController
 
             $jsonContent = $serializer->serialize($response, 'json');
 
-            return new JsonResponse($jsonContent);
+            return new JsonResponse($jsonContent, Response::HTTP_UNAUTHORIZED);
         } else {
             $customer->setPassword(
                 $userPasswordHasher->hashPassword(
@@ -92,7 +92,7 @@ class RegistrationController extends AbstractController
 
             $jsonContent = $serializer->serialize(["Success"], 'json');
 
-            return new JsonResponse($jsonContent);
+            return new JsonResponse($jsonContent, Response::HTTP_OK);
         }
     }
 
