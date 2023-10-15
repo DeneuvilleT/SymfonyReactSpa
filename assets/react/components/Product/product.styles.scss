@@ -1,0 +1,12 @@
+.product {
+    article {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 20px;
+        border-radius: 2ex;
+        width: 50%;
+        background-color: rgba(245, 245, 245, 0.74);
+    }
+}

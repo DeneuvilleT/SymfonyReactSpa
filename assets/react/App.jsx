@@ -1,8 +1,8 @@
 import { Routes, Route } from "react-router-dom";
-import React from "react";
+import React, { useEffect } from "react";
 
 import Header from "./containers/Header/Header";
-import Products from "./containers/Products/Products";
+import Product from "./components/Product/Product";
 
 import Logup from "./containers/Logup/Logup";
 import Logout from "./components/Logout/Logout";
@@ -13,8 +13,24 @@ import Profile from "./containers/Profile/Profile";
 
 import Notfound from "./components/PageNotFound/Notfound";
 import Authentication from "./utilities/Authentication";
+import ProductList from "./containers/Products/ProductsList";
+
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchProducts,
+  getProductsStatus,
+} from "./Store/slices/productsSlices";
 
 const App = () => {
+  const dispatch = useDispatch();
+  const productsStatus = useSelector(getProductsStatus);
+
+  useEffect(() => {
+    if (productsStatus === "idle") {
+      dispatch(fetchProducts());
+    }
+  }, [productsStatus, dispatch]);
+
   return (
     <>
       <Header />
@@ -22,8 +38,13 @@ const App = () => {
         <Route
           index
           path="/"
-          element={<Authentication child={Products} auth={false} />}
+          element={<Authentication child={ProductList} auth={false} />}
         />
+        <Route
+          path="product/:id"
+          element={<Authentication child={Product} auth={false} />}
+        />
+
         <Route
           index
           path="/register"
