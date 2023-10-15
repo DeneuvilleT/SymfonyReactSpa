@@ -1,6 +1,6 @@
 import React from "react";
-import Posts from "../../Store/features/posts/Posts";
-import AddPostForm from "../../Store/features/posts/AddPostForm";
+import Posts from "../../components/Comments/Posts";
+import AddPostForm from "../../components/Comments/AddPostForm";
 import styles from "./profile.styles.scss";
 
 const Profile = () => {

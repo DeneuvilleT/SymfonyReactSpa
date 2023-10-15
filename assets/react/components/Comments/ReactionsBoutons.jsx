@@ -1,9 +1,9 @@
 import React from "react";
-import { reactionAdded } from "../../slices/postSlices";
+import { reactionAdded } from "../../Store/slices/postSlices";
 import { useDispatch } from "react-redux";
 import { Icon } from "@iconify/react";
 
-import styles from "./styles/emoji.styles.scss";
+import styles from "./emoji.styles.scss";
 
 const reactions = {
   thumbsUp: <Icon icon="twemoji:thumbs-up" />,

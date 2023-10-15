@@ -13,7 +13,7 @@ import Profile from "./containers/Profile/Profile";
 
 import Notfound from "./components/PageNotFound/Notfound";
 import Authentication from "./utilities/Authentication";
-import ProductList from "./containers/Products/ProductsList";
+import ProductList from "./containers/ProductList/ProductsList";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -64,7 +64,7 @@ const App = () => {
         />
         <Route
           path="/logout"
-          element={<Authentication child={Logout} auth={false} />}
+          element={<Authentication child={Logout} auth={true} />}
         />
 
         <Route index path="notFound" element={<Notfound />} />

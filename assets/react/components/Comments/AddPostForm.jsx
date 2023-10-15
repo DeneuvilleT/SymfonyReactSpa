@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { postAdded } from "../../slices/postSlices";
+import { postAdded } from "../../Store/slices/postSlices";
 
 const AddPostForm = () => {
   const users = useSelector((state) => state.users);

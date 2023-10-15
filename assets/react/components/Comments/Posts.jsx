@@ -6,7 +6,7 @@ import {
   getPostsErrors,
   getPostsStatus,
   fetchPosts,
-} from "../../slices/postSlices";
+} from "../../Store/slices/postSlices";
 
 import PostsExcerpt from "./PostsExcerpt";
 
