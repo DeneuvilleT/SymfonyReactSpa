@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Congratulations
+{% endblock %}
+
+{% block content %}
+	<section class="container">
+		<h1>Achat réussi.</h1>
+
+		<a class="mt-3 btn btn-primary" href="{{path("app_auction_index")}}">Retour vers les articles</a>
+
+	</section>
+{% endblock %}

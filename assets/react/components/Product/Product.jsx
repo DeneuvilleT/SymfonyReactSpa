@@ -50,6 +50,10 @@ const Product = () => {
             />
           </Fragment>
 
+          <form action="/api/stripe/product/1" method="get">
+            <input type="submit" value="Acheter" />
+          </form>
+
           <div itemProp="offers" itemScope itemType="http://schema.org/Offer">
             <meta itemProp="price" content={product.priceUnit} />
             <meta itemProp="priceCurrency" content="€" />
@@ -62,11 +66,6 @@ const Product = () => {
               <strong>Stock :</strong> {product.stock}
             </p>
           </div>
-
-          <meta
-            itemProp="itemCondition"
-            content="http://schema.org/NewCondition"
-          />
         </article>
       )}
     </main>

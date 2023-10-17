@@ -8,8 +8,6 @@ import { loadStripe } from '@stripe/stripe-js';
 
 
 export const valueOk = /(?=.*[a-z])+(?=.*[A-Z])+(?=.*[0-9])+(?=.*[^A-Za-z0-9])+(?=.{8,})/;
-export const stripePromise = loadStripe("pk_test_51LNAhmC17yFFjZeKDDpoZceiu0t5kbHH6VA6izsX5n8qHD9Ec6RIWeFpniR4Q4EmJbTIV3w6jbfCwDXFbsGMuOwZ00lFRY21xU");
-
 
 let id = null;
 export const notification = (setMsg, msg) => {
