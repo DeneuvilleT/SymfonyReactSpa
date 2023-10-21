@@ -1,11 +1,12 @@
 import React, { useState, useEffect, Fragment } from "react";
 
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
   getAllProducts,
   getProductsStatus,
 } from "../../Store/slices/productsSlices";
+import { addToCart } from "../../Store/slices/cartSlices";
 
 import styles from "./product.styles.scss";
 
@@ -50,9 +51,13 @@ const Product = () => {
             />
           </Fragment>
 
-          <form action="/api/stripe/product/1" method="get">
+          <Link onClick={dispatch(addToCart(product.id))} to={"/cart"}>
+            Ajouter au panier
+          </Link>
+
+          {/* <form action={`/api/stripe/product/${product.id}`} method="get">
             <input type="submit" value="Acheter" />
-          </form>
+          </form> */}
 
           <div itemProp="offers" itemScope itemType="http://schema.org/Offer">
             <meta itemProp="price" content={product.priceUnit} />
