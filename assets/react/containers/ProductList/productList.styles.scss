@@ -1,20 +1,77 @@
 .productList {
+  main {
     display: flex;
-    justify-content: flex-start;
-    gap: 25px;
+    align-items: center;
+    width: 100%;
+  }
 
-    article {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 16px;
-        padding: 20px;
-        border-radius: 2ex;
-        width: 20%;
-        background-color: rgba(245, 245, 245, 0.74);
-    }
+  section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px 0;
+    margin: 0 auto;
+    width: 90%;
+  }
 
-    p {
-        text-align: center;
-    }
+  a {
+    display: block;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 4px;
+    text-decoration: none;
+    color: #111;
+  }
+
+  a aside {
+    display: flex;
+    height: 0px;
+    width: 0;
+    transition: all 2s;
+  }
+
+  a:hover aside {
+    height: 80px;
+    width: 100%;
+  }
+
+  h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    color: #666;
+    letter-spacing: 0.1em;
+    margin: 10px 0;
+    text-align: end;
+    text-transform: uppercase;
+    font-style: italic;
+    font-weight: 900;
+  }
+
+  span[itemprop="sku"] {
+    display: block;
+    font-size: 0.9em;
+    text-align: end;
+    font-style: italic;
+  }
+
+  span[itemprop="sku"] strong {
+    color: #666;
+  }
+
+  p[itemprop="description"] div {
+    font-size: 1.15em;
+    margin: 10px 0;
+  }
+
+  p[class="price"] {
+    font-size: 2em;
+    margin: 10px 0;
+    text-align: end;
+    color: darkslategrey;
+  }
 }

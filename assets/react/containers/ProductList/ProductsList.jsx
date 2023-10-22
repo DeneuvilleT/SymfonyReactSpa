@@ -2,6 +2,9 @@ import React, { Fragment } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
+import Stock from "../../components/Stock/Stock";
+import BtnAdd from "../../components/BtnAdd/BtnAdd";
+
 import {
   getProductsStatus,
   getProductsErrors,
@@ -11,7 +14,6 @@ import {
 import styles from "./productList.styles.scss";
 
 const ProductList = () => {
-  
   const products = useSelector(getAllProducts);
   const productsStatus = useSelector(getProductsStatus);
   const productsErrors = useSelector(getProductsErrors);
@@ -23,66 +25,64 @@ const ProductList = () => {
     case "succeeded":
       return (
         <main className={styles.productList}>
-          {products.map((product) => (
-            <article
-              key={product.id}
-              itemScope
-              itemType="http://schema.org/Product"
-            >
-              <h2 itemProp="name">{product.title}</h2>
-
-              <meta
-                itemProp="image"
-                content={`${location.origin}/uploads/images/${product.cover}`}
-              />
-              <img
-                style={{ width: "200px", height: "auto" }}
-                src={`${location.origin}/uploads/images/${product.cover}`}
-                alt={product.title}
-              />
-
-              <p itemProp="brand">{product.brand}</p>
-              <span itemProp="sku">
-                <strong>ref:</strong> {product.sku}
-              </span>
-
-              <Fragment>
-                <p
-                  itemProp="description"
-                  dangerouslySetInnerHTML={{ __html: product.descriptionShort }}
-                />
-              </Fragment>
-
-              <div
-                itemProp="offers"
+          <section>
+            {products.map((product) => (
+              <Link
+                to={`/product/${product.id}`}
+                key={product.id}
                 itemScope
-                itemType="http://schema.org/Offer"
+                itemType="http://schema.org/Product"
+                itemProp="url"
               >
-                <meta itemProp="price" content={product.priceUnit} />
-                <meta itemProp="priceCurrency" content="€" />
-                <p>
-                  <strong>Prix :</strong> {Number(product.priceUnit).toFixed(2)}{" "}
-                  €
-                </p>
+                <h2 itemProp="name">{product.title}</h2>
 
                 <meta
-                  itemProp="availability"
-                  content="http://schema.org/InStock"
+                  itemProp="image"
+                  content={`${location.origin}/uploads/images/${product.cover}`}
                 />
-                <p>
-                  <strong>Stock :</strong> {product.stock}
-                </p>
-              </div>
+                <img
+                  style={{ width: "200px", height: "auto" }}
+                  src={`${location.origin}/uploads/images/${product.cover}`}
+                  alt={product.title}
+                />
 
-              <Link to={`/product/${product.id}`} itemProp="url">
-                Lien vers la page du produit
+                <h3 itemProp="brand">{product.brand}</h3>
+                <span itemProp="sku">
+                  <strong>ref:</strong> {product.sku}
+                </span>
+
+                <Fragment>
+                  <p
+                    itemProp="description"
+                    dangerouslySetInnerHTML={{
+                      __html: product.descriptionShort,
+                    }}
+                  />
+                </Fragment>
+
+                <div
+                  itemProp="offers"
+                  itemScope
+                  itemType="http://schema.org/Offer"
+                >
+                  <meta itemProp="price" content={product.priceUnit} />
+                  <meta itemProp="priceCurrency" content="€" />
+                  <p className="price">
+                    {(Number(product.priceUnit) / 100).toFixed(2)} €
+                  </p>
+
+                  <Stock stock={product.stock} />
+                </div>
+
+                <BtnAdd product={product} />
+
+                <meta
+                  itemProp="itemCondition"
+                  content="http://schema.org/NewCondition"
+                />
               </Link>
-              <meta
-                itemProp="itemCondition"
-                content="http://schema.org/NewCondition"
-              />
-            </article>
-          ))}
+            ))}
+          </section>
         </main>
       );
 

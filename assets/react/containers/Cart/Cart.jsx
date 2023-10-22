@@ -20,12 +20,6 @@ const Cart = ({ infos, isLog }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  //    const [clientSecret, setClientSecret] = useState("");
-  //    const options = {
-  //       clientSecret,
-  //       appearance: { theme: "stripe" }
-  //    };
-
   const [free, setFree] = useState(false);
   const [tax, setTax] = useState(6.5);
   const [msg, setMsg] = useState("");
@@ -77,49 +71,62 @@ const Cart = ({ infos, isLog }) => {
             <section>
               {cart?.map((item) => (
                 <article key={item.id}>
-                  <Link to={`/product/detail/${item.id}`}>
-                    {item.product_name} &nbsp; {item.percent.toFixed(2)} %
-                  </Link>
+                  <Link to={`/product/${item.id}`}>{item.title}</Link>
                   <div>
                     {/* Add / Less Quantity Item */}
                     <div>
                       <button
                         onClick={() => {
                           dispatch(lessQuantity(item));
-                          notification(setMsg, "Vous avez retiré un article.");
+                          // ;
+                          // notification(setMsg, "Vous avez retiré un article.");
                         }}
-                      >-</button>
+                      >
+                        -
+                      </button>
+
                       <p>{item.item_quantity}</p>
+
                       <button
-                        icon={faPlusSquare}
                         onClick={() => {
                           dispatch(addQuantity(item));
-                          notification(setMsg, "Vous avez ajouté un article.");
+                          // ;
+                          // notification(setMsg, "Vous avez ajouté un article.");
                         }}
-                        >+</button>
+                      >
+                        +
+                      </button>
                     </div>
 
-                    <p>{item.price.toFixed(2)} €</p>
+                    <p>{(Number(item.priceUnit) / 100).toFixed(2)} €</p>
 
                     {/* Delete Item */}
                     <div>
-                      <FontAwesomeIcon
-                        icon={faTrashCan}
-                        size="2x"
+                      <button
                         onClick={() => {
                           dispatch(removeToCart(item));
-                          notification(
-                            setMsg,
-                            `Vous avez retiré 
-                                       ${item.product_name
-                                         .charAt(0)
-                                         .toUpperCase()}${item.product_name.slice(
-                              1
-                            )} à votre panier.`
-                          );
+                          //   ;
+                          //   notification(
+                          //     setMsg,
+                          //     `Vous avez retiré
+                          //                ${item.product_name
+                          //                  .charAt(0)
+                          //                  .toUpperCase()}${item.product_name.slice(
+                          //       1
+                          //     )} à votre panier.`
+                          //   );
                         }}
-                      />
-                      <p>{(item.price * item.item_quantity).toFixed(2)} €</p>
+                      >
+                        Supprimer l'article
+                      </button>
+
+                      <p>
+                        {(
+                          (Number(item.priceUnit) / 100) *
+                          item.item_quantity
+                        ).toFixed(2)}{" "}
+                        €
+                      </p>
                     </div>
                   </div>
                 </article>
@@ -129,7 +136,8 @@ const Cart = ({ infos, isLog }) => {
               <button
                 onClick={() => {
                   dispatch(clearCart());
-                  notification(setMsg, "Votre panier a été vidé.");
+                  // ;
+                  // notification(setMsg, "Votre panier a été vidé.");
                 }}
               >
                 Vider le panier
@@ -196,9 +204,9 @@ const Cart = ({ infos, isLog }) => {
           </section>
         </>
       )}
-      <form action={`/api/stripe/product/${product.id}`} method="get">
+      {/* <form action={`/api/stripe/product/${product.id}`} method="get">
         <input type="submit" value="Acheter" />
-      </form>
+      </form> */}
     </main>
   );
 };

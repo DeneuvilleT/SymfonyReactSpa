@@ -3,19 +3,22 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: indigo;
-  box-shadow: 0 14px 20px rgb(0, 0, 0, 0.12), 0 14px 20px rgba(0, 0, 0, 0.24);
-  padding: 20px 5vw;
+  flex-wrap: wrap;
+  background-color: #333;
+  padding: 0 5vw;
   
   h1 {
     font-size: 2.5em;
-    color: cornflowerblue;
+    color: rgb(255, 255, 255);
+    padding: 20px 0;
   }
 
   ul {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
+    flex-wrap: wrap;
     gap: 3vw;
+    padding: 20px 0;
   }
 
   ul a {

@@ -8,6 +8,7 @@
   padding: 0;
 }
 
+/** SCROLLBAR */
 ::-webkit-scrollbar {
   width: 7px;
   background: #6868682f;
@@ -15,80 +16,23 @@
 
 ::-webkit-scrollbar-thumb {
   border: solid 0 transparent;
-  background-color: #622f03;
+  background-color: #000000;
 }
 
 :focus-visible {
   outline: 0;
 }
 
+/** DOM */
 html {
-  background-color: whitesmoke;
+  background-color: rgb(245, 247, 250);
   font-size: 62.5%;
   color: #333;
 
-  body {
+  body > div {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
-
-    background-image: url(/public/images/background.jpg);
-    background-size: cover;
-    min-height: 100vh;
-  }
-
-  body>div {
-    display: flex;
-    flex-direction: column;
     width: 100%;
-    align-self: stretch;
-  }
-
-  main {
-    max-width: 1800px;
-    width: 90%;
-    margin: auto;
-  }
-
-  h2 {
-    font-size: 4rem;
-    margin: 20px 0;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  }
-
-  label,
-  h3 {
-    font-size: 3rem;
-    margin-bottom: 20px;
-  }
-
-  p {
-    font-size: 2rem;
-  }
-
-  form {
-    display: flex;
-    flex-direction: column;
-    width: 400px;
-    gap: 20px;
-  }
-
-  input,
-  select,
-  textarea {
-    border: none;
-    border-radius: 2ex;
-    box-shadow: 0 14px 20px rgba(0, 0, 0, .12), 0 14px 20px rgba(0, 0, 0, .24);
-    padding: 20px 30px;
-  }
-
-  input[type="submit"] {
-    max-width: 50%;
-    margin: auto;
-  }
-
-  article {
-    margin-bottom: 40px;
   }
 }

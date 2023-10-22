@@ -5,7 +5,7 @@ import styles from "./nav.styles.scss";
 const Nav = () => {
   return (
     <nav className={styles.nav}>
-      <h1>Mes-rêves.com</h1>
+      <h1>Exemple.com</h1>
       <ul>
         <Link to={"/"}>Produits</Link>
         <Link to={"/cart"}>Panier</Link>

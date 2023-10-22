@@ -51,7 +51,12 @@ const Product = () => {
             />
           </Fragment>
 
-          <Link onClick={dispatch(addToCart(product.id))} to={"/cart"}>
+          <Link
+            onClick={() => {
+              dispatch(addToCart(product));
+            }}
+            to={"/cart"}
+          >
             Ajouter au panier
           </Link>
 
@@ -63,7 +68,8 @@ const Product = () => {
             <meta itemProp="price" content={product.priceUnit} />
             <meta itemProp="priceCurrency" content="€" />
             <p>
-              <strong>Prix :</strong> {Number(product.priceUnit).toFixed(2)} €
+              <strong>Prix :</strong>{" "}
+              {(Number(product.priceUnit) / 100).toFixed(2)} €
             </p>
 
             <meta itemProp="availability" content="http://schema.org/InStock" />
