@@ -30,6 +30,7 @@ class StripeController extends AbstractController
                         ],
                         // 'unit_amount' => $product->getPriceUnit(),
                         'unit_amount' => 300,
+                        /** Remplacer par le vrai prix priceUnit du produit */
                     ],
                     'quantity' => 1,
                 ],
