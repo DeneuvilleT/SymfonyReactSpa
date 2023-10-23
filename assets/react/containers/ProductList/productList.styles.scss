@@ -23,18 +23,24 @@
     box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 4px;
     text-decoration: none;
     color: #111;
+    position: relative;
   }
 
-  a aside {
+  a aside,
+  a section {
     display: flex;
     height: 0px;
-    width: 0;
-    transition: all 2s;
+    width: 101%;
+    bottom: 0px;
+    left: 0px;
+    overflow: hidden;
+    position: absolute;
+    transition: height 0.5s ease-in-out;
   }
 
-  a:hover aside {
-    height: 80px;
-    width: 100%;
+  a:hover aside,
+  a section {
+    height: 55px;
   }
 
   h2 {

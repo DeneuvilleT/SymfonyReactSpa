@@ -14,15 +14,17 @@ const cartSlice = createSlice({
   reducers: {
     addToCart(state, action) {
       const index = state.cart.findIndex(
-        (item) => item.id === action.payload.id
+        (item) => item.id === action.payload.product.id
       );
+
+      const value = !action.payload.quantity ? 1 : action.payload.quantity;
 
       if (index >= 0) {
         // Rajoute 1 de valeur au produit ciblé
-        state.cart[index].item_quantity += 1;
+        state.cart[index].item_quantity += value;
       } else {
         // Rajoute 1 de valeur par défaut si le produit n'est pas dans le panier
-        const tempProduct = { ...action.payload, item_quantity: 1 };
+        const tempProduct = { ...action.payload.product, item_quantity: value };
         state.cart.push(tempProduct);
       }
       localStorage.setItem("CART", JSON.stringify(state.cart));

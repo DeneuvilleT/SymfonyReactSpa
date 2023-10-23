@@ -1,11 +1,54 @@
 .btnAdd {
-  display: inline-block;
-  padding: 10px;
-  border: 1px solid transparent;
-  border-radius: 12px;
-  transform: .5s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 10px;
 }
 
-.btnAdd:hover {
-  border-color: #999;
+.btnAdd section > svg {
+  box-shadow: transparent 0px 2px 4px;
+  padding: 2.5px;
+  border-radius: 12px;
+  transform: 0.5s;
+}
+
+.btnAdd section > svg:hover {
+  box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 4px;
+}
+
+.btnAdd section > svg:active {
+  box-shadow: inset rgba(0, 0, 0, 0.25) 0px 2px 4px;
+}
+
+.btnAdd aside {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(184, 0, 0);
+}
+
+.btnAdd section div p,
+.btnAdd aside p {
+  font-size: 1.35em;
+  font-weight: 600;
+  color: #fff;
+}
+
+.btnAdd section {
+  justify-content: space-around;
+  background-color: green;
+  padding: 5px 0;
+}
+
+.btnAdd section div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: auto;
+  gap: 10px;
+}
+
+.btnAdd section div p {
+  font-size: 1.75em;
 }

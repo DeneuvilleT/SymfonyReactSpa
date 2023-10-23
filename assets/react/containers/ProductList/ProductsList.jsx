@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { Icon } from "@iconify/react";
 
 import Stock from "../../components/Stock/Stock";
 import BtnAdd from "../../components/BtnAdd/BtnAdd";
@@ -20,7 +21,14 @@ const ProductList = () => {
 
   switch (productsStatus) {
     case "loading":
-      return <p>"Chargement ..."</p>;
+      return (
+        <Icon
+          style={{ marginTop: "150px" }}
+          icon="svg-spinners:blocks-shuffle-3"
+          width="240"
+          height="240"
+        />
+      );
 
     case "succeeded":
       return (
