@@ -21,13 +21,19 @@ const cartSlice = createSlice({
 
       if (index >= 0) {
         // Rajoute 1 de valeur au produit ciblé
-        state.cart[index].item_quantity += value;
+        if (
+          state.cart[index].item_quantity + value <=
+          action.payload.product.stock
+        ) {
+          state.cart[index].item_quantity += value;
+          localStorage.setItem("CART", JSON.stringify(state.cart));
+        }
       } else {
         // Rajoute 1 de valeur par défaut si le produit n'est pas dans le panier
         const tempProduct = { ...action.payload.product, item_quantity: value };
         state.cart.push(tempProduct);
+        localStorage.setItem("CART", JSON.stringify(state.cart));
       }
-      localStorage.setItem("CART", JSON.stringify(state.cart));
     },
 
     removeToCart(state, action) {

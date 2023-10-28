@@ -54,6 +54,7 @@ const Product = () => {
           <Link
             onClick={() => {
               dispatch(addToCart(product));
+              // Vérifier la quan
             }}
             to={"/cart"}
           >
@@ -72,6 +73,12 @@ const Product = () => {
               {(Number(product.priceUnit) / 100).toFixed(2)} €
             </p>
 
+            {/*
+             * Gérer le cummul d'un stock d'article ajouté au panier vie le quickview
+             *
+             * Toujours vérifier la quantité dans le panier avant l'affichage
+             *
+             */}
             <meta itemProp="availability" content="http://schema.org/InStock" />
             <p>
               <strong>Stock :</strong> {product.stock}
