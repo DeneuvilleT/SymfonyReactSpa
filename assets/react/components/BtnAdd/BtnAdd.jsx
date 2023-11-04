@@ -15,43 +15,42 @@ const BtnAdd = ({ product }) => {
   const [maxStockAvailable, setMaxStockAvailable] = useState(null);
   const [stock, setStock] = useState(true);
 
+  const index = cart.findIndex((item) => item.id === product.id);
+
   useEffect(() => {
     checkStock();
   }, [stock, handleAddToCart]);
 
   const handleAddToCart = (e) => {
     e.preventDefault();
+
     if (quantity > 0) {
       dispatch(addToCart({ product: product, quantity: quantity }));
       setQuantity(0);
-      /**
-       * ATTENTION - Quand il ne reste que 1 de possible en quantité posssiblke alors 0 en stockInitial
-       * Gérer le panier par cookie
-       */
-      // setMaxStockAvailable(stockAvailable);
+
       return checkStock();
     }
   };
 
-  const checkAvalaibleStock = () => {
-    // L'initial stock doit être la différence qu'il y aentre le stock disponible du produit et la quantité déjà présente dans le panier
-    const index = cart.findIndex((item) => item.id === product.id);
-    if (index >= 0 && product.stock !== 0) {
-      const newAvailableStock = product.stock - cart[index].item_quantity;
-      setMaxStockAvailable(newAvailableStock);
-      return setStockAvailable(newAvailableStock);
+  const checkStock = () => {
+    if (
+      (index >= 0 && quantity + cart[index].item_quantity >= product.stock) ||
+      quantity >= product.stock
+    ) {
+      setStock(false);
     }
+
+    if (index !== -1) return checkAvalaibleStock();
   };
 
-  const checkStock = () => {
-    const index = cart.findIndex((item) => item.id === product.id);
+  const checkAvalaibleStock = () => {
+    if (index >= 0 && product.stock !== 0) {
+      const newAvailableStock =
+        product.stock - cart[index].item_quantity - quantity;
+      setMaxStockAvailable(newAvailableStock);
 
-    if (index >= 0 && quantity + cart[index].item_quantity >= product.stock) {
-      setStock(false);
-    } else if (quantity >= product.stock) {
-      setStock(false);
+      return setStockAvailable(newAvailableStock);
     }
-    return checkAvalaibleStock();
   };
 
   const handleAddQuantity = (e) => {

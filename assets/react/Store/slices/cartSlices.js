@@ -1,5 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+/**
+ * !!!!!!!!!!!
+ * TODO !!!!!!
+ * !!!!!!!!!!!
+ * 
+ * Gérer le panier en cookie !
+ */
+
 const initialState = {
   cart: localStorage.getItem("CART")
     ? JSON.parse(localStorage.getItem("CART"))
