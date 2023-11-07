@@ -5,19 +5,16 @@ import {
   clearCart,
   priceTotal,
 } from "../../Store/slices/cartSlices";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-// import { notification } from '../../utilities/index';
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 
-// import Checkout from '../CheckOut/CheckOut';
 import styles from "./cart.styles.scss";
 
 const Cart = ({ infos, isLog }) => {
   const { cart, cartTotal } = useSelector((state) => ({ ...state.cart }));
 
-  const location = useLocation();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [free, setFree] = useState(false);
@@ -29,32 +26,32 @@ const Cart = ({ infos, isLog }) => {
   }, [cart, dispatch]);
 
   useEffect(() => {
-    if (cartTotal >= 50) {
-      setFree(true);
-      setTax(0);
-    } else {
-      setTax(6.5);
-      setFree(false);
-    }
+    cartTotal >= 50
+      ? (setFree(true), setTax(0))
+      : (setTax(6.5), setFree(false));
   }, [cartTotal]);
 
-  //    useEffect(() => {
-  //       setTimeout(() => {
-  //          if (location.key === 'default') {
-  //             navigate('/cart');
-  //             window.location.href = "/#/cart";
-  //          };
-  //       }, 500)
-  //    }, [infos]);
+  const checkout = async (e) => {
+    e.preventDefault();
 
-  //    const payment = async () => {
-  //       if (infos.address === null || infos.city === null || infos.zip_code === null) {
-  //          return notification(setMsg, 'Vous devez compléter votre adresse dans votre page profil.');
-  //       };
+    try {
+      const response = await axios.post(
+        "/api/v1/stripe/checkout",
+        JSON.stringify(cart)
+      );
+      console.log(response);
 
-  //       const pay = await sendPay(!free ? (cartTotal + tax).toFixed(2) : cartTotal.toFixed(2));
-  //       return setClientSecret(pay.data.clientSecret);
-  //    };
+      if (response.status === 200) {
+        const session = response.data;
+        window.location.href = session.url;
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      } else {
+        console.error("Erreur lors de la création de la session de paiement");
+      }
+    } catch (error) {
+      console.log(error.response.data.message, error);
+    }
+  };
 
   return (
     <main className={styles.cart}>
@@ -168,15 +165,9 @@ const Cart = ({ infos, isLog }) => {
 
                 {isLog ? (
                   <>
-                    {" "}
-                    <button
-                      onClick={() => {
-                        payment();
-                        window.scrollTo(0, 1650);
-                      }}
-                    >
+                    <button onClick={(e) => checkout(e)}>
                       Valider le panier
-                    </button>{" "}
+                    </button>
                   </>
                 ) : (
                   <>
@@ -204,9 +195,6 @@ const Cart = ({ infos, isLog }) => {
           </section>
         </>
       )}
-      {/* <form action={`/api/stripe/product/${product.id}`} method="get">
-        <input type="submit" value="Acheter" />
-      </form> */}
     </main>
   );
 };

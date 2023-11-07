@@ -1,20 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-/**
- * !!!!!!!!!!!
- * TODO !!!!!!
- * !!!!!!!!!!!
- * 
- * Gérer le panier en cookie !
- */
+import Cookies from "js-cookie";
 
 const initialState = {
-  cart: localStorage.getItem("CART")
-    ? JSON.parse(localStorage.getItem("CART"))
-    : [],
+  cart: Cookies.get("CART") ? JSON.parse(Cookies.get("CART")) : [],
   cartLength: 0,
   cartTotal: 0,
 };
+
+const TWO_HOURS = 2 / 24;
 
 const cartSlice = createSlice({
   name: "cart",
@@ -28,19 +21,17 @@ const cartSlice = createSlice({
       const value = !action.payload.quantity ? 1 : action.payload.quantity;
 
       if (index >= 0) {
-        // Rajoute 1 de valeur au produit ciblé
         if (
           state.cart[index].item_quantity + value <=
           action.payload.product.stock
         ) {
           state.cart[index].item_quantity += value;
-          localStorage.setItem("CART", JSON.stringify(state.cart));
+          Cookies.set("CART", JSON.stringify(state.cart), { expires: TWO_HOURS });
         }
       } else {
-        // Rajoute 1 de valeur par défaut si le produit n'est pas dans le panier
         const tempProduct = { ...action.payload.product, item_quantity: value };
         state.cart.push(tempProduct);
-        localStorage.setItem("CART", JSON.stringify(state.cart));
+        Cookies.set("CART", JSON.stringify(state.cart), { expires: TWO_HOURS });
       }
     },
 
@@ -50,7 +41,7 @@ const cartSlice = createSlice({
       );
 
       state.cart = nextCartAfterDelete;
-      localStorage.setItem("CART", JSON.stringify(state.cart));
+      Cookies.set("CART", JSON.stringify(state.cart), { expires: TWO_HOURS });
     },
 
     lessQuantity(state, action) {
@@ -67,7 +58,7 @@ const cartSlice = createSlice({
         state.cart = nextCartAfterDelete;
       }
 
-      localStorage.setItem("CART", JSON.stringify(state.cart));
+      Cookies.set("CART", JSON.stringify(state.cart), { expires: TWO_HOURS });
     },
 
     addQuantity(state, action) {
@@ -76,12 +67,12 @@ const cartSlice = createSlice({
       );
 
       state.cart[index].item_quantity += 1;
-      localStorage.setItem("CART", JSON.stringify(state.cart));
+      Cookies.set("CART", JSON.stringify(state.cart), { expires: TWO_HOURS });
     },
 
     clearCart(state) {
       state.cart = [];
-      localStorage.setItem("CART", JSON.stringify(state.cart));
+      Cookies.remove("CART");
     },
 
     priceTotal(state) {
