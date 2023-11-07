@@ -5,7 +5,7 @@ import {
   clearCart,
   priceTotal,
 } from "../../Store/slices/cartSlices";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -16,6 +16,7 @@ const Cart = ({ infos, isLog }) => {
   const { cart, cartTotal } = useSelector((state) => ({ ...state.cart }));
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [free, setFree] = useState(false);
   const [tax, setTax] = useState(6.5);
@@ -32,18 +33,18 @@ const Cart = ({ infos, isLog }) => {
   }, [cartTotal]);
 
   const checkout = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     try {
       const response = await axios.post(
         "/api/v1/stripe/checkout",
         JSON.stringify(cart)
       );
-      console.log(response);
 
       if (response.status === 200) {
-        const session = response.data;
-        window.location.href = session.url;
+        const sessionStripe = response.data;
+        window.location.href = sessionStripe;
+     
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       } else {
         console.error("Erreur lors de la création de la session de paiement");

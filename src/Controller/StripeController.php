@@ -6,6 +6,7 @@ use Stripe\Stripe;
 use Stripe\Checkout\Session;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,6 +17,10 @@ class StripeController extends AbstractController
     public function checkout(Request $request)
     {
         $data = json_decode($request->getContent(), true);
+
+        /**
+         * Envoyer le panier au succés pour retrouver les articles et les retirer
+         */
 
         foreach ($data as $product) {
             $realPrice  = (int)$product['priceUnit'] * 1;
@@ -44,23 +49,28 @@ class StripeController extends AbstractController
             'cancel_url' => 'http://localhost:8000/checkout_error',
         ]);
 
-        return $this->redirect($session->url, 303);
+        return new JsonResponse($session->url);
     }
 
     #[Route('checkout_success/{token}', name: 'app_checkout_success', methods: ['GET'])]
     public function checkoutSuccess(string $token): Response
     {
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        /**
+         * Retirer la quantité du stock
+         */
 
         if ($this->isCsrfTokenValid('stripe_token', $token)) {
-            return $this->render('auction/checkout_success.html.twig');
+            return $this->render('react/index.html.twig');
         }
 
-        return $this->redirectToRoute('app_auction_index');
+        return $this->redirectToRoute('app_home');
     }
 
     #[Route('checkout_error', name: 'app_checkout_error', methods: ['GET'])]
     public function checkoutError(): Response
     {
-        return $this->render('auction/checkout_error.html.twig');
+        return $this->render('react/index.html.twig');
     }
 }
