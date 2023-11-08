@@ -2,9 +2,10 @@
 
 namespace App\Controller;
 
+use App\Repository\ProductsRepository;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
-
+use Stripe\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,12 +19,10 @@ class StripeController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
 
-        /**
-         * Envoyer le panier au succés pour retrouver les articles et les retirer
-         */
+        $productData = [];
 
         foreach ($data as $product) {
-            $realPrice  = (int)$product['priceUnit'] * 1;
+            $realPrice = (int)$product['priceUnit'] * 1;
 
             $lineItems[] = [
                 'price_data' => [
@@ -35,7 +34,10 @@ class StripeController extends AbstractController
                 ],
                 'quantity' => $product['item_quantity'],
             ];
+            $productData[$product['id']] = $product['item_quantity'];
         }
+
+        $productDataJson = json_encode($productData);
 
         $tokenProvider = $this->container->get('security.csrf.token_manager');
         $token = $tokenProvider->getToken('stripe_token')->getValue();
@@ -45,7 +47,7 @@ class StripeController extends AbstractController
         $session = Session::create([
             'line_items' => $lineItems,
             'mode' => 'payment',
-            'success_url' => 'http://localhost:8000/checkout_success/' . $token,
+            'success_url' => 'http://localhost:8000/checkout_success/' . $token . '?productData=' . urlencode($productDataJson),
             'cancel_url' => 'http://localhost:8000/checkout_error',
         ]);
 
@@ -53,13 +55,31 @@ class StripeController extends AbstractController
     }
 
     #[Route('checkout_success/{token}', name: 'app_checkout_success', methods: ['GET'])]
-    public function checkoutSuccess(string $token): Response
+    public function checkoutSuccess(string $token, Request $request, ProductsRepository $productRepo): Response
     {
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!
+        $productDataJson = $request->query->get('productData');
+        $productData = json_decode(urldecode($productDataJson), true);
 
-        /**
-         * Retirer la quantité du stock
-         */
+        $products = $productRepo->findBy(['id' => array_keys($productData)]);
+
+        // Parcourez les produits et soustrayez la quantité du stock si le stock le permet
+        foreach ($products as $product) {
+            $productId = $product->getId();
+
+            $quantityToSubtract = $productData[$productId];
+            $currentStock = $product->getStock();
+
+            if ($currentStock >= $quantityToSubtract) {
+                // Mettez à jour le stock
+                $product->setStock($currentStock - $quantityToSubtract);
+                $productRepo->save($product, true);
+            } else {
+                // Gérez le cas où le stock n'est pas suffisant (vous pouvez générer une erreur ou effectuer une autre action)
+            }
+        }
+
+        // Enregistrez les modifications dans la base de données
+
 
         if ($this->isCsrfTokenValid('stripe_token', $token)) {
             return $this->render('react/index.html.twig');
@@ -67,6 +87,7 @@ class StripeController extends AbstractController
 
         return $this->redirectToRoute('app_home');
     }
+
 
     #[Route('checkout_error', name: 'app_checkout_error', methods: ['GET'])]
     public function checkoutError(): Response
