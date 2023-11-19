@@ -10,11 +10,76 @@
   article {
     display: flex;
     flex-direction: column;
+    align-items: flex-end;
+  }
+
+  h2 {
+    display: flex;
+    margin: 20px 0 40px 0;
+    width: 100%;
+    gap: 20px;
+  }
+
+  h2 span {
+    flex: 1;
+    border-bottom: 2px solid orangered;
+    margin-bottom: 15px;
   }
 
   section {
     display: flex;
     gap: 20px;
+  }
+
+  section div {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+    margin-bottom: 25px;
+  }
+
+  section div img {
+    max-width: 600px;
+    height: auto;
+  }
+
+  section div:nth-child(2) {
+    border-bottom: #aaaaaa 1px solid;
+    justify-content: space-evenly;
+  }
+
+  section div:nth-child(2) p:first-child {
+    font-size: 2em;
+    font-weight: 700;
+    color: green;
+  }
+
+  section div:nth-child(2) span {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #444;
+  }
+
+  section div:nth-child(2) p:last-child {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 20px;
+  }
+
+  section + div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 15px;
+    width: 50%;
+  }
+
+  section + div p {
+    color: orangered;
+    font-size: 2.5em;
+    font-style: italic;
   }
 
   button {
@@ -23,14 +88,13 @@
     justify-content: space-between;
     gap: 10px;
 
-    padding: 10px 20px;
+    padding: 5px 10px 5px 20px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 4px;
     background-color: green;
 
     border: none;
     outline: none;
     border-radius: 1ex;
-    height: 50px;
 
     font-size: 1.15em;
     text-decoration: none;
@@ -47,5 +111,27 @@
 
   button:active {
     box-shadow: inset rgba(0, 0, 0, 0.16) 0px 2px 4px;
+  }
+
+  .move_quantity {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .move_quantity svg {
+    cursor: pointer;
+    color: black;
+    transition: color 0.25s;
+  }
+
+  .move_quantity svg:hover {
+    color: #444;
+  }
+
+  .move_quantity p {
+    font-size: 1.5em;
+    color: #444;
   }
 }
