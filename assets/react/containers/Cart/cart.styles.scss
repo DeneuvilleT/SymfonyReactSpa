@@ -1,3 +1,69 @@
 .cart {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1400px;
+  margin: auto;
 
+  section {
+    display: flex;
+    flex-direction: column;
+    padding-top: 50px;
+  }
+
+  h2 {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    font-size: 2em;
+  }
+
+  .resume_price {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+
+    margin: 5px 20px;
+    padding: 20px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 4px;
+    font-size: 2em;
+  }
+
+  button,
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    padding: 10px 20px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 4px;
+    background-color: green;
+
+    border: none;
+    outline: none;
+    border-radius: 1ex;
+    height: 50px;
+
+    font-size: 1.15em;
+    text-decoration: none;
+    color: #fff;
+
+    cursor: pointer;
+    filter: brightness(1);
+    transition: filter 0.25s;
+  }
+
+  button:hover,
+  a:hover {
+    filter: brightness(1.1);
+  }
+
+  button:active,
+  a:active {
+    box-shadow: inset rgba(0, 0, 0, 0.16) 0px 2px 4px;
+  }
 }

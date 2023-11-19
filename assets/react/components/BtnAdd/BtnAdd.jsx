@@ -126,7 +126,7 @@ const BtnAdd = ({ product }) => {
         </aside>
       ) : (
         <aside className={styles.btnAdd_cartStock}>
-          <p>Stock dans votre panier</p>
+          <p>En stock dans votre panier</p>
         </aside>
       )}
     </>

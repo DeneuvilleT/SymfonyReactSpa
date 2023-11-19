@@ -17,6 +17,7 @@ Encore.setOutputPath("public/build/")
     "./assets/react/containers/ProductList/productList.styles.scss",
     "./assets/react/components/Stock/stock.styles.scss",
     "./assets/react/components/BtnAdd/btnAdd.styles.scss",
+    "./assets/react/components/Cart/CartLineItem/cartLineItem.styles.scss",
     "./assets/react/containers/Profile/profile.styles.scss",
     "./assets/react/components/Comments/emoji.styles.scss",
     "./assets/react/styles.scss",

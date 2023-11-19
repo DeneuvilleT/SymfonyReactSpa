@@ -52,10 +52,11 @@ const cartSlice = createSlice({
       if (state.cart[index].item_quantity > 1) {
         state.cart[index].item_quantity -= 1;
       } else if (state.cart[index].item_quantity === 1) {
-        const nextCartAfterDelete = state.cart.filter(
-          (item) => item.id !== action.payload.id
-        );
-        state.cart = nextCartAfterDelete;
+        state.cart[index].item_quantity = 1;
+        // const nextCartAfterDelete = state.cart.filter(
+        //   (item) => item.id !== action.payload.id
+        // );
+        // state.cart = nextCartAfterDelete;
       }
 
       Cookies.set("CART", JSON.stringify(state.cart), { expires: TWO_HOURS });
@@ -66,7 +67,9 @@ const cartSlice = createSlice({
         (item) => item.id === action.payload.id
       );
 
-      state.cart[index].item_quantity += 1;
+      if (state.cart[index].item_quantity < state.cart[index].stock) {
+        state.cart[index].item_quantity += 1;
+      }
       Cookies.set("CART", JSON.stringify(state.cart), { expires: TWO_HOURS });
     },
 
