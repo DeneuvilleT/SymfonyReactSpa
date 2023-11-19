@@ -31,6 +31,9 @@
   }
 
   img {
+    margin-left: 20px;
+    border-radius: 1ex;
+    user-select: none;
     max-height: 80px;
     width: auto;
   }
@@ -53,5 +56,9 @@
 
   .move_quantity p {
     flex: 1;
+  }
+
+  a {
+    max-height: 40px;
   }
 }
