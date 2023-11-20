@@ -1,12 +1,13 @@
 import React, { useState, useEffect, Fragment } from "react";
-
-import { useParams, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
+
 import { getAllProducts, getProductsStatus } from "../../Store/slices/productsSlices";
 import { addToCart } from "../../Store/slices/cartSlices";
 import { Icon } from "@iconify/react";
 
 import styles from "./product.styles.scss";
+import BtnAdd from "../BtnAdd/BtnAdd";
 
 const Product = () => {
   const [product, setProduct] = useState(null);
@@ -62,20 +63,9 @@ const Product = () => {
           <div itemProp="offers" itemScope itemType="http://schema.org/Offer">
             <meta itemProp="price" content={product.priceUnit} />
             <meta itemProp="priceCurrency" content="€" />
+
             <p>{(Number(product.priceUnit) / 100).toFixed(2)} €</p>
-
-            <aside className={styles.move_quantity}>
-              <Icon icon="line-md:minus-circle" width="35" height="35" />
-              {/*  */}
-              <p>1</p>
-              {/*  */}
-              <Icon icon="line-md:plus-circle" width="35" height="35" />
-            </aside>
-
-            <button onClick={() => handleAddToCart(product)} to={"/cart"}>
-              Ajouter au panier{" "}
-              <Icon icon={product.stock !== 0 ? "line-md:download-outline-loop" : "line-md:download-off-loop"} color="white" width="45" height="45" />
-            </button>
+            <BtnAdd product={product} list={false} />
 
             <meta itemProp="availability" content="http://schema.org/InStock" />
           </div>

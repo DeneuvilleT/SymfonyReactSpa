@@ -82,7 +82,7 @@ const ProductList = () => {
                   <Stock stock={product.stock} />
                 </div>
 
-                <BtnAdd product={product} />
+                <BtnAdd product={product} list={true} />
 
                 <meta
                   itemProp="itemCondition"
