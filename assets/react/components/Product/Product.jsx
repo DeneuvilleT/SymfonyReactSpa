@@ -1,30 +1,25 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import { getAllProducts, getProductsStatus } from "../../Store/slices/productsSlices";
-import { addToCart } from "../../Store/slices/cartSlices";
 import { Icon } from "@iconify/react";
 
 import styles from "./product.styles.scss";
 import BtnAdd from "../BtnAdd/BtnAdd";
+import Zoom from "./Zoom/Zoom";
 
 const Product = () => {
   const [product, setProduct] = useState(null);
 
-  const dispatch = useDispatch();
   const params = useParams();
 
   const products = useSelector(getAllProducts);
   const productsStatus = useSelector(getProductsStatus);
 
-  const handleAddToCart = (product) => {
-    dispatch(addToCart(product));
-  };
-
   useEffect(() => {
     setProduct(products.find((x) => x.id === Number(params.id)));
-  }, [productsStatus, dispatch]);
+  }, [productsStatus]);
 
   return (
     <main className={styles.product}>
@@ -39,7 +34,7 @@ const Product = () => {
           <section>
             <div>
               <meta itemProp="image" content={`${location.origin}/uploads/images/${product.cover}`} />
-              <img src={`${location.origin}/uploads/images/${product.cover}`} alt={product.title} />
+              <Zoom src={`${location.origin}/uploads/images/${product.cover}`} alt={product.title}></Zoom>
             </div>
 
             <div>

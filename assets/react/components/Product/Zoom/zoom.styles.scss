@@ -1,0 +1,75 @@
+.zoom {
+  border: 1px solid gray;
+  border-radius: 20px;
+  transform: none;
+  box-shadow: none;
+  cursor: default;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  transition-delay: 0.2s;
+}
+
+.output {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 4px;
+  transform: scale(1.015);
+  cursor: pointer;
+  transition-delay: 0.15s;
+}
+
+.bigImage {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  top: 0;
+  left: 0;
+
+  animation: fadeIn 0.75s ease-in-out;
+
+  img {
+    width: 75vw;
+    height: auto;
+    max-width: 1280px;
+    margin: auto;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 4px;
+    border-radius: 1ex;
+  }
+}
+
+.bigImageClose {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  top: 0;
+  left: 0;
+
+  animation: fadeOut 0.5s ease-in-out;
+  opacity: 1;
+
+  img {
+    width: 75vw;
+    height: auto;
+    max-width: 1280px;
+    margin: auto;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 4px;
+    border-radius: 1ex;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: O;
+  }
+}
