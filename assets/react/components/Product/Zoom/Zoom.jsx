@@ -17,7 +17,9 @@ const Zoom = ({ src, alt }) => {
 
     containerImg.addEventListener("click", () => {
       containerImg.classList.replace(styles.bigImage, styles.bigImageClose);
-      setTimeout(() => containerImg.remove(), 50000);
+      containerImg.addEventListener("animationend", () => {
+        containerImg.remove();
+      });
     });
 
     containerImg.appendChild(bigImage);
