@@ -1,7 +1,8 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
+import { pagination } from "../../utilities";
 
 import Stock from "../../components/Stock/Stock";
 import BtnAdd from "../../components/BtnAdd/BtnAdd";
@@ -16,6 +17,18 @@ const ProductList = () => {
   const productsStatus = useSelector(getProductsStatus);
   const productsErrors = useSelector(getProductsErrors);
 
+  const [max,   setMax] = useState(8);
+  const [page, setPage] = useState(1);
+  const [productsPerPage, setProductsPerPage] = useState([]);
+
+  useEffect(() => {
+    if (productsStatus === "succeeded") {
+      setProductsPerPage([]);
+      setPage(1);
+      return pagination(products, max, setProductsPerPage);
+    }
+  }, [productsStatus, max]);
+
   switch (productsStatus) {
     case "loading":
       return <Icon style={{ marginTop: "150px" }} icon="svg-spinners:blocks-shuffle-3" width="240" height="240" />;
@@ -24,7 +37,7 @@ const ProductList = () => {
       return (
         <main className={styles.productList}>
           <section>
-            {products.map((product) => (
+            {productsPerPage[page - 1]?.map((product) => (
               <Link to={`/product/${product.id}`} key={product.id} itemScope itemType="http://schema.org/Product" itemProp="url">
                 <h2 itemProp="name">{product.title}</h2>
 
@@ -60,8 +73,7 @@ const ProductList = () => {
             ))}
           </section>
 
-          <Pagination products={products} />
-
+          <Pagination products={productsPerPage} page={page} setPage={setPage} setMax={setMax} />
         </main>
       );
 

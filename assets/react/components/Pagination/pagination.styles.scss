@@ -1,0 +1,28 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+
+  p {
+    user-select: none;
+    font-size: 2em;
+    font-weight: 600;
+  }
+
+  svg {
+    padding: 5px;
+    border-radius: 12px;
+    box-shadow: transparent 0px 2px 4px;
+    cursor: pointer;
+    transition: box-shadow 0.25s ease-in;
+  }
+
+  svg:hover {
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 2px;
+  }
+
+  svg:active {
+    box-shadow: inset rgba(0, 0, 0, 0.25) 0px 2px 4px;
+  }
+}

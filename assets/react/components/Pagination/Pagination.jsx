@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Icon } from "@iconify/react";
-import { pagination } from "../../utilities";
 
-const Pagination = ({ products }) => {
-  const [max, setMax] = useState(8);
-  const [page, setPage] = useState(1);
-  const [productsNew, setProducts] = useState([]);
+import styles from "./pagination.styles.scss";
 
-  useEffect(() => {
-    return pagination(products, max, setProducts);
-  }, []);
+const Pagination = ({ products, page, setPage, setMax }) => {
+  
+  const handleChange = ({ target }) => setMax(Number(target.value));
 
   return (
-    <div>
+    <div className={styles.pagination}>
       <Icon
         icon="line-md:arrow-align-left"
         color="#333"
@@ -23,9 +19,21 @@ const Pagination = ({ products }) => {
           window.scrollTo(0, 600);
         }}
       />
+
+      <select
+        onChange={(e) => {
+          handleChange(e);
+        }}
+      >
+        <option value="4">4</option>
+        <option value="8">8</option>
+        <option value="12">12</option>
+      </select>
+
       <p>
         Page {page} sur {products.length}
       </p>
+
       <Icon
         icon="line-md:arrow-align-right"
         color="#333"
