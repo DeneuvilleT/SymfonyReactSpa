@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20231009181929 extends AbstractMigration
+final class Version20231125103032 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,14 +20,16 @@ final class Version20231009181929 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('DROP INDEX UNIQ_81398E0935C246D5 ON customer');
-        $this->addSql('ALTER TABLE customer ADD email VARCHAR(50) NOT NULL, ADD first_name VARCHAR(50) NOT NULL, ADD last_name VARCHAR(50) NOT NULL, CHANGE password password VARCHAR(255) NOT NULL');
+        $this->addSql('ALTER TABLE comments ADD product_id INT NOT NULL');
+        $this->addSql('ALTER TABLE comments ADD CONSTRAINT FK_5F9E962A4584665A FOREIGN KEY (product_id) REFERENCES products (id)');
+        $this->addSql('CREATE INDEX IDX_5F9E962A4584665A ON comments (product_id)');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE customer DROP email, DROP first_name, DROP last_name, CHANGE password password VARCHAR(180) NOT NULL');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_81398E0935C246D5 ON customer (password)');
+        $this->addSql('ALTER TABLE comments DROP FOREIGN KEY FK_5F9E962A4584665A');
+        $this->addSql('DROP INDEX IDX_5F9E962A4584665A ON comments');
+        $this->addSql('ALTER TABLE comments DROP product_id');
     }
 }

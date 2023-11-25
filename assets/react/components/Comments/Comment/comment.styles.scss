@@ -1,0 +1,37 @@
+.comment {
+  align-items: center !important;
+  flex-direction: row !important;
+
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.16);
+  background-color: rgb(209, 209, 209);
+  border-radius: 12px;
+  overflow: hidden;
+
+  width: 70%;
+  margin: 5px 20px;
+  padding: 10px 20px;
+
+  color: #111;
+  font-size: 1.15em;
+
+  div {
+    padding-left: 25px;
+    margin-bottom: 0 !important;
+    border-bottom: none !important;
+    border-left: 1px solid #aaa;
+    flex: 0.75 !important;
+    gap: 0 !important;
+  }
+
+  h3 {
+    margin: 10px 0;
+  }
+
+  p {
+    gap: 8px !important;
+  }
+
+  span {
+    font-size: 0.9em;
+  }
+}

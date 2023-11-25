@@ -21,7 +21,8 @@ Encore.setOutputPath("public/build/")
     "./assets/react/components/Cart/CartLineItem/cartLineItem.styles.scss",
     "./assets/react/components/Product/Zoom/zoom.styles.scss",
     "./assets/react/containers/Profile/profile.styles.scss",
-    "./assets/react/components/Comments/emoji.styles.scss",
+    "./assets/react/components/Comments/comments.styles.scss",
+    "./assets/react/components/Comments/Comment/comment.styles.scss",
     "./assets/react/styles.scss",
   ])
 

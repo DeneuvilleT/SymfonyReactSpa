@@ -9,17 +9,15 @@ const initialState = {
   error: null,
 };
 
-export const fetchProducts = createAsyncThunk(
-  "products/fetchProducts",
-  async () => {
-    try {
-      const response = await axios.get(PRODUCTS_URL);
-      return [...response.data];
-    } catch (err) {
-      return console.error(err.message);
-    }
+export const fetchProducts = createAsyncThunk("products/fetchProducts", async () => {
+  try {
+    const response = await axios.get(PRODUCTS_URL);
+    return [...response.data];
+  } catch (err) {
+    return console.error(err.message);
   }
-);
+});
+
 
 export const productsSlice = createSlice({
   name: "products",
