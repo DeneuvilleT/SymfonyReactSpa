@@ -9,7 +9,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    padding: 20px 0;
+    padding: 0 20px;
     margin: 0 auto;
     width: 90%;
     max-width: 1450px;
@@ -40,9 +40,14 @@
     transition: height 0.5s ease-in-out;
   }
 
+  a section {
+    justify-content: space-between;
+    padding: 0 20px;
+  }
+
   a:hover aside,
   a section {
-    height: 55px;
+    height: 50px;
   }
 
   h2 {

@@ -60,7 +60,7 @@ const App = () => {
         />
         <Route
           path="/login"
-          element={<Authentication child={Login} auth={false} />}
+          element={<Authentication child={Login} auth={null} />}
         />
         <Route
           path="/logout"

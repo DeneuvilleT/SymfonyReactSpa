@@ -1,19 +1,23 @@
 import React, { useState } from "react";
+import { Icon } from "@iconify/react";
 import axios from "axios";
 
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../../Store/slices/authSlices";
 
-const Login = () => {
+import styles from "./login.styles.scss";
+
+const Login = ({ isLog }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [msgErr,     setMsgErr] = useState("");
+  const [icone,       setIcone] = useState("line-md:arrow-right-circle");
   const [formData, setFormData] = useState({
     _username: "",
     _password: "",
   });
-  const [msgErr, setMsgErr] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -22,51 +26,63 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const formDatas = new FormData();
-      formDatas.append("_username", formData._username);
-      formDatas.append("_password", formData._password);
 
-      const response = await axios.post("/api/v1/login", formDatas);
+    if (formData._username !== "" && formData._password !== "") {
+      try {
+        setIcone("svg-spinners:90-ring-with-bg");
 
-      if (response.status === 200) {
-        const getToken = await axios.get("/api/v1/token");
+        const formDatas = new FormData();
+        formDatas.append("_username", formData._username);
+        formDatas.append("_password", formData._password);
 
-        const { csrf_token, user } = JSON.parse(getToken.data);
+        const response = await axios.post("/api/v1/login", formDatas);
 
-        window.scrollTo(0, 0);
+        if (response.status === 200) {
+          const getToken = await axios.get("/api/v1/token");
 
-        localStorage.setItem("TOKEN", csrf_token);
-        dispatch(login(user));
+          const { csrf_token, user } = JSON.parse(getToken.data);
 
-        navigate("/");
-        return location.reload();
+          window.scrollTo(0, 0);
+
+          localStorage.setItem("TOKEN", csrf_token);
+          dispatch(login(user));
+
+          navigate("/");
+          return location.reload();
+        }
+      } catch (err) {
+        setIcone("line-md:arrow-right-circle");
+        return setMsgErr(JSON.parse(err.response.data).message);
       }
-    } catch (err) {
-      return setMsgErr(JSON.parse(err.response.data).message);
     }
   };
 
+  const canSave = Boolean(formData._username !== "" && formData._password !== "");
+
   return (
-    <main>
-      <h2>Connexion</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="_username"
-          id="username"
-          value={formData._username}
-          onChange={handleInputChange}
-        />
-        <span>{msgErr}</span>
-        <input
-          type="password"
-          name="_password"
-          value={formData._password}
-          onChange={handleInputChange}
-        />
-        <input type="submit" value="OK" />
-      </form>
+    <main className={styles.login}>
+      {isLog ? (
+        <div>
+          <Icon icon="line-md:emoji-smile-wink" width="60" height="60" />
+        <h2>Vous êtes déjà connecté</h2>
+        </div>
+      ) : (
+        <>
+          <h2>Connexion</h2>
+
+          <form onSubmit={handleSubmit}>
+            <input type="text" name="_username" id="username" value={formData._username} onChange={handleInputChange} />
+
+            <input type="password" name="_password" value={formData._password} onChange={handleInputChange} />
+
+            <span>{msgErr}</span>
+
+            <button onClick={(e) => handleSubmit(e)} disabled={!canSave}>
+              Se connecter <Icon icon={icone} color="white" width="30" height="30" />
+            </button>
+          </form>
+        </>
+      )}
     </main>
   );
 };

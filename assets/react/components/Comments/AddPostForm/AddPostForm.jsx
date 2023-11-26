@@ -39,6 +39,7 @@ const AddPostForm = ({ userId, productId }) => {
          */
         return window.location.reload();
       } catch (err) {
+        setIcone("line-md:arrow-right-circle");
         return setMsgsErr([...JSON.parse(err.response.data).errors]);
       }
     }
