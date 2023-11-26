@@ -90,16 +90,14 @@
   }
 
   section div {
-    flex-direction: row;
+    flex-direction: row !important;
     justify-content: center !important;
-    margin-bottom: 0;
+    margin-bottom: 0 !important;
   }
 
   section div p {
-    user-select: none;
-    color: black;
-    font-style: normal;
-    font-size: 2em;
+    color: black !important;
+    font-size: 2em !important;
   }
 
   section div svg {

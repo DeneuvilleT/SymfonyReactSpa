@@ -21,13 +21,15 @@ const Nav = () => {
 
   return (
     <nav className={styles.nav}>
-      <h1>Exemple.com</h1>
+      <h1>
+        <Link to={"/"}>Exemple.com</Link>
+      </h1>
 
       <ul>
         <Link to={"/"}>Produits</Link>
         <Link to={"/cart"}>Panier</Link>
 
-        <Link to={"/profile"}>Profil</Link>
+        {isLog ? <Link to={"/profile"}>Profil</Link> : <></>}
         <Link to={"/register"}>Inscription</Link>
 
         {status === "SuperAdmin" ? (

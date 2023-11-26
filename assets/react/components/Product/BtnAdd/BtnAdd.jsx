@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
-import { addToCart } from "../../Store/slices/cartSlices";
+import { addToCart } from "../../../Store/slices/cartSlices";
 
 import styles from "./btnAdd.styles.scss";
 

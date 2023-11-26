@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { pagination } from "../../utilities";
 
-import Stock from "../../components/Stock/Stock";
-import BtnAdd from "../../components/BtnAdd/BtnAdd";
-import Pagination from "../../components/Pagination/Pagination";
+import Stock from "../../components/Product/Stock/Stock";
+import BtnAdd from "../../components/Product/BtnAdd/BtnAdd";
+import Pagination from "../../components/Product/Pagination/Pagination";
 
 import { getProductsStatus, getProductsErrors, getAllProducts } from "../../Store/slices/productsSlices";
 

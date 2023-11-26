@@ -1,16 +1,19 @@
 .nav {
-
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   background-color: #333;
   padding: 0 5vw;
-  
+
   h1 {
-    font-size: 2.5em;
-    color: rgb(255, 255, 255);
     padding: 20px 0;
+  }
+
+  h1 a {
+    text-decoration: none;
+    font-size: 2.4em;
+    color: rgb(255, 255, 255);
   }
 
   ul {
@@ -24,7 +27,7 @@
   ul a {
     text-decoration: none;
     color: whitesmoke;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
     font-size: 1.75em;
   }
 }

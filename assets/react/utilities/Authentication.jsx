@@ -29,7 +29,7 @@ const Authentication = (props) => {
           window.scrollTo(0, 0);
           return dispatch(login(user));
         } else {
-          return console.log("Aucun token");
+          return;
         }
       } else {
         if (props.auth) return navigate("/notFound");

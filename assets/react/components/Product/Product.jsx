@@ -6,7 +6,7 @@ import { getAllProducts, getProductsStatus } from "../../Store/slices/productsSl
 import { Icon } from "@iconify/react";
 
 import Comments from "../Comments/Comments";
-import BtnAdd from "../BtnAdd/BtnAdd";
+import BtnAdd from "./BtnAdd/BtnAdd";
 import Zoom from "./Zoom/Zoom";
 
 import styles from "./product.styles.scss";
