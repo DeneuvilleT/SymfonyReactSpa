@@ -15,7 +15,7 @@ const Comments = ({ comments, userId, productId }) => {
           <span></span> Commentaires <span></span>
         </h2>
 
-        <AddPostForm userId={userId} productId={productId}/>
+        <AddPostForm userId={userId} productId={productId} />
 
         {orderedComments.map((comment) => (
           <Comment key={comment.id} comment={comment} />

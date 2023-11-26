@@ -1,22 +1,26 @@
 import React, { useState } from "react";
+import { Icon } from "@iconify/react";
 import axios from "axios";
 
 import styles from "./addPostForm.styles.scss";
 
 const AddPostForm = ({ userId, productId }) => {
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
+  const [title,     setTitle] = useState("");
+  const [author,   setAuthor] = useState("");
   const [content, setContent] = useState("");
   const [msgsErr, setMsgsErr] = useState([]);
+  const [icone,     setIcone] = useState("line-md:arrow-right-circle");
 
-  const onTitleChanged = (e) => setTitle(e.target.value);
-  const onBodyChanged = (e) => setContent(e.target.value);
+  const onTitleChanged =  (e) => setTitle(e.target.value);
+  const onBodyChanged =   (e) => setContent(e.target.value);
   const onAuthorChanged = (e) => setAuthor(e.target.value);
 
   const onSavePostClicked = async (e) => {
     e.preventDefault();
     if (title && content && userId && author) {
       try {
+        setIcone("svg-spinners:90-ring-with-bg");
+
         const formData = {
           title: title,
           author: author,
@@ -29,10 +33,11 @@ const AddPostForm = ({ userId, productId }) => {
         setMsgsErr([]);
         setTitle("");
         setAuthor("");
+        setContent("");
         /**
          * Ajouter notif
          */
-        return setContent("");
+        return window.location.reload();
       } catch (err) {
         return setMsgsErr([...JSON.parse(err.response.data).errors]);
       }
@@ -65,7 +70,9 @@ const AddPostForm = ({ userId, productId }) => {
               <textarea name="postBody" id="postBody" value={content} onChange={onBodyChanged} />
             </fieldset>
 
-            <input onClick={(e) => onSavePostClicked(e)} type="submit" value="Envoyer" disabled={!canSave} />
+            <button onClick={(e) => onSavePostClicked(e)} disabled={!canSave}>
+              Envoyer <Icon icon={icone} color="white" width="30" height="30" />
+            </button>
           </form>
 
           <ul>

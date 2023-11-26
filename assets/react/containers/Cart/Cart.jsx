@@ -33,7 +33,9 @@ const Cart = ({ infos, isLog }) => {
       if (response.status === 200) {
         const sessionStripe = response.data;
         window.location.href = sessionStripe;
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+         /**
+         * Ajouter notif
+         */
       } else {
         console.error("Erreur lors de la création de la session de paiement");
       }
