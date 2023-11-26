@@ -8,6 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -46,16 +47,25 @@ class LoginController extends AbstractController
     public function getToken(): JsonResponse
     {
         $encoders = [new XmlEncoder(), new JsonEncoder()];
-        $normalizers = [new ObjectNormalizer()];
+        $normalizers = [new ObjectNormalizer(null, null, null, null, null, null, ['api'])];
         $serializer = new Serializer($normalizers, $encoders);
-
+    
         $user = $this->getUser();
+    
+        $context = [
+            AbstractNormalizer::IGNORED_ATTRIBUTES => ['comments', 'password'],
+        ];
+    
         $token = $this->csrfTokenManager->getToken('api_csrf')->getValue();
-        $jsonContent = $serializer->serialize([
-            'csrf_token' => $token,
-            'user' => $user,
-        ], 'json');
-
+        $jsonContent = $serializer->serialize(
+            [
+                'csrf_token' => $token,
+                'user' => $user,
+            ],
+            'json',
+            $context
+        );
+    
         return new JsonResponse($jsonContent, Response::HTTP_OK);
     }
 }

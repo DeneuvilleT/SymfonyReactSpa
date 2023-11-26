@@ -42,7 +42,7 @@ const App = () => {
         />
         <Route
           path="product/:id"
-          element={<Authentication child={Product} auth={false} />}
+          element={<Authentication child={Product} auth={null} />}
         />
 
         <Route

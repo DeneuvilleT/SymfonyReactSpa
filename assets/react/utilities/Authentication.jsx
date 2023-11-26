@@ -13,14 +13,16 @@ const Authentication = (props) => {
   const Child = props.child;
 
   useEffect(() => {
-    props.auth ? checkLog() : null, [props];
-  });
+    if (props.auth || props.auth === null) checkLog();
+  }, [props]);
 
   const checkLog = async () => {
     if (!isLog) {
       const token = localStorage.getItem("TOKEN");
+
       if (token !== null) {
         const getToken = await axios.get("/api/v1/token");
+
         if (getToken.status === 200) {
           const { user } = JSON.parse(getToken.data);
 
@@ -30,7 +32,7 @@ const Authentication = (props) => {
           return console.log("Aucun token");
         }
       } else {
-        return navigate("/notFound");
+        if (props.auth !== null) return navigate("/notFound");
       }
     }
   };

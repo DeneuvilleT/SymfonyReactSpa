@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -16,11 +17,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[UniqueEntity(fields: ['email'], message: 'Cet email est déjà lié à un compte.')]
 class Customer implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    #[Groups("api")]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups("api")]
     #[ORM\Column(length: 50, unique: true)]
     #[Assert\NotBlank]
     #[Assert\Email(
@@ -28,6 +31,7 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     private ?string $email = null;
 
+    #[Groups("api")]
     #[Assert\NotBlank]
     #[ORM\Column(type: 'json')]
     private array $roles = [];
@@ -40,6 +44,7 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     private ?string $password = null;
 
+    #[Groups("api")]
     #[ORM\Column(length: 50)]
     #[Assert\Regex(
         pattern: '/\d/',
@@ -55,6 +60,7 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank]
     private ?string $firstName = null;
 
+    #[Groups("api")]
     #[ORM\Column(length: 50)]
     #[Assert\Regex(
         pattern: '/\d/',
@@ -70,6 +76,7 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     private ?string $lastName = null;
 
+    #[Groups("api")]
     #[ORM\Column(type: 'integer')]
     #[Assert\NotBlank]
     private ?int $isVerified = 0;

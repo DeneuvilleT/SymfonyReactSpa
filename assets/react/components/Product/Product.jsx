@@ -6,12 +6,12 @@ import { getAllProducts, getProductsStatus } from "../../Store/slices/productsSl
 import { Icon } from "@iconify/react";
 
 import Comments from "../Comments/Comments";
-
-import styles from "./product.styles.scss";
 import BtnAdd from "../BtnAdd/BtnAdd";
 import Zoom from "./Zoom/Zoom";
 
-const Product = () => {
+import styles from "./product.styles.scss";
+
+const Product = ({ infos }) => {
   const [product, setProduct] = useState(null);
 
   const params = useParams();
@@ -69,7 +69,7 @@ const Product = () => {
             </div>
           </article>
 
-          <Comments comments={product.comments} />
+          <Comments comments={product.comments} userId={infos.id} />
         </>
       )}
     </main>

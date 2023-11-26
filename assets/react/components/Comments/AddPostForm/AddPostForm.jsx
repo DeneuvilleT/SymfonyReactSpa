@@ -1,72 +1,56 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { postAdded } from "../../../Store/slices/commentsSlices";
 
-const AddPostForm = () => {
-  const users = useSelector((state) => state.users);
+import styles from "./addPostForm.styles.scss";
 
+const AddPostForm = ({ userId }) => {
   const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
-  const [userId, setUserId] = useState("");
-
-  const dispatch = useDispatch();
+  const [author, setAuthor] = useState("");
+  const [content, setContent] = useState("");
+  const [msgsErr, setMsgsErr] = useState([]);
 
   const onTitleChanged = (e) => setTitle(e.target.value);
-  const onBodyChanged = (e) => setBody(e.target.value);
-  const onUserIdChanged = (e) => setUserId(e.target.value);
+  const onBodyChanged = (e) => setContent(e.target.value);
+  const onAuthorChanged = (e) => setAuthor(e.target.value);
 
   const onSavePostClicked = (e) => {
     e.preventDefault();
-    if (title && body && userId) {
-      dispatch(postAdded(title, body, userId));
+    if (title && content && userId && author) {
+      console.log(title, content, userId, author);
 
       setTitle("");
-      setBody("");
-      setUserId("");
+      setAuthor("");
+      setContent("");
     }
   };
 
-  const canSave = Boolean(title) && Boolean(body) && Boolean(userId);
-
-  const usersOptions = users.map((user) => (
-    <option key={user.id} value={user.id}>
-      {user.name}
-    </option>
-  ));
+  const canSave = Boolean(title) && Boolean(author) && Boolean(content) && Boolean(userId);
 
   return (
-    <section>
-      <form>
-        <label htmlFor="postTitle">Title:</label>
-        <input
-          type="text"
-          name="postTitle"
-          id="postTitle"
-          value={title}
-          onChange={onTitleChanged}
-        />
+    <section className={styles.addPostForm}>
+      {userId === undefined ? (
+        <div>
+          <p>Vous devez être connecté pour laisser un commentaire</p>
+        </div>
+      ) : (
+        <form>
+          <fieldset>
+            <label htmlFor="postTitle">Titre</label>
+            <input type="text" name="postTitle" id="postTitle" value={title} onChange={onTitleChanged} />
+          </fieldset>
 
-        <label htmlFor="postAuthor">Author :</label>
-        <select id="postAuthor" value={userId} onChange={onUserIdChanged}>
-          <option value=""></option>
-          {usersOptions}
-        </select>
+          <fieldset>
+            <label htmlFor="postAuthor">Pseudo</label>
+            <input type="text" id="postAuthor" value={author} onChange={onAuthorChanged} />
+          </fieldset>
 
-        <label htmlFor="postBody">Body :</label>
-        <textarea
-          name="postBody"
-          id="postBody"
-          value={body}
-          onChange={onBodyChanged}
-        />
+          <fieldset>
+            <label htmlFor="postBody">Commentaire</label>
+            <textarea name="postBody" id="postBody" value={content} onChange={onBodyChanged} />
+          </fieldset>
 
-        <input
-          onClick={(e) => onSavePostClicked(e)}
-          type="submit"
-          value="Envoyer"
-          disabled={!canSave}
-        />
-      </form>
+          <input onClick={(e) => onSavePostClicked(e)} type="submit" value="Envoyer" disabled={!canSave} />
+        </form>
+      )}
     </section>
   );
 };

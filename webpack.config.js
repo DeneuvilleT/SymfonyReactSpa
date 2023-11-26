@@ -23,6 +23,7 @@ Encore.setOutputPath("public/build/")
     "./assets/react/containers/Profile/profile.styles.scss",
     "./assets/react/components/Comments/comments.styles.scss",
     "./assets/react/components/Comments/Comment/comment.styles.scss",
+    "./assets/react/components/Comments/AddPostForm/addPostForm.styles.scss",
     "./assets/react/styles.scss",
   ])
 

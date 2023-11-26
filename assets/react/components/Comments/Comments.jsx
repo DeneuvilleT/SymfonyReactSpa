@@ -1,9 +1,11 @@
 import React from "react";
 
+import AddPostForm from "./AddPostForm/AddPostForm";
 import Comment from "./Comment/Comment";
+
 import styles from "./comments.styles.scss";
 
-const Comments = ({ comments }) => {
+const Comments = ({ comments, userId }) => {
   const orderedComments = comments ? comments.slice().sort((a, b) => b.date.localeCompare(a.date)) : null;
 
   if (orderedComments !== null) {
@@ -12,6 +14,8 @@ const Comments = ({ comments }) => {
         <h2>
           <span></span> Commentaires <span></span>
         </h2>
+
+        <AddPostForm userId={userId}/>
 
         {orderedComments.map((comment) => (
           <Comment key={comment.id} comment={comment} />
