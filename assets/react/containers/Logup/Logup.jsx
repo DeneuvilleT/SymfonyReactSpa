@@ -31,7 +31,10 @@ const Logup = () => {
 
         const response = await axios.post("/api/v1/register", formData);
         setMsgsErr([]);
-        return navigate("/");
+        /**
+         * Ajout notification d'attente de mail de vérification pour activation
+         */
+        return (location.href = "/");
       } catch (err) {
         setIcone("line-md:arrow-right-circle");
         return setMsgsErr([...JSON.parse(err.response.data).errors]);

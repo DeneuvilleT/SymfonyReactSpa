@@ -14,11 +14,20 @@ use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 
 class AdminController extends AbstractDashboardController
 {
-    #[Route('/admin', name: 'app_admin')]
+    #[Route('/admin_back_office/protected', name: 'app_admin')]
     public function index(): Response
     {
-        $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-        return $this->redirect($adminUrlGenerator->setController(ProductsCrudController::class)->generateUrl());
+        if ($this->getUser() !== null) {
+            $userRoles = $this->getUser()->getRoles();
+            if ($userRoles[0] !== "SuperAdmin") {
+                return $this->redirect('/');
+            } else {
+                $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
+                return $this->redirect($adminUrlGenerator->setController(ProductsCrudController::class)->generateUrl());
+            }
+        } else {
+            return $this->redirect('/');
+        }
     }
 
     public function configureDashboard(): Dashboard

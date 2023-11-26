@@ -8,7 +8,7 @@ import axios from "axios";
 import styles from "./cart.styles.scss";
 import CartLineItem from "../../components/Cart/CartLineItem/CartLineItem";
 
-const Cart = ({ infos, isLog }) => {
+const Cart = ({ isLog }) => {
   const { cart, cartTotal } = useSelector((state) => ({ ...state.cart }));
 
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ const Cart = ({ infos, isLog }) => {
       if (response.status === 200) {
         const sessionStripe = response.data;
         window.location.href = sessionStripe;
-         /**
+        /**
          * Ajouter notif
          */
       } else {
@@ -82,16 +82,15 @@ const Cart = ({ infos, isLog }) => {
               Continuer vos achats <Icon icon="line-md:play-filled-to-pause-transition" color="white" width="30" height="30" />
             </Link>
 
-            {/* {isLog ? ( */}
-            <button onClick={checkout}>
-              Valider le panier <Icon icon={icone} color="white" width="30" height="30" />
-            </button>
-            {/* // ) : (
-            //   <>
-            //     <Link to={"/customer/login"}>Vous devez être connecté pour finaliser votre achat</Link>
-            //     <h2>Total {cartTotal.toFixed(2)} €</h2>{" "}
-            //   </>
-            // )} */}
+            {isLog ? (
+              <button onClick={checkout}>
+                Valider le panier <Icon icon={icone} color="white" width="30" height="30" />
+              </button>
+            ) : (
+              <>
+                <Link to={"/login"}>Vous devez être connecté pour finaliser votre achat</Link>
+              </>
+            )}
           </div>
         </section>
       )}

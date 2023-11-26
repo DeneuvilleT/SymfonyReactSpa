@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Icon } from "@iconify/react";
 import axios from "axios";
 
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../../Store/slices/authSlices";
 
@@ -10,10 +9,9 @@ import styles from "./login.styles.scss";
 
 const Login = ({ isLog }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  const [msgErr,     setMsgErr] = useState("");
-  const [icone,       setIcone] = useState("line-md:arrow-right-circle");
+  const [msgErr, setMsgErr] = useState("");
+  const [icone, setIcone] = useState("line-md:arrow-right-circle");
   const [formData, setFormData] = useState({
     _username: "",
     _password: "",
@@ -42,13 +40,10 @@ const Login = ({ isLog }) => {
 
           const { csrf_token, user } = JSON.parse(getToken.data);
 
-          window.scrollTo(0, 0);
-
           localStorage.setItem("TOKEN", csrf_token);
           dispatch(login(user));
 
-          navigate("/");
-          return location.reload();
+          return (location.href = "/");
         }
       } catch (err) {
         setIcone("line-md:arrow-right-circle");
@@ -64,7 +59,7 @@ const Login = ({ isLog }) => {
       {isLog ? (
         <div>
           <Icon icon="line-md:emoji-smile-wink" width="60" height="60" />
-        <h2>Vous êtes déjà connecté</h2>
+          <h2>Vous êtes déjà connecté</h2>
         </div>
       ) : (
         <>

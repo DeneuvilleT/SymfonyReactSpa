@@ -13,7 +13,7 @@ const Authentication = (props) => {
   const Child = props.child;
 
   useEffect(() => {
-    if (props.auth || props.auth === null) checkLog();
+    checkLog();
   }, [props]);
 
   const checkLog = async () => {
@@ -32,7 +32,7 @@ const Authentication = (props) => {
           return console.log("Aucun token");
         }
       } else {
-        if (props.auth !== null) return navigate("/notFound");
+        if (props.auth) return navigate("/notFound");
       }
     }
   };

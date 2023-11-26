@@ -9,24 +9,25 @@ Encore.setOutputPath("public/build/")
 
   .addEntry("app", "./assets/react/index.js")
   .addStyleEntry("styles", [
-    "./assets/react/containers/Cart/cart.styles.scss",
+    "./assets/react/styles.scss",
     "./assets/react/containers/Header/header.styles.scss",
     "./assets/react/containers/Nav/nav.styles.scss",
-    "./assets/react/components/Product/product.styles.scss",
-    "./assets/react/containers/ProductList/productList.styles.scss",
-    "./assets/react/components/Stock/stock.styles.scss",
-    "./assets/react/components/BtnAdd/btnAdd.styles.scss",
     "./assets/react/components/PageNotFound/notFound.styles.scss",
-    "./assets/react/components/Pagination/pagination.styles.scss",
-    "./assets/react/components/Cart/CartLineItem/cartLineItem.styles.scss",
+    "./assets/react/containers/ProductList/productList.styles.scss",
+    "./assets/react/components/Product/product.styles.scss",
     "./assets/react/components/Product/Zoom/zoom.styles.scss",
-    "./assets/react/containers/Profile/profile.styles.scss",
-    "./assets/react/containers/Logup/logup.styles.scss",
-    "./assets/react/components/Login/login.styles.scss",
+    "./assets/react/components/Pagination/pagination.styles.scss",
+    "./assets/react/components/BtnAdd/btnAdd.styles.scss",
+    "./assets/react/components/Stock/stock.styles.scss",
     "./assets/react/components/Comments/comments.styles.scss",
     "./assets/react/components/Comments/Comment/comment.styles.scss",
     "./assets/react/components/Comments/AddPostForm/addPostForm.styles.scss",
-    "./assets/react/styles.scss",
+    "./assets/react/containers/Cart/cart.styles.scss",
+    "./assets/react/components/Cart/CartLineItem/cartLineItem.styles.scss",
+    "./assets/react/containers/Login/login.styles.scss",
+    "./assets/react/containers/Logup/logup.styles.scss",
+    "./assets/react/containers/Logout/logout.styles.scss",
+    "./assets/react/containers/Profile/profile.styles.scss",
   ])
 
   .splitEntryChunks()
