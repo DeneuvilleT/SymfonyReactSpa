@@ -17,7 +17,7 @@ class Comments
 
     #[Assert\NotBlank]
     #[Assert\Length(
-        min: 5,
+        min: 2,
         max: 100,
         minMessage: 'Le titre doit contenir au moins de {{ limit }} cractéres.',
         maxMessage: 'Le titre ne peut pas contenir plus de {{ limit }} cractéres.',
@@ -37,7 +37,7 @@ class Comments
 
     #[Assert\NotBlank]
     #[Assert\Length(
-        min: 5,
+        min: 2,
         max: 1000,
         minMessage: "Votre commentaire ne peut faire moins de {{ limit }} cractéres.",
         maxMessage: "Votre commentaire ne peut pas dépasser {{ limit }} cractéres.",

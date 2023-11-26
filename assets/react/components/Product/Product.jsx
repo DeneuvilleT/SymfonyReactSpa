@@ -69,7 +69,7 @@ const Product = ({ infos }) => {
             </div>
           </article>
 
-          <Comments comments={product.comments} userId={infos.id} />
+          <Comments comments={product.comments} userId={infos.id} productId={product.id} />
         </>
       )}
     </main>
