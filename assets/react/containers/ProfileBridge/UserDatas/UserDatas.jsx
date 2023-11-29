@@ -1,30 +1,18 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Icon } from "@iconify/react";
 
-import styles from "./profile.styles.scss";
+import styles from "./userDatas.styles.scss";
 
-const Profile = ({ isLog }) => {
-  const { infos, orders } = useSelector((state) => ({ ...state.auth }));
+const UserDatas = ({ isLog, infos }) => {
 
-  const file = useRef();
+  const dispatch = useDispatch();
 
-  const [msg, setMsg] = useState("");
+  const [errMsg, setErrMsg] = useState("");
   const [modif, setModif] = useState(false);
   const [pick, setPick] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   if (infos.token) checkOrder();
-  // }, [infos.token]);
-
-  // // Load Order
-  // const checkOrder = async () => {
-  //   const res = await loadDatas(infos.id, infos.token)
-  //   return dispatch(setAllOrders(res.data.orders));
-  // };
 
   // Update Datas User
   const updateDatas = async (e) => {
@@ -76,7 +64,7 @@ const Profile = ({ isLog }) => {
   // };
 
   return (
-    <main className={styles.profile}>
+    <main className={styles.userDatas}>
       {/* Banner */}
 
       <>
@@ -146,33 +134,12 @@ const Profile = ({ isLog }) => {
           // />
         )}
 
-        <em>{msg === "" ? null : msg}</em>
-
-        <div>
-          <h4>vos commandes</h4>
-          <hr />
-        </div>
-
-        {/* Display Order */}
-
-        {/* <section>
-            {orders.length ? (
-              orders?.map((order) => (
-                <article key={order.id} onClick={() => window.open(`${URL_LOCAL}/#/customer/order/${order.id}`)}>
-                  <h3>Commande numéro : {order.id}</h3>
-                  <p>{order.status}</p>
-                  <p>{dayjs(order.order_date).format("DD MMM YYYY")}</p>
-                </article>
-              ))
-            ) : (
-              <h2>Vous n'avez pas encore passé de commande.</h2>
-            )}
-          </section> */}
+        <em>{errMsg === "" ? null : errMsg}</em>
       </>
 
-      {msg === "" ? <></> : <p className="msg">{msg}</p>}
+      {errMsg === "" ? <></> : <p className="msg">{errMsg}</p>}
     </main>
   );
 };
 
-export default Profile;
+export default UserDatas;

@@ -1,4 +1,4 @@
-.profile {
+.userData {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,7 +13,7 @@
   width: 85vw;
 }
 
-.profile em {
+.userData em {
   display: block;
   margin: 20px auto;
 
@@ -23,14 +23,14 @@
   color: #622f03;
 }
 
-.profile h1 {
+.userData h1 {
   letter-spacing: 1.25px;
   padding: 5vh 1vw;
   text-align: center;
   font-weight: normal;
 }
 
-.profile h2 {
+.userData h2 {
   font-weight: 400;
   padding: 4vh 0 8vh 0;
   text-align: center;
@@ -39,7 +39,7 @@
 /* Banner */
 /* ************************************************************ */
 /* Main */
-.profile div:nth-child(2) {
+.userData div:nth-child(2) {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -60,14 +60,14 @@
   gap: 10vw;
 }
 
-.profile div figure {
+.userData div figure {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: baseline;
 }
 
-.profile div figure img {
+.userData div figure img {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 4px 4px rgba(0, 0, 0, 0.25);
   background-color: #ffffff;
   border: 5px #000000 outset;
@@ -80,7 +80,7 @@
   transition: transform 30s 0s ease-in;
 }
 
-.profile div:nth-child(2) figure svg {
+.userData div:nth-child(2) figure svg {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 4px 4px rgba(0, 0, 0, 0.25);
   background-color: #f5f5f5;
   border-radius: 50%;
@@ -90,7 +90,7 @@
   cursor: pointer;
 }
 
-.profile div figure img:hover {
+.userData div figure img:hover {
   transform: scale(0.99);
   filter: brightness(0.9);
   cursor: pointer;
@@ -99,9 +99,9 @@
 /* Hr Title */
 /* ************************************************************ */
 /* Main */
-.profile div:nth-child(3),
-.profile div:nth-child(6),
-.profile div:nth-child(7) {
+.userData div:nth-child(3),
+.userData div:nth-child(6),
+.userData div:nth-child(7) {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -113,11 +113,11 @@
   margin: 3vh 1vw;
 }
 
-.profile hr {
+.userData hr {
   width: 45vw;
 }
 
-.profile h4 {
+.userData h4 {
   font-weight: normal;
   text-decoration: underline;
 }
@@ -125,7 +125,7 @@
 /* Profil */
 /* ************************************************************ */
 /* Main */
-.profile section:nth-child(4) {
+.userData section:nth-child(4) {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -135,7 +135,7 @@
   max-width: 550px;
 }
 
-.profile section:nth-child(4) > form {
+.userData section:nth-child(4) > form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -144,19 +144,19 @@
   width: 100%;
 }
 
-.profile section:nth-child(4) > form input {
+.userData section:nth-child(4) > form input {
   max-width: 450px;
   width: 100%;
 }
 
-.profile section:nth-child(4) > form input[type="submit"] {
+.userData section:nth-child(4) > form input[type="submit"] {
   max-width: 300px;
 }
 
 /* FirstName and LastName */
 /* City and Zip_Code */
-.profile section:nth-child(4) div:nth-child(3),
-.profile section:nth-child(4) div:nth-child(5) {
+.userData section:nth-child(4) div:nth-child(3),
+.userData section:nth-child(4) div:nth-child(5) {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -166,12 +166,12 @@
   gap: 1vw;
 }
 
-.profile section:nth-child(4) div:nth-child(3) p,
-.profile section:nth-child(4) div:nth-child(5) p {
+.userData section:nth-child(4) div:nth-child(3) p,
+.userData section:nth-child(4) div:nth-child(5) p {
   flex: 1;
 }
 
-.profile section p {
+.userData section p {
   text-align: center;
   cursor: pointer;
   margin-bottom: 1.1vh;
@@ -185,16 +185,16 @@
   border-radius: 5ex;
 }
 
-.profile section:nth-child(4) > div:nth-child(5) > p:nth-child(1) {
+.userData section:nth-child(4) > div:nth-child(5) > p:nth-child(1) {
   text-transform: uppercase;
 }
 
-.profile input::placeholder {
+.userData input::placeholder {
   color: #333;
 }
 
 /* Change Picture */
-.profile div:nth-child(2) figure input[type="file"] {
+.userData div:nth-child(2) figure input[type="file"] {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -209,8 +209,8 @@
 /* Order */
 /* ************************************************************ */
 /* Main */
-.profile section:nth-child(8),
-.profile section:nth-child(7) {
+.userData section:nth-child(8),
+.userData section:nth-child(7) {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -223,7 +223,7 @@
   margin-bottom: 5vh;
 }
 
-.profile section article {
+.userData section article {
   margin-bottom: 1vh;
   padding: 2.5vh 2.5vw;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -232,12 +232,12 @@
   box-sizing: border-box;
 }
 
-.profile section article:hover {
+.userData section article:hover {
   cursor: pointer;
   transform: scale(0.95);
 }
 
-.profile section article p {
+.userData section article p {
   color: #333;
   width: auto;
   box-shadow: none;
@@ -251,8 +251,8 @@
 /* ************************************************************ */
 /* Main */
 
-.profile div:nth-child(2) figure input[type="file"],
-.profile form input {
+.userData div:nth-child(2) figure input[type="file"],
+.userData form input {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   background: #fafafa;
   border-radius: 5ex;
@@ -265,7 +265,7 @@
   padding: 19px;
 }
 
-.profile form input[type="submit"] {
+.userData form input[type="submit"] {
   cursor: pointer;
   background: #7a3b04;
   font-size: 1.8rem;
@@ -277,96 +277,96 @@
   margin: 2vh 0;
 }
 
-.profile form input[type="submit"]:hover {
+.userData form input[type="submit"]:hover {
   transform: scale(0.95);
 }
 
-.profile form input[type="submit"]:disabled {
+.userData form input[type="submit"]:disabled {
   display: none;
 }
 
 @media all and (max-width: 1281px) {
   /* Banner */
-  .profile div:nth-child(2) {
+  .userData div:nth-child(2) {
     height: 20vh;
     margin: 10vh auto;
     width: 100%;
   }
 
-  .profile div figure {
+  .userData div figure {
     margin: auto;
   }
 
-  .profile section:nth-child(4) {
+  .userData section:nth-child(4) {
     width: 80%;
   }
 
-  .profile div:nth-child(2) > figure > svg,
-  .profile div:nth-child(3) svg,
-  .profile div:nth-child(6) svg,
-  .profile div:nth-child(7) svg {
+  .userData div:nth-child(2) > figure > svg,
+  .userData div:nth-child(3) svg,
+  .userData div:nth-child(6) svg,
+  .userData div:nth-child(7) svg {
     display: none;
   }
 
-  .profile div:nth-child(2) figure form {
+  .userData div:nth-child(2) figure form {
     position: absolute;
     top: 60%;
     right: auto;
   }
 
-  .profile div:nth-child(3),
-  .profile div:nth-child(6),
-  .profile div:nth-child(7) {
+  .userData div:nth-child(3),
+  .userData div:nth-child(6),
+  .userData div:nth-child(7) {
     margin-top: 2vh;
     margin-bottom: 2vh;
   }
 
-  .profile div:nth-child(2) figure input[type="file"] {
+  .userData div:nth-child(2) figure input[type="file"] {
     position: absolute;
     top: 50%;
     right: auto;
   }
 
-  .profile form input {
+  .userData form input {
     width: 90%;
   }
 }
 
 @media all and (max-width: 1301px) {
-  .profile {
+  .userData {
     width: 100%;
     margin-bottom: 0;
   }
 }
 
 @media all and (max-width: 451px) {
-  .profile {
+  .userData {
     padding: 200px 0 100px 0;
     box-shadow: none;
   }
 
-  .profile div:nth-child(2) {
+  .userData div:nth-child(2) {
     border-radius: 0%;
     height: 30vh;
     width: 100%;
   }
 
-  .profile div:nth-child(2) figure input[type="file"] {
+  .userData div:nth-child(2) figure input[type="file"] {
     position: absolute;
     right: auto;
     top: 79%;
   }
 
-  .profile div figure {
+  .userData div figure {
     padding: 0;
   }
 
-  .profile div figure img {
+  .userData div figure img {
     width: 220px;
     height: 220px;
   }
 
-  .profile section:nth-child(4) {
+  .userData section:nth-child(4) {
     width: 90%;
   }
 }

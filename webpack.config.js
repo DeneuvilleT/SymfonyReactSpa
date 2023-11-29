@@ -27,7 +27,10 @@ Encore.setOutputPath("public/build/")
     "./assets/react/containers/Login/login.styles.scss",
     "./assets/react/containers/Logup/logup.styles.scss",
     "./assets/react/containers/Logout/logout.styles.scss",
-    "./assets/react/containers/Profile/profile.styles.scss",
+    "./assets/react/containers/ProfileBridge/profileBridge.styles.scss",
+    "./assets/react/containers/ProfileBridge/UserDatas/userDatas.styles.scss",
+    "./assets/react/containers/ProfileBridge/UserOrders/userOrders.styles.scss",
+    "./assets/react/containers/ProfileBridge/UserComments/userComments.styles.scss",
   ])
 
   .splitEntryChunks()

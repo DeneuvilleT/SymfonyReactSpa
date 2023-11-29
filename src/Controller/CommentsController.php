@@ -51,6 +51,40 @@ class CommentsController extends AbstractController
         return new Response($jsonContent);
     }
 
+    #[Route('/load_comments', name: 'app_comments_user', methods: ['GET', 'POST'])]
+    public function getUserComments(Request $request, CommentsRepository $commentsRepository): Response
+    {
+        if ($this->getUser()) {
+            $encoders = [new XmlEncoder(), new JsonEncoder()];
+            $normalizers = [new ObjectNormalizer()];
+
+            $serializer = new Serializer($normalizers, $encoders);
+
+            $datas = json_decode($request->getContent(), true);
+
+            $comments = $commentsRepository->findBy([
+                "customer" =>  $datas
+            ]);
+
+            $commentData = [];
+
+            foreach ($comments as $comment) {
+                $commentData[] = [
+                    'id' => $comment->getId(),
+                    'title' => $comment->getTitle(),
+                    'author' => $comment->getAuthor(),
+                    'content' => $comment->getContent(),
+                    'date' => $comment->getCreatedAt()->format('Y-m-d H:i:s'),
+                    'productId' => $comment->getProduct()->getId(),
+                    'product' => $comment->getProduct()->getTitle(),
+                ];
+            }
+
+            $jsonContent = $serializer->serialize($commentData, 'json');
+            return new Response($jsonContent);
+        }
+    }
+
     #[Route('/comment_post', name: 'app_comments_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, ProductsRepository $productRepo, ValidatorInterface $validator): Response
     {
