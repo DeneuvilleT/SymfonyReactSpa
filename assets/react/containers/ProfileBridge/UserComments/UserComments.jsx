@@ -4,46 +4,51 @@ import { useDispatch, useSelector } from "react-redux";
 import { parseISO, formatDistanceToNow } from "date-fns";
 import { fr } from "date-fns/locale";
 
-import axios from "axios";
 import styles from "./userComments.styles.scss";
 
-const UserComments = ({ infos, isLog }) => {
+import { fetchComments, getAllComments, getCommentsErrors, getCommentsStatus } from "../../../Store/slices/commentsSlices";
 
+const UserComments = ({ infos }) => {
   const dispatch = useDispatch();
+
+  const allComments    = useSelector(getAllComments);
+  const commentsStatus = useSelector(getCommentsStatus);
+  const commentsErros  = useSelector(getCommentsErrors)
 
   const [errMsg,     setErrMsg] = useState("");
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    isLog ? getComments() : null;
-  }, [isLog]);
-
-  const getComments = async () => {
-    try {
-      const response = await axios.post("/api/v1/comments/load_comments", infos.id);
-      return setComments([...response.data]);
-    } catch (error) {
-      console.error(error);
-      return setErrMsg(error.message);
+    if (commentsStatus === "idle" && infos.id) {
+      dispatch(fetchComments(infos.id));
     }
-  };
+  }, [commentsStatus, dispatch, infos]);
+
+  useEffect(() => {
+    if (commentsStatus === "succeeded") {
+      setComments([...allComments]);
+    } else if (commentsStatus === "failed") {
+      setErrMsg(commentsErros);
+    }
+  }, [commentsStatus, dispatch]);
 
   return (
     <main className={styles.userComments}>
-      <h4>Vos commenatires</h4>
-
-      <section>
-        {comments.length ? (
-          comments?.map((comment) => (
-            <article key={comment.id}>
-              <h3>Commentaire numéro : {comment.id}</h3>
-              <p>{formatDistanceToNow(parseISO(comment.date), { locale: fr })}</p>
+      <h4>Vos commandes</h4>
+      <button onClick={() => console.log(comments)}>Test</button>
+      {/* <section>
+        {orders.length ? (
+          orders?.map((order) => (
+            <article key={order.id}>
+              <h3>Commande numéro : {order.id}</h3>
+              <p>{order.status}</p>
             </article>
           ))
         ) : (
-          <h2>Vous n'avez pas encore posté de commentaire.</h2>
+          <h2>Vous n'avez pas encore passé de commande.</h2>
         )}
-      </section>
+      </section> */}
+      <p>{errMsg}</p>
     </main>
   );
 };

@@ -13,7 +13,7 @@ import { getProductsStatus, getProductsErrors, getAllProducts } from "../../Stor
 import styles from "./productList.styles.scss";
 
 const ProductList = () => {
-  const products = useSelector(getAllProducts);
+  const products =       useSelector(getAllProducts);
   const productsStatus = useSelector(getProductsStatus);
   const productsErrors = useSelector(getProductsErrors);
 

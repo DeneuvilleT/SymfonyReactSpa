@@ -21,15 +21,21 @@ const Authentication = (props) => {
       const token = localStorage.getItem("TOKEN");
 
       if (token !== null) {
-        const getToken = await axios.get("/api/v1/token");
+        try {
+          const getToken = await axios.get("/api/v1/token");
 
-        if (getToken.status === 200) {
-          const { user } = JSON.parse(getToken.data);
+          if (getToken.status === 200) {
+            const { user } = JSON.parse(getToken.data);
+            console.log(user)
 
-          window.scrollTo(0, 0);
-          return dispatch(login(user));
-        } else {
-          return;
+            window.scrollTo(0, 0);
+            return dispatch(login(user));
+          }
+        } catch (error) {
+          if (error.response.status === 403) {
+            localStorage.removeItem("TOKEN");
+            console.clear();
+          }
         }
       } else {
         if (props.auth) return navigate("/notFound");

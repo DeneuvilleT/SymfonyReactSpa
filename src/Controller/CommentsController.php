@@ -60,10 +60,10 @@ class CommentsController extends AbstractController
 
             $serializer = new Serializer($normalizers, $encoders);
 
-            $datas = json_decode($request->getContent(), true);
+            $userId = $request->query->get('userId');
 
             $comments = $commentsRepository->findBy([
-                "customer" =>  $datas
+                "customer" => (int) $userId
             ]);
 
             $commentData = [];

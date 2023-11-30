@@ -49,23 +49,29 @@ class LoginController extends AbstractController
         $encoders = [new XmlEncoder(), new JsonEncoder()];
         $normalizers = [new ObjectNormalizer(null, null, null, null, null, null, ['api'])];
         $serializer = new Serializer($normalizers, $encoders);
-    
+
         $user = $this->getUser();
-    
-        $context = [
-            AbstractNormalizer::IGNORED_ATTRIBUTES => ['comments', 'password'],
-        ];
-    
-        $token = $this->csrfTokenManager->getToken('api_csrf')->getValue();
-        $jsonContent = $serializer->serialize(
-            [
-                'csrf_token' => $token,
-                'user' => $user,
-            ],
-            'json',
-            $context
-        );
-    
-        return new JsonResponse($jsonContent, Response::HTTP_OK);
+
+        if ($user === null) {
+            $jsonContent = $serializer->serialize(['user' => $user],'json');
+            return new JsonResponse($jsonContent, Response::HTTP_FORBIDDEN);
+        } else {
+
+            $context = [
+                AbstractNormalizer::IGNORED_ATTRIBUTES => ['comments', 'password'],
+            ];
+
+            $token = $this->csrfTokenManager->getToken('api_csrf')->getValue();
+            $jsonContent = $serializer->serialize(
+                [
+                    'csrf_token' => $token,
+                    'user' => $user,
+                ],
+                'json',
+                $context
+            );
+
+            return new JsonResponse($jsonContent, Response::HTTP_OK);
+        }
     }
 }
