@@ -26,7 +26,6 @@ const Authentication = (props) => {
 
           if (getToken.status === 200) {
             const { user } = JSON.parse(getToken.data);
-            console.log(user)
 
             window.scrollTo(0, 0);
             return dispatch(login(user));

@@ -47,7 +47,7 @@ export const productsSlice = createSlice({
 
 export const { getProducts } = productsSlice.actions;
 
-export const getAllProducts = (state) => state.products.products;
+export const getAllProducts    = (state) => state.products.products;
 export const getProductsErrors = (state) => state.products.error;
 export const getProductsStatus = (state) => state.products.status;
 

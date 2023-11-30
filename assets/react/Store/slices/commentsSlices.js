@@ -47,7 +47,7 @@ export const commentsSlice = createSlice({
 
 export const { getComments } = commentsSlice.actions;
 
-export const getAllComments = (state) => state.comments.comments;
+export const getAllComments    = (state) => state.comments.comments;
 export const getCommentsErrors = (state) => state.comments.error;
 export const getCommentsStatus = (state) => state.comments.status;
 

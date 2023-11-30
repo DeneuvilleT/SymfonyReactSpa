@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
+import { Icon } from "@iconify/react";
 import { parseISO, formatDistanceToNow } from "date-fns";
 import { fr } from "date-fns/locale";
 
@@ -10,10 +12,11 @@ import { fetchComments, getAllComments, getCommentsErrors, getCommentsStatus } f
 
 const UserComments = ({ infos }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const allComments    = useSelector(getAllComments);
   const commentsStatus = useSelector(getCommentsStatus);
-  const commentsErros  = useSelector(getCommentsErrors)
+  const commentsErros  = useSelector(getCommentsErrors);
 
   const [errMsg,     setErrMsg] = useState("");
   const [comments, setComments] = useState([]);
@@ -32,25 +35,47 @@ const UserComments = ({ infos }) => {
     }
   }, [commentsStatus, dispatch]);
 
-  return (
-    <main className={styles.userComments}>
-      <h4>Vos commandes</h4>
-      <button onClick={() => console.log(comments)}>Test</button>
-      {/* <section>
-        {orders.length ? (
-          orders?.map((order) => (
-            <article key={order.id}>
-              <h3>Commande numéro : {order.id}</h3>
-              <p>{order.status}</p>
-            </article>
-          ))
-        ) : (
-          <h2>Vous n'avez pas encore passé de commande.</h2>
-        )}
-      </section> */}
-      <p>{errMsg}</p>
-    </main>
-  );
+  switch (commentsStatus) {
+    case "loading":
+      return <Icon style={{ marginTop: "150px" }} icon="svg-spinners:blocks-shuffle-3" width="150" height="150" />;
+
+    case "succeeded":
+      return (
+        <main className={styles.userComments}>
+          <h2>Vos commentaires</h2>
+
+          <section>
+            {comments.length ? (
+              comments?.map((comment) => (
+                <article key={comment.id}>
+                  <div>
+                    <span>{comment.id}</span>
+                    <h4>{comment.title}</h4>
+                  </div>
+                  <p>{comment.content}</p>
+
+                  <button onClick={() => navigate(`/product/${comment.productId}`)}>{comment.product}</button>
+
+                  <div>
+                    <p>{formatDistanceToNow(parseISO(comment.date), { locale: fr })}</p>
+                    <p>
+                      <strong>{comment.author}</strong>
+                    </p>
+                  </div>
+                </article>
+              ))
+            ) : (
+              <h3>
+                <Icon icon="line-md:emoji-frown-open" color="#333" width="60" height="60" /> Vous n'avez pas encore posté de commentaire.
+              </h3>
+            )}
+          </section>
+        </main>
+      );
+
+    case "failed":
+      return <p>{errMsg}</p>;
+  }
 };
 
 export default UserComments;

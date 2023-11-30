@@ -48,7 +48,7 @@ export const ordersSlice = createSlice({
 
 export const { getOrders } = ordersSlice.actions;
 
-export const getAllOrders = (state) => state.orders.orders;
+export const getAllOrders    = (state) => state.orders.orders;
 export const getOrdersErrors = (state) => state.orders.error;
 export const getOrdersStatus = (state) => state.orders.status;
 
