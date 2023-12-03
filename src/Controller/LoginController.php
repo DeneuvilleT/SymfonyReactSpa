@@ -58,7 +58,7 @@ class LoginController extends AbstractController
         } else {
 
             $context = [
-                AbstractNormalizer::IGNORED_ATTRIBUTES => ['comments', 'password'],
+                AbstractNormalizer::IGNORED_ATTRIBUTES => ['comments', 'password', 'addresses'],
             ];
 
             $token = $this->csrfTokenManager->getToken('api_csrf')->getValue();

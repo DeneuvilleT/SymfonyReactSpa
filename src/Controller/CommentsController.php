@@ -19,7 +19,6 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Serializer\Serializer;
 
-
 #[Route('/api/v1/comments')]
 class CommentsController extends AbstractController
 {
@@ -86,7 +85,7 @@ class CommentsController extends AbstractController
     }
 
     #[Route('/comment_post', name: 'app_comments_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, ProductsRepository $productRepo, ValidatorInterface $validator): Response
+    public function addNewComment(Request $request, EntityManagerInterface $entityManager, ProductsRepository $productRepo, ValidatorInterface $validator): Response
     {
 
         $encoders = [new XmlEncoder(), new JsonEncoder()];
@@ -96,7 +95,7 @@ class CommentsController extends AbstractController
         $comment = new Comments();
 
         $datas = json_decode($request->getContent(), true);
-        $product = $productRepo->findOneBy(["id" => $datas['product']]);
+        $product = $productRepo->findOneBy(["id" => $datas['productId']]);
 
         $comment->setTitle($datas['title']);
         $comment->setAuthor($datas['author']);

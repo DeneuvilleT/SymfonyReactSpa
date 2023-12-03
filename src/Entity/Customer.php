@@ -84,9 +84,13 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Comments::class)]
     private Collection $comments;
 
+    #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Addresses::class)]
+    private Collection $addresses;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->addresses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -219,6 +223,36 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($comment->getCustomer() === $this) {
                 $comment->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Addresses>
+     */
+    public function getAddresses(): Collection
+    {
+        return $this->addresses;
+    }
+
+    public function addAddress(Addresses $address): static
+    {
+        if (!$this->addresses->contains($address)) {
+            $this->addresses->add($address);
+            $address->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAddress(Addresses $address): static
+    {
+        if ($this->addresses->removeElement($address)) {
+            // set the owning side to null (unless already changed)
+            if ($address->getCustomer() === $this) {
+                $address->setCustomer(null);
             }
         }
 

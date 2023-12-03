@@ -1,0 +1,81 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 20px;
+
+  textarea,
+  select,
+  input,
+  button {
+    font-size: 1.25em;
+    letter-spacing: 0.05em;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.16);
+    border: none;
+    background-color: white;
+    border-radius: 20px;
+    padding: 10px 20px;
+    min-height: 35px;
+    min-width: 300px;
+    cursor: pointer;
+    width: 100%;
+    flex: 0.7;
+  }
+
+  input::placeholder {
+    font-size: 1.15em;
+    color: #99999963;
+  }
+
+  
+  textarea {
+    height: 150px;
+    resize: none;
+  }
+
+  fieldset {
+    display: flex;
+    justify-content: space-between;
+    gap: 50px;
+    width: 100%;
+
+    border: none;
+    margin-bottom: 20px;
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    min-height: 45px;
+    max-width: 200px;
+    background-color: green;
+    font-size: 18px;
+    color: #fff;
+    border-radius: 20px !important;
+    padding: 10px 20px !important;
+  }
+
+  button:disabled {
+    border-radius: 20px;
+    padding: 10px 20px;
+    color: #f9f9f9;
+    background-color: #999;
+    cursor: default;
+  }
+
+  button:disabled:hover {
+    filter: brightness(1);
+  }
+
+  button:disabled:active {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.16);
+  }
+
+  span {
+    padding-left: 15px;
+    color: #c10000;
+  }
+}

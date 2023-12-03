@@ -12,6 +12,7 @@ const Login = ({ isLog }) => {
 
   const [msgErr, setMsgErr] = useState("");
   const [icone, setIcone] = useState("line-md:arrow-right-circle");
+  const [canSave, setCanSave] = useState(false);
   const [formData, setFormData] = useState({
     _username: "",
     _password: "",
@@ -19,13 +20,15 @@ const Login = ({ isLog }) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const updatedFormData = { ...formData, [name]: value };
+    setFormData(updatedFormData);
+    setCanSave(Object.values(updatedFormData).every((val) => val !== "") ? true : false);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (formData._username !== "" && formData._password !== "") {
+    if (canSave) {
       try {
         setIcone("svg-spinners:90-ring-with-bg");
 
@@ -51,8 +54,6 @@ const Login = ({ isLog }) => {
       }
     }
   };
-
-  const canSave = Boolean(formData._username !== "" && formData._password !== "");
 
   return (
     <main className={styles.login}>
