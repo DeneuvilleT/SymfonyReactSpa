@@ -32,6 +32,7 @@ Encore.setOutputPath("public/build/")
     "./assets/react/containers/ProfileBridge/UserDatas/userDatas.styles.scss",
     "./assets/react/containers/ProfileBridge/UserOrders/userOrders.styles.scss",
     "./assets/react/containers/ProfileBridge/UserComments/userComments.styles.scss",
+    "./assets/react/containers/ProfileBridge/UserDatas/Addresses/address.styles.scss",
   ])
 
   .splitEntryChunks()

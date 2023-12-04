@@ -10,7 +10,12 @@ const Form = ({ url, btnSubmit, hasLabel, after, inputs }) => {
   const [canSave, setCanSave] = useState(false);
   const [msgsErr, setMsgsErr] = useState([]);
 
-  const initialFormData = Object.fromEntries(Object.entries(inputs).map(([key, input]) => [key, input.value || ""]));
+  const initialFormData = Object.fromEntries(
+    Object.entries(inputs).map(([key, input]) => [
+      key,
+      key === "type" ? input.value || 0 : input.value || "",
+    ])
+  );
   const [formData, setFormData] = useState(initialFormData);
 
   const handleSubmit = async (e) => {
@@ -47,6 +52,7 @@ const Form = ({ url, btnSubmit, hasLabel, after, inputs }) => {
 
   return (
     <form className={styles.form}>
+
       {Object.entries(inputs).map(([key, input]) => (
         <fieldset key={key}>
           {hasLabel && input.type !== "hidden" ? <label htmlFor={`post_${input.name}`}>{input.label}</label> : <></>}
@@ -65,7 +71,7 @@ const Form = ({ url, btnSubmit, hasLabel, after, inputs }) => {
               {!hasLabel ? input.label.toLowerCase() : ""}
             </textarea>
           ) : (
-            <select name={input.name} id={`post_${input.name}`}>
+            <select name={input.name} value={formData[key]} onChange={handleInputChange} id={`post_${input.name}`}>
               {input.option?.map((x, i) => (
                 <option key={i} value={x.value}>
                   {x.text}

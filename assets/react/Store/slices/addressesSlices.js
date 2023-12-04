@@ -10,7 +10,6 @@ const initialState = {
 export const fetchAddresses = createAsyncThunk("addresses/fetchAddresses", async (userId) => {
   try {
     const response = await axios.get(`/api/v1/addresses/load_addresses?userId=${userId}`);
-    console.log([...response.data])
     return [...response.data];
   } catch (err) {
     console.error(err.message);

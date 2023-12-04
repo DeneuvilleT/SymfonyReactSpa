@@ -47,11 +47,6 @@ const AddNewAddress = () => {
         },
       }}
     />
-
-    // <select name="type" onChange={handleInputChange}>
-    //   <option value="0">Adresse de livraison</option>
-    //   <option value="1">Adresse de facturation</option>
-    // </select>
   );
 };
 

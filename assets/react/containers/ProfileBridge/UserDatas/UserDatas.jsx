@@ -47,11 +47,14 @@ const UserDatas = ({ infos }) => {
 
   return (
     <main className={styles.userDatas}>
-      <h2>Bienvenue {infos.firstname}</h2>
-
       <section title="Modifier vos coordonnées" onClick={() => (!modif ? setModif(true) : setModif(false))}>
-        <Datas infos={infos} />
-        <Addresses infos={infos} />
+        <div>
+          <h2>Bienvenue {infos.firstname}</h2>
+          <Datas infos={infos} />
+        </div>
+        <div>
+          <Addresses infos={infos} />
+        </div>
       </section>
 
       {errMsg === "" ? <></> : <p className="msg">{errMsg}</p>}

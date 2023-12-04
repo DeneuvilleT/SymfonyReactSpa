@@ -26,6 +26,19 @@
     align-items: flex-start;
     flex-wrap: wrap;
     gap: 200px;
+    margin: auto;
+  }
+
+  section div:first-child {
+    display: flex;
+    align-self: stretch;
+    flex-direction: column;
+    background-color: #979797;
+    padding: 20px;
+  }
+
+  section div:nth-child(2) {
+    padding: 20px;
   }
 
   legend {
@@ -33,7 +46,13 @@
     align-items: center;
     gap: 30px;
     font-size: 26px;
-    margin-bottom: 30px;
+    padding: 20px 0;
+  }
+
+  legend:nth-child(2) {
+    display: flex;
+    justify-content: space-between;
+   width: 100%;
   }
 
   form,
@@ -47,7 +66,10 @@
     gap: 20px;
   }
 
-  p, select, input, button {
+  p,
+  select,
+  input,
+  button {
     font-size: 1.25em;
     letter-spacing: 0.05em;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.16);
@@ -83,5 +105,4 @@
   button:disabled:active {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.16);
   }
-
 }
