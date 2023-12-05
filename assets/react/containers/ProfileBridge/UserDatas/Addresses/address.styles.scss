@@ -1,16 +1,24 @@
 .addresses {
   display: flex;
-  flex-direction: row !important;
-  align-items: center !important;
-  gap: 60px !important;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  width: 60%;
 
-  address + svg {
+  div {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 20px;
+  }
+
+  legend svg {
     cursor: pointer;
     border-radius: 50%;
     box-shadow: 0 0 5px rgb(131 131 131 / 85%);
   }
 
-  address + svg:active {
+  legend svg:active {
     box-shadow: inset 0 0 5px rgb(131 131 131 / 85%);
   }
 }

@@ -74,8 +74,21 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.16);
   }
 
+  ul div {
+    border-left: none;
+  }
+
   span {
-    padding-left: 15px;
-    color: #c10000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    background-color: #c10000;
+    border-radius: 2ex;
+    padding: 15px;
+
+    color: #fff;
+    font-size: 1.25em;
   }
 }

@@ -37,26 +37,26 @@ const Addresses = ({ infos }) => {
   switch (addressesStatus) {
     case "loading":
       return (
-        <fieldset>
-          <legend>Vérification de vos adresses ...</legend>
+        <section>
+          <h2>Vérification de vos adresses ...</h2>
           <Icon icon="line-md:loading-twotone-loop" width="60" height="60" />;
-        </fieldset>
+        </section>
       );
 
     case "succeeded":
       return (
-        <fieldset className={styles.addresses}>
+        <aside className={styles.addresses}>
           <legend>
             Vos adresses
             {addNew ? (
               <Icon icon="carbon:close-outline" style={{ cursor: "pointer" }} width="25" height="25" onClick={() => setAddNew(false)} />
             ) : (
-              <></>
+              <Icon icon="gridicons:add" color="#204ed7" width="50" height="50" onClick={() => setAddNew(true)} />
             )}
           </legend>
 
           {!addNew ? (
-            <>
+            <div>
               {addresses.length ? (
                 addresses?.map((address) => (
                   <address className={styles.item_address} key={address.id}>
@@ -83,13 +83,11 @@ const Addresses = ({ infos }) => {
                   <Icon icon="line-md:emoji-frown-open" color="#333" width="60" height="60" /> Vous n'avez pas d'adresse enregistrée.
                 </h3>
               )}
-
-              <Icon icon="gridicons:add" color="blue" width="50" height="50" onClick={() => setAddNew(true)} />
-            </>
+            </div>
           ) : (
             <AddNewAddress infos={infos} setAddNew={setAddNew} />
           )}
-        </fieldset>
+        </aside>
       );
 
     case "failed":

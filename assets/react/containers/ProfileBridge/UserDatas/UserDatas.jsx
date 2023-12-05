@@ -52,9 +52,9 @@ const UserDatas = ({ infos }) => {
           <h2>Bienvenue {infos.firstname}</h2>
           <Datas infos={infos} />
         </div>
-        <div>
+        
           <Addresses infos={infos} />
-        </div>
+        
       </section>
 
       {errMsg === "" ? <></> : <p className="msg">{errMsg}</p>}

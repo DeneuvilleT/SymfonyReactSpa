@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\AddressesRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AddressesRepository::class)]
 class Addresses
@@ -14,18 +15,53 @@ class Addresses
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 2,
+        max: 100,
+        minMessage: "L'alias doit contenir au moins de {{ limit }} cractéres.",
+        maxMessage: "L'alias ne peut pas contenir plus de {{ limit }} cractéres.",
+    )]
     #[ORM\Column(length: 100)]
     private ?string $alias = null;
 
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 5,
+        max: 255,
+        minMessage: 'Votre adresse doit contenir au moins de {{ limit }} cractéres.',
+        maxMessage: 'Votre adresse ne peut pas contenir plus de {{ limit }} cractéres.',
+    )]
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
-    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 5,
+        max: 100,
+        minMessage: 'Le nom de la ville doit contenir au moins de {{ limit }} cractéres.',
+        maxMessage: 'Le nom de la ville ne peut pas contenir plus de {{ limit }} cractéres.',
+    )]
+    #[ORM\Column(length: 100)]
     private ?string $city = null;
 
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 5,
+        max: 25,
+        minMessage: 'Le code postal doit contenir au moins de {{ limit }} cractéres.',
+        maxMessage: 'Le code postal ne peut pas contenir plus de {{ limit }} cractéres.',
+    )]
     #[ORM\Column(length: 25)]
     private ?string $zip_code = null;
 
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 9,
+        max: 25,
+        minMessage: 'Le numéro de téléphone doit contenir au moins 10 chiffres.',
+        maxMessage: 'Le numéro de téléphone ne peut pas contenir plus de {{ limit }} chiffres.',
+    )]
     #[ORM\Column]
     private ?int $phone = null;
 

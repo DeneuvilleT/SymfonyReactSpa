@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 import { Icon } from "@iconify/react";
@@ -11,10 +11,7 @@ const Form = ({ url, btnSubmit, hasLabel, after, inputs }) => {
   const [msgsErr, setMsgsErr] = useState([]);
 
   const initialFormData = Object.fromEntries(
-    Object.entries(inputs).map(([key, input]) => [
-      key,
-      key === "type" ? input.value || 0 : input.value || "",
-    ])
+    Object.entries(inputs).map(([key, input]) => [key, key === "type" ? input.value || 0 : input.value || ""])
   );
   const [formData, setFormData] = useState(initialFormData);
 
@@ -44,6 +41,7 @@ const Form = ({ url, btnSubmit, hasLabel, after, inputs }) => {
   };
 
   const handleInputChange = (e) => {
+    setMsgsErr([]);
     const { name, value } = e.target;
     const updatedFormData = { ...formData, [name]: value };
     setFormData(updatedFormData);
@@ -52,7 +50,6 @@ const Form = ({ url, btnSubmit, hasLabel, after, inputs }) => {
 
   return (
     <form className={styles.form}>
-
       {Object.entries(inputs).map(([key, input]) => (
         <fieldset key={key}>
           {hasLabel && input.type !== "hidden" ? <label htmlFor={`post_${input.name}`}>{input.label}</label> : <></>}
@@ -86,7 +83,9 @@ const Form = ({ url, btnSubmit, hasLabel, after, inputs }) => {
         {msgsErr.length > 0 && (
           <div className="error-messages">
             {msgsErr.map((err, index) => (
-              <span key={index}>{err}</span>
+              <span key={index}>
+                <Icon icon="line-md:alert-twotone" color="white" width="23" height="23" />{err}
+              </span>
             ))}
           </div>
         )}

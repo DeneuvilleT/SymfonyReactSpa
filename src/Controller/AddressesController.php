@@ -18,6 +18,7 @@ use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Validator\ConstraintViolation;
 
 #[Route('/api/v1/addresses')]
 class AddressesController extends AbstractController
@@ -44,9 +45,9 @@ class AddressesController extends AbstractController
             $addresses = $addressesRepository->findBy([
                 "customer" => (int) $userId
             ]);
-            
+
             $addressData = [];
-            
+
             foreach ($addresses as $address) {
                 $addressData[] = [
                     'id' => $address->getId(),
@@ -82,7 +83,30 @@ class AddressesController extends AbstractController
             $address->setAddress($datas['address']);
             $address->setCity($datas['city']);
             $address->setZipCode($datas['zip_code']);
-            $address->setPhone($datas['phone']);
+
+            if (!ctype_digit($datas['phone'])) {
+                $errors = new ConstraintViolation(
+                    'Le numéro de téléphone ne doit contenir que des chiffres.',
+                    null,
+                    [],
+                    $datas['phone'],
+                    'phone',
+                    null
+                );
+
+                $response = [
+                    'status' => 'error',
+                    'message' => 'Validation error',
+                    'errors' => array($errors->getMessage()),
+                ];
+
+                $jsonContent = $serializer->serialize($response, 'json');
+
+                return new JsonResponse($jsonContent, Response::HTTP_UNAUTHORIZED);
+            } else {
+                $address->setPhone((int)$datas['phone']);
+            }
+
             $address->setType($datas['type']);
             $address->setCustomer($this->getUser());
             $address->setCreatedAt(new DateTime());

@@ -25,16 +25,17 @@
     justify-content: flex-start;
     align-items: flex-start;
     flex-wrap: wrap;
-    gap: 200px;
+    gap: 60px;
     margin: auto;
+    width: 100%;
   }
 
   section div:first-child {
     display: flex;
     align-self: stretch;
     flex-direction: column;
-    background-color: #979797;
-    padding: 20px;
+    padding: 20px 73px 20px 0;
+    border-right: 1px solid black;
   }
 
   section div:nth-child(2) {
@@ -52,7 +53,7 @@
   legend:nth-child(2) {
     display: flex;
     justify-content: space-between;
-   width: 100%;
+    width: 100%;
   }
 
   form,
@@ -64,6 +65,7 @@
     align-items: flex-start;
     border: none;
     gap: 20px;
+    border-radius: 5px;
   }
 
   p,
