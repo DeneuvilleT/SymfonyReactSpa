@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Icon } from "@iconify/react";
 
 import AddNewAddress from "./AddNewAddress/AddNewAddress";
+import BtnDelete from "../../../../components/BtnDelete/BtnDelete";
 
 import { fetchAddresses, getAllAddresses, getAddressesErrors, getAddressesStatus } from "../../../../Store/slices/addressesSlices";
 
@@ -74,7 +75,7 @@ const Addresses = ({ infos }) => {
                       <Icon icon="gridicons:phone" style={{ marginBottom: "-3px" }} width="18" height="18" />{" "}
                       {!address.phone ? "" : `0${address.phone}`}
                     </p>
-
+                    <BtnDelete url={"/api/v1/addresses/delete_address"} id={address.id}/>
                     <button onClick={() => setChange(true)}>Modifier l'adresse</button>
                   </address>
                 ))

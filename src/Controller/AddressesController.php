@@ -158,14 +158,14 @@ class AddressesController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_addresses_delete', methods: ['POST'])]
-    public function delete(Request $request, Addresses $address, EntityManagerInterface $entityManager): Response
+    #[Route('/delete_address/{id}', name: 'app_addresses_delete', methods: ['POST'])]
+    public function deleteAddress(Request $request, Addresses $address, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $address->getId(), $request->request->get('_token'))) {
+        if ($this->getUser() !== null) {
             $entityManager->remove($address);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_addresses_index', [], Response::HTTP_SEE_OTHER);
+        return new Response(Response::HTTP_OK);
     }
 }

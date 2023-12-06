@@ -62,6 +62,7 @@ class LoginController extends AbstractController
             ];
 
             $token = $this->csrfTokenManager->getToken('api_csrf')->getValue();
+   
             $jsonContent = $serializer->serialize(
                 [
                     'csrf_token' => $token,
