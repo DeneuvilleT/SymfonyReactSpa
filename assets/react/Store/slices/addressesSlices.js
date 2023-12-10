@@ -9,7 +9,6 @@ const initialState = {
 
 export const fetchAddresses = createAsyncThunk("addresses/fetchAddresses", async (userId) => {
   const token = localStorage.getItem(`${location.origin}_bear_token`);
-  console.log(userId)
   try {
     const response = await axios.get(`/api/v1/addresses/load_addresses/${userId}`, {
       headers: {

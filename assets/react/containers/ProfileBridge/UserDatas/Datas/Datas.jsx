@@ -3,6 +3,7 @@ import { Icon } from "@iconify/react";
 
 const Datas = ({ infos }) => {
   //   const canSave = Boolean(infos.email.trim()) && Boolean(infos.firstname.trim()) && Boolean(infos.lastname.trim());
+
   return (
     <fieldset>
       <legend>Informations personnelles</legend>
@@ -19,7 +20,7 @@ const Datas = ({ infos }) => {
         <Icon icon="tabler:point-filled" />
       </p>
       <p>{!infos.firstname ? "" : infos.firstname}</p>
-      <p>{!infos.lastName ? "" : infos.lastName}</p>
+      <p>{!infos.lastname ? "" : infos.lastname}</p>
     </fieldset>
   );
 };

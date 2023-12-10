@@ -28,18 +28,24 @@
     gap: 20px;
   }
 
+  div:first-child {
+    width: 85%;
+  }
+
   section {
     flex-wrap: wrap;
   }
 
   article {
+    position: relative;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: flex-start;
     gap: 20px;
     padding: 20px 15px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 4px;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     max-width: 410px;
     min-width: 300px;
     min-height: 260px;
@@ -52,7 +58,7 @@
     height: 40px;
     width: 40px;
     border-radius: 50%;
-    background-color: #FF6874;
+    background-color: #ff6874;
     color: #fff;
     font-weight: 600;
     font-size: 1.5em;

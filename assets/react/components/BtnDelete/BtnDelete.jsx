@@ -3,11 +3,13 @@ import { Icon } from "@iconify/react";
 import axios from "axios";
 
 const BtnDelete = ({ url }) => {
-  
   const token = localStorage.getItem(`${location.origin}_bear_token`);
 
   const handleDelete = async () => {
     try {
+      /**
+       * Ajouter un systéme de notification avec garde-fou
+       */
       const response = await axios.get(url, {
         headers: {
           Authorization: `Bearer ${token}`,

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import BtnDelete from "../../../components/BtnDelete/BtnDelete";
+
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -14,11 +16,11 @@ const UserComments = ({ infos }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const allComments    = useSelector(getAllComments);
+  const allComments = useSelector(getAllComments);
   const commentsStatus = useSelector(getCommentsStatus);
-  const commentsErros  = useSelector(getCommentsErrors);
+  const commentsErros = useSelector(getCommentsErrors);
 
-  const [errMsg,     setErrMsg] = useState("");
+  const [errMsg, setErrMsg] = useState("");
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
@@ -52,7 +54,7 @@ const UserComments = ({ infos }) => {
                     <span>{comment.id}</span>
                     <h4>{comment.title}</h4>
                   </div>
-                  <p>{comment.content}</p>
+                  <p style={{ height: "65px", overflowY: "auto" }}>{comment.content}</p>
 
                   <button onClick={() => navigate(`/product/${comment.productId}`)}>{comment.product}</button>
 
@@ -62,6 +64,7 @@ const UserComments = ({ infos }) => {
                       <strong>{comment.author}</strong>
                     </p>
                   </div>
+                  <BtnDelete url={`/api/v1/comments/delete_comment/${comment.id}`} />
                 </article>
               ))
             ) : (

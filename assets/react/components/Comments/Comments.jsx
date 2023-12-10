@@ -1,5 +1,4 @@
 import React from "react";
-
 import AddPostForm from "./AddPostForm/AddPostForm";
 import Comment from "./Comment/Comment";
 

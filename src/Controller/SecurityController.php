@@ -63,7 +63,7 @@ class SecurityController extends AbstractController
                      'id' => $customer->getId(),
                      'email' => $customer->getEmail(),
                      'password' => $customer->getPassword(),
-                     'firsname' => $customer->getFirstname(),
+                     'firstname' => $customer->getFirstname(),
                      'lastname' => $customer->getLastName(),
                      'roles' => $customer->getRoles(),
                   ]

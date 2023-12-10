@@ -38,10 +38,10 @@ const Addresses = ({ infos }) => {
   switch (addressesStatus) {
     case "loading":
       return (
-        <section>
-          <h2>Vérification de vos adresses ...</h2>
+        <aside className={styles.addresses}>
+          <h2 style={{ marginTop: "50px" }}>Vérification de vos adresses ...</h2>
           <Icon icon="line-md:loading-twotone-loop" width="60" height="60" />;
-        </section>
+        </aside>
       );
 
     case "succeeded":
@@ -61,7 +61,7 @@ const Addresses = ({ infos }) => {
               {addresses.length ? (
                 addresses?.map((address) => (
                   <address className={styles.item_address} key={address.id}>
-                    <h2>{address.alias}</h2>
+                    <h2 style={{ backgroundColor: !address.type ? "blue" : "#ef1b2b" }}>{address.alias}</h2>
 
                     <p>
                       <strong>{`Adresse ${!address.type ? "facturation" : "livraison"}`}</strong>
