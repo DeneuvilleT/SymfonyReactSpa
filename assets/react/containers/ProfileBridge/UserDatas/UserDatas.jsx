@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import Datas from "./Datas/Datas";
+import UpdateDatas from "./Datas/UpdateDatas/UpdateDatas";
 import Addresses from "./Addresses/Addresses";
 
 import styles from "./userDatas.styles.scss";
@@ -10,12 +11,11 @@ const UserDatas = ({ infos }) => {
 
   return (
     <main className={styles.userDatas}>
-      <section title="Modifier vos coordonnées" onClick={() => (!modif ? setModif(true) : setModif(false))}>
+      <section title="Modifier vos coordonnées">
         <div>
           <h2>Bienvenue {infos.firstname}</h2>
-          <Datas infos={infos} />
+          {!modif ? <Datas infos={infos} setModif={setModif} /> : <UpdateDatas infos={infos} />}
         </div>
-
         <Addresses infos={infos} />
       </section>
     </main>

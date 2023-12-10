@@ -33,9 +33,14 @@ const Authentication = (props) => {
               Authorization: `Bearer ${token}`,
             },
           });
-          return dispatch(login(response.data));
+          if (response.status === 200) {
+            return dispatch(login(response.data));
+          }
         } catch (error) {
-          console.log(error);
+          if (error.response.status === 401) {
+            return navigate("/login");
+          }
+          return console.log(error);
         }
       }
     }

@@ -59,6 +59,7 @@ const Form = ({ url, btnSubmit, hasLabel, after, inputs }) => {
     <form className={styles.form}>
       {Object.entries(inputs).map(([key, input]) => (
         <fieldset key={key}>
+
           {hasLabel && input.type !== "hidden" ? <label htmlFor={`post_${input.name}`}>{input.label}</label> : <></>}
 
           {input.type !== "textarea" && input.type !== "select" ? (
@@ -70,10 +71,12 @@ const Form = ({ url, btnSubmit, hasLabel, after, inputs }) => {
               placeholder={!hasLabel ? input.label.toLowerCase() : ""}
               onChange={handleInputChange}
             />
+
           ) : input.type === "textarea" ? (
             <textarea name={input.name} value={formData[key]} onChange={handleInputChange}>
               {!hasLabel ? input.label.toLowerCase() : ""}
             </textarea>
+
           ) : (
             <select name={input.name} value={formData[key]} onChange={handleInputChange} id={`post_${input.name}`}>
               {input.option?.map((x, i) => (
@@ -83,6 +86,7 @@ const Form = ({ url, btnSubmit, hasLabel, after, inputs }) => {
               ))}
             </select>
           )}
+
         </fieldset>
       ))}
 

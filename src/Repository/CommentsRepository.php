@@ -20,29 +20,21 @@ class CommentsRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Comments::class);
     }
+    public function save(Comments $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
 
-//    /**
-//     * @return Comments[] Returns an array of Comments objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 
-//    public function findOneBySomeField($value): ?Comments
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function remove(Comments $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 }

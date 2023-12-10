@@ -1,11 +1,9 @@
 import React from "react";
 import { Icon } from "@iconify/react";
 
-const Datas = ({ infos }) => {
-  //   const canSave = Boolean(infos.email.trim()) && Boolean(infos.firstname.trim()) && Boolean(infos.lastname.trim());
-
+const Datas = ({ infos, setModif }) => {
   return (
-    <fieldset>
+    <fieldset onClick={() => setModif(true)}>
       <legend>Informations personnelles</legend>
       <p>{infos.email}</p>
       <p>
