@@ -2,10 +2,10 @@ import React from "react";
 
 import Form from "../../../../../components/Form/Form";
 
-const AddNewAddress = () => {
+const AddNewAddress = ({ userId }) => {
   return (
     <Form
-      url={"/api/v1/addresses/new_address"}
+      url={`/api/v1/addresses/new_address/${userId}`}
       btnSubmit={"Enregistrer"}
       hasLabel={false}
       after={true}

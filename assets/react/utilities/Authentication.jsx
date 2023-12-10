@@ -17,29 +17,55 @@ const Authentication = (props) => {
   }, [props]);
 
   const checkLog = async () => {
-    if (!isLog) {
-      const token = localStorage.getItem("TOKEN");
+    console.log(isLog)
+    const token = localStorage.getItem(`${login.origin}_bear_token`);
 
-      if (token !== null) {
-        try {
-          const getToken = await axios.get("/api/v1/token");
+    // if (isLog) {
+    //   if (props.auth) {
+    //     try {
+    //       const response = await axios.post("/api/login_check", {
+    //         email: infos.email,
+    //         password: infos.password,
+    //       });
 
-          if (getToken.status === 200) {
-            const { user } = JSON.parse(getToken.data);
+    //       if (response.status === 200) {
+            
+    //       }
+          
+    //     } catch (error) {
+          
+    //     }
+    //   }
+    // }
 
-            window.scrollTo(0, 0);
-            return dispatch(login(user));
-          }
-        } catch (error) {
-          if (error.response.status === 403) {
-            localStorage.removeItem("TOKEN");
-            console.clear();
-          }
-        }
-      } else {
-        if (props.auth) return navigate("/notFound");
-      }
-    }
+    // if (!isLog) {
+
+    //   if (token !== null) {
+    //     if (props.auth) {
+    //       const response = await axios.post("/api/login_check", {
+    //         email: formData._email,
+    //         password: formData._password,
+    //       });
+    //     }
+    //     try {
+    //       // const getToken = await axios.get("/api/v1/token");
+
+    //       // if (getToken.status === 200) {
+    //       //   const { user } = JSON.parse(getToken.data);
+
+    //       //   window.scrollTo(0, 0);
+    //       //   return dispatch(login(user));
+    //       // }
+    //     } catch (error) {
+    //       // if (error.response.status === 403) {
+    //       //   localStorage.removeItem("TOKEN");
+    //       //   console.clear();
+    //       // }
+    //     }
+    //   } else {
+    //     if (props.auth) return navigate("/notFound");
+    //   }
+    // }
   };
 
   return <Child infos={infos} isLog={isLog} status={status} />;

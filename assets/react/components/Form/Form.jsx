@@ -6,14 +6,17 @@ import { Icon } from "@iconify/react";
 import styles from "./form.styles.scss";
 
 const Form = ({ url, btnSubmit, hasLabel, after, inputs }) => {
-  const [icone, setIcone] = useState("line-md:arrow-right-circle");
-  const [canSave, setCanSave] = useState(false);
-  const [msgsErr, setMsgsErr] = useState([]);
 
   const initialFormData = Object.fromEntries(
     Object.entries(inputs).map(([key, input]) => [key, key === "type" ? input.value || 0 : input.value || ""])
   );
+
+  const token = localStorage.getItem(`${location.origin}_bear_token`);
+
+  const [icone,       setIcone] = useState("line-md:arrow-right-circle");
   const [formData, setFormData] = useState(initialFormData);
+  const [canSave,   setCanSave] = useState(false);
+  const [msgsErr,   setMsgsErr] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,7 +26,11 @@ const Form = ({ url, btnSubmit, hasLabel, after, inputs }) => {
       try {
         setIcone("svg-spinners:90-ring-with-bg");
 
-        const response = await axios.post(url, formData);
+        const response = await axios.post(url, formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setMsgsErr([]);
 
         if (response.status === 200) {
@@ -84,7 +91,8 @@ const Form = ({ url, btnSubmit, hasLabel, after, inputs }) => {
           <div className="error-messages">
             {msgsErr.map((err, index) => (
               <span key={index}>
-                <Icon icon="line-md:alert-twotone" color="white" width="23" height="23" />{err}
+                <Icon icon="line-md:alert-twotone" color="white" width="23" height="23" />
+                {err}
               </span>
             ))}
           </div>

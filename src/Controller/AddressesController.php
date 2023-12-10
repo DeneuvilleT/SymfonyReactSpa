@@ -5,7 +5,7 @@ namespace App\Controller;
 use DateTime;
 
 use App\Entity\Addresses;
-use App\Form\AddressesType;
+use App\Entity\Customer;
 use App\Repository\AddressesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,32 +19,23 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\ConstraintViolation;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 #[Route('/api/v1/addresses')]
 class AddressesController extends AbstractController
 {
-    #[Route('/', name: 'app_addresses_index', methods: ['GET'])]
-    public function index(AddressesRepository $addressesRepository): Response
+    #[Route('/load_addresses/{id}', name: 'app_addresses_show', methods: ['GET', 'POST'])]
+    public function getUserAddresses(Customer $customer, Request $request, AddressesRepository $addressesRepository): Response
     {
-        return $this->render('addresses/index.html.twig', [
-            'addresses' => $addressesRepository->findAll(),
-        ]);
-    }
+        $user = $this->getUser();
 
-    #[Route('/load_addresses', name: 'app_addresses_show', methods: ['GET', 'POST'])]
-    public function getUserAddresses(Request $request, AddressesRepository $addressesRepository): Response
-    {
-        if ($this->getUser()) {
+        if ($user !== null && $user === $customer) {
             $encoders = [new XmlEncoder(), new JsonEncoder()];
             $normalizers = [new ObjectNormalizer()];
 
             $serializer = new Serializer($normalizers, $encoders);
 
-            $userId = $request->query->get('userId');
-
-            $addresses = $addressesRepository->findBy([
-                "customer" => (int) $userId
-            ]);
+            $addresses = $customer->getAddresses();
 
             $addressData = [];
 
@@ -63,13 +54,17 @@ class AddressesController extends AbstractController
 
             $jsonContent = $serializer->serialize($addressData, 'json');
             return new Response($jsonContent);
+        } else {
+            throw new AccessDeniedException("Vous ne pouvez pas faire ça pour le moment.");
         }
     }
 
-    #[Route('/new_address', name: 'app_addresses_new', methods: ['GET', 'POST'])]
-    public function addNewAddress(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator): JsonResponse
+    #[Route('/new_address/{id}', name: 'app_addresses_new', methods: ['POST'])]
+    public function addNewAddress(Customer $customer, Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator): JsonResponse
     {
-        if ($this->getUser() !== null) {
+        $user = $this->getUser();
+
+        if ($user !== null && $customer === $user) {
 
             $encoders = [new XmlEncoder(), new JsonEncoder()];
             $normalizers = [new ObjectNormalizer()];
@@ -108,7 +103,7 @@ class AddressesController extends AbstractController
             }
 
             $address->setType($datas['type']);
-            $address->setCustomer($this->getUser());
+            $address->setCustomer($customer);
             $address->setCreatedAt(new DateTime());
 
             $errors = $validator->validate($address);
@@ -136,36 +131,43 @@ class AddressesController extends AbstractController
 
                 return new JsonResponse($jsonContent, Response::HTTP_OK);
             }
+        } else {
+            throw new AccessDeniedException("Vous ne pouvez pas faire ça pour le moment.");
         }
     }
 
-
-    #[Route('/{id}/edit', name: 'app_addresses_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Addresses $address, EntityManagerInterface $entityManager): Response
+    #[Route('/delete_address/{id}', name: 'app_addresses_delete', methods: ['GET'])]
+    public function deleteAddress(Addresses $address, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(AddressesType::class, $address);
-        $form->handleRequest($request);
+        $user = $this->getUser();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+        if ($user !== null && $address->getCustomer() === $user) {
 
-            return $this->redirectToRoute('app_addresses_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('addresses/edit.html.twig', [
-            'address' => $address,
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('/delete_address/{id}', name: 'app_addresses_delete', methods: ['POST'])]
-    public function deleteAddress(Request $request, Addresses $address, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->getUser() !== null) {
             $entityManager->remove($address);
             $entityManager->flush();
-        }
 
-        return new Response(Response::HTTP_OK);
+            return new Response(Response::HTTP_OK);
+        } else {
+            throw new AccessDeniedException("Vous n'avez pas le droit de supprimer cette adresse.");
+        }
     }
+
+
+    // #[Route('/{id}/edit', name: 'app_addresses_edit', methods: ['GET', 'POST'])]
+    // public function edit(Request $request, Addresses $address, EntityManagerInterface $entityManager): Response
+    // {
+    //     $form = $this->createForm(AddressesType::class, $address);
+    //     $form->handleRequest($request);
+
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $entityManager->flush();
+
+    //         return $this->redirectToRoute('app_addresses_index', [], Response::HTTP_SEE_OTHER);
+    //     }
+
+    //     return $this->render('addresses/edit.html.twig', [
+    //         'address' => $address,
+    //         'form' => $form,
+    //     ]);
+    // }
 }

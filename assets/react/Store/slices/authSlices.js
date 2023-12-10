@@ -11,14 +11,16 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     login(state, action) {
+      localStorage.setItem(`${location.origin}_bear_token`, action.payload.token);
       state.isLog = true;
-      state.infos = action.payload;
-      if (action.payload !== null) state.status = action.payload.roles[0];
+      state.infos = action.payload.user;
+      if (action.payload !== null) state.status = action.payload.user.roles[0];
     },
     logout(state, action) {
       state.infos = [];
       state.isLog = false;
       state.status = null;
+      localStorage.removeItem(`${location.origin}_bear_token`);
     },
     update(state, action) {
       // state.infos = action.payload;

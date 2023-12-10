@@ -26,3 +26,6 @@ services:
     get_set_method_normalizer:
         class: Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer
         tags: [serializer.normalizer]
+
+    App\Security\CustomAuthenticationSuccessHandler:
+        # Laisse cette section vide car tu n'as pas de configuration spécifique pour ce service pour le moment

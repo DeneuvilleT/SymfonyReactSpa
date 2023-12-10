@@ -20,10 +20,9 @@ const Logout = () => {
     try {
       setWaiting(true);
       dispatch(logout());
-
+      
       const submitLogout = await axios.get("/api/v1/logout");
-      localStorage.removeItem("TOKEN");
-
+      
       if (submitLogout.status === 200) {
         return (location.href = "/");
       }

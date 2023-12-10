@@ -75,7 +75,7 @@ const Addresses = ({ infos }) => {
                       <Icon icon="gridicons:phone" style={{ marginBottom: "-3px" }} width="18" height="18" />{" "}
                       {!address.phone ? "" : `0${address.phone}`}
                     </p>
-                    <BtnDelete url={"/api/v1/addresses/delete_address"} id={address.id}/>
+                    <BtnDelete url={`/api/v1/addresses/delete_address/${address.id}`} />
                     <button onClick={() => setChange(true)}>Modifier l'adresse</button>
                   </address>
                 ))
@@ -86,7 +86,7 @@ const Addresses = ({ infos }) => {
               )}
             </div>
           ) : (
-            <AddNewAddress infos={infos} setAddNew={setAddNew} />
+            <AddNewAddress userId={infos.id} />
           )}
         </aside>
       );

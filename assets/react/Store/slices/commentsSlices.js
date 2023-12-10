@@ -8,11 +8,16 @@ const initialState = {
 };
 
 export const fetchComments = createAsyncThunk("comments/fetchComments", async (userId) => {
+  const token = localStorage.getItem(`${location.origin}_bear_token`);
   try {
-    const response = await axios.get(`/api/v1/comments/load_comments?userId=${userId}`);
+    const response = await axios.get(`/api/v1/comments/load_comments/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return [...response.data];
   } catch (err) {
-    console.error(err.message);
+    console.error(err);
     throw err;
   }
 });
@@ -47,7 +52,7 @@ export const commentsSlice = createSlice({
 
 export const { getComments } = commentsSlice.actions;
 
-export const getAllComments    = (state) => state.comments.comments;
+export const getAllComments = (state) => state.comments.comments;
 export const getCommentsErrors = (state) => state.comments.error;
 export const getCommentsStatus = (state) => state.comments.status;
 

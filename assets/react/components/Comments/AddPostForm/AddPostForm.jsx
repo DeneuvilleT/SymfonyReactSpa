@@ -13,7 +13,7 @@ const AddPostForm = ({ userId, productId }) => {
         </div>
       ) : (
         <Form
-          url={"/api/v1/comments/comment_post"}
+          url={`/api/v1/comments/add_comment/${userId}`}
           btnSubmit={"Envoyer"}
           hasLabel={true}
           after={true}

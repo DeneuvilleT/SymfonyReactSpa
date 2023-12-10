@@ -2,10 +2,17 @@ import React from "react";
 import { Icon } from "@iconify/react";
 import axios from "axios";
 
-const BtnDelete = ({ id, url }) => {
+const BtnDelete = ({ url }) => {
+  
+  const token = localStorage.getItem(`${location.origin}_bear_token`);
+
   const handleDelete = async () => {
     try {
-      const response = await axios.post(`${url}/${id}`);
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (response.status === 200) {
         location.reload();
@@ -21,7 +28,7 @@ const BtnDelete = ({ id, url }) => {
       width="25"
       height="25"
       color="red"
-      style={{ position: "absolute", top: "10px", right: "10px", cursor:"pointer" }}
+      style={{ position: "absolute", top: "10px", right: "10px", cursor: "pointer" }}
       onClick={handleDelete}
     />
   );
