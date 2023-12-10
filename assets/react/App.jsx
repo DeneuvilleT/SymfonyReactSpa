@@ -37,9 +37,10 @@ const App = () => {
         <Route path="/login" element={<Authentication child={Login} auth={false} />} />
         <Route path="/logout" element={<Authentication child={Logout} auth={true} />} />
 
-        <Route path="notFound" element={<Notfound />} />
+        <Route path="/notFound" element={<Notfound />} />
         <Route path="*" element={<Notfound />} />
       </Routes>
+      {/* <Footer /> */}
     </>
   );
 };

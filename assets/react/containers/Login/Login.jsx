@@ -39,8 +39,8 @@ const Login = ({ isLog }) => {
           password: formData._password,
         });
 
-        if (response.status === 200) {          
-          dispatch(login(response.data ));
+        if (response.status === 200) {
+          dispatch(login(response.data));
           return naigate("/");
         } else {
           return setMsgErr(response.data.message);

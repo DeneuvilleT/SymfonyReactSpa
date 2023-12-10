@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
+
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../Store/slices/authSlices";
+
 import axios from "axios";
 
 const Authentication = (props) => {
@@ -17,55 +19,26 @@ const Authentication = (props) => {
   }, [props]);
 
   const checkLog = async () => {
-    console.log(isLog)
-    const token = localStorage.getItem(`${login.origin}_bear_token`);
+    const token = localStorage.getItem(`${location.origin}_bear_token`);
 
-    // if (isLog) {
-    //   if (props.auth) {
-    //     try {
-    //       const response = await axios.post("/api/login_check", {
-    //         email: infos.email,
-    //         password: infos.password,
-    //       });
+    if (!isLog) {
+      if (token === null && props.auth) {
+        return navigate("/notFound");
+      }
 
-    //       if (response.status === 200) {
-            
-    //       }
-          
-    //     } catch (error) {
-          
-    //     }
-    //   }
-    // }
-
-    // if (!isLog) {
-
-    //   if (token !== null) {
-    //     if (props.auth) {
-    //       const response = await axios.post("/api/login_check", {
-    //         email: formData._email,
-    //         password: formData._password,
-    //       });
-    //     }
-    //     try {
-    //       // const getToken = await axios.get("/api/v1/token");
-
-    //       // if (getToken.status === 200) {
-    //       //   const { user } = JSON.parse(getToken.data);
-
-    //       //   window.scrollTo(0, 0);
-    //       //   return dispatch(login(user));
-    //       // }
-    //     } catch (error) {
-    //       // if (error.response.status === 403) {
-    //       //   localStorage.removeItem("TOKEN");
-    //       //   console.clear();
-    //       // }
-    //     }
-    //   } else {
-    //     if (props.auth) return navigate("/notFound");
-    //   }
-    // }
+      if (token !== null) {
+        try {
+          const response = await axios.get("/api/v1/check_token", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          return dispatch(login(response.data));
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
   };
 
   return <Child infos={infos} isLog={isLog} status={status} />;
