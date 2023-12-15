@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -153,21 +154,76 @@ class AddressesController extends AbstractController
     }
 
 
-    // #[Route('/{id}/edit', name: 'app_addresses_edit', methods: ['GET', 'POST'])]
-    // public function edit(Request $request, Addresses $address, EntityManagerInterface $entityManager): Response
-    // {
-    //     $form = $this->createForm(AddressesType::class, $address);
-    //     $form->handleRequest($request);
+    #[Route('/edit_address/{id}/{address}', name: 'app_addresses_edit', methods: ['POST'])]
+    public function edit(Customer $customer, Addresses $address, Request $request, AddressesRepository $addressRepo, ValidatorInterface $validator): Response
+    {
+        $user = $this->getUser();
 
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         $entityManager->flush();
+        if ($user !== null && $customer === $user) {
 
-    //         return $this->redirectToRoute('app_addresses_index', [], Response::HTTP_SEE_OTHER);
-    //     }
+            $encoders = [new XmlEncoder(), new JsonEncoder()];
+            $normalizers = [new ObjectNormalizer()];
+            $serializer = new Serializer($normalizers, $encoders);
 
-    //     return $this->render('addresses/edit.html.twig', [
-    //         'address' => $address,
-    //         'form' => $form,
-    //     ]);
-    // }
+            $datas = json_decode($request->getContent(), true);
+
+            $address->setAlias($datas['alias']);
+            $address->setAddress($datas['address']);
+            $address->setCity($datas['city']);
+            $address->setZipCode($datas['zip_code']);
+
+            if (!ctype_digit($datas['phone'])) {
+                $errors = new ConstraintViolation(
+                    'Le numéro de téléphone ne doit contenir que des chiffres.',
+                    null,
+                    [],
+                    $datas['phone'],
+                    'phone',
+                    null
+                );
+
+                $response = [
+                    'status' => 'error',
+                    'message' => 'Validation error',
+                    'errors' => array($errors->getMessage()),
+                ];
+
+                $jsonContent = $serializer->serialize($response, 'json');
+
+                return new JsonResponse($jsonContent, Response::HTTP_UNAUTHORIZED);
+            } else {
+                $address->setPhone((int)$datas['phone']);
+            }
+
+            $address->setType((string)$datas['type'] === "1" ? 1 : 0);
+
+            $errors = $validator->validate($address);
+
+            if (count($errors) > 0) {
+                $errorMessages = [];
+                foreach ($errors as $error) {
+                    $errorMessages[] = $error->getMessage();
+                }
+
+                $response = [
+                    'status' => 'error',
+                    'message' => 'Validation error',
+                    'errors' => $errorMessages,
+                ];
+
+                $jsonContent = $serializer->serialize($response, 'json');
+
+                return new JsonResponse($jsonContent, Response::HTTP_UNAUTHORIZED);
+            } else {
+
+                $addressRepo->save($address, true);
+
+                $jsonContent = $serializer->serialize(["Success"], 'json');
+
+                return new JsonResponse(Response::HTTP_OK);
+            }
+        } else {
+            throw new AccessDeniedException("Vous ne pouvez pas faire ça pour le moment.");
+        }
+    }
 }

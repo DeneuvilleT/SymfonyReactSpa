@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Icon } from "@iconify/react";
 
+import UpdateAddress from "./UpdateAddress/UpdateAddress";
 import AddNewAddress from "./AddNewAddress/AddNewAddress";
 import BtnDelete from "../../../../components/BtnDelete/BtnDelete";
 
@@ -18,7 +19,7 @@ const Addresses = ({ infos }) => {
 
   const [errMsg, setErrMsg] = useState("");
   const [addresses, setAddresses] = useState([]);
-  const [change, setChange] = useState(false);
+  const [changeStates, setChangeStates] = useState({});
   const [addNew, setAddNew] = useState(false);
 
   useEffect(() => {
@@ -59,26 +60,32 @@ const Addresses = ({ infos }) => {
           {!addNew ? (
             <div>
               {addresses.length ? (
-                addresses?.map((address) => (
-                  <address className={styles.item_address} key={address.id}>
-                    <h2 style={{ backgroundColor: !address.type ? "blue" : "#ef1b2b" }}>{address.alias}</h2>
+                addresses?.map((address) =>
+                  changeStates[address.id] ? (
+                    <Fragment key={address.id}>
+                      <UpdateAddress infos={infos} id={address.id} setChange={setChangeStates} changeStates={changeStates} />
+                    </Fragment>
+                  ) : (
+                    <address className={styles.item_address} key={address.id}>
+                      <h2 style={{ backgroundColor: !address.type ? "blue" : "#ef1b2b" }}>{address.alias}</h2>
 
-                    <p>
-                      <strong>{`Adresse ${!address.type ? "facturation" : "livraison"}`}</strong>
-                    </p>
+                      <p>
+                        <strong>{`Adresse ${!address.type ? "facturation" : "livraison"}`}</strong>
+                      </p>
 
-                    <p>{!address.address ? "" : address.address}</p>
-                    <p>
-                      {!address.zip_code ? "" : address.zip_code} {!address.city ? "" : address.city}
-                    </p>
-                    <p>
-                      <Icon icon="gridicons:phone" style={{ marginBottom: "-3px" }} width="18" height="18" />{" "}
-                      {!address.phone ? "" : `0${address.phone}`}
-                    </p>
-                    <BtnDelete url={`/api/v1/addresses/delete_address/${address.id}`} />
-                    <button onClick={() => setChange(true)}>Modifier l'adresse</button>
-                  </address>
-                ))
+                      <p>{!address.address ? "" : address.address}</p>
+                      <p>
+                        {!address.zip_code ? "" : address.zip_code} {!address.city ? "" : address.city}
+                      </p>
+                      <p>
+                        <Icon icon="gridicons:phone" style={{ marginBottom: "-3px" }} width="18" height="18" />
+                        {!address.phone ? "" : `0${address.phone}`}
+                      </p>
+                      <BtnDelete url={`/api/v1/addresses/delete_address/${address.id}`} />
+                      <button onClick={() => setChangeStates({ ...changeStates, [address.id]: true })}>Modifier l'adresse</button>
+                    </address>
+                  )
+                )
               ) : (
                 <h3>
                   <Icon icon="line-md:emoji-frown-open" color="#333" width="60" height="60" /> Vous n'avez pas d'adresse enregistrée.
