@@ -103,7 +103,7 @@ class AddressesController extends AbstractController
                 $address->setPhone((int)$datas['phone']);
             }
 
-            $address->setType($datas['type']);
+            $address->setType((string)$datas['type']);
             $address->setCustomer($customer);
             $address->setCreatedAt(new DateTime());
 
@@ -165,7 +165,7 @@ class AddressesController extends AbstractController
             $normalizers = [new ObjectNormalizer()];
             $serializer = new Serializer($normalizers, $encoders);
 
-            $datas = json_decode($request->getContent(), true);
+            $datas = json_decode($request->getContent(), true); 
 
             $address->setAlias($datas['alias']);
             $address->setAddress($datas['address']);
@@ -194,8 +194,7 @@ class AddressesController extends AbstractController
             } else {
                 $address->setPhone((int)$datas['phone']);
             }
-
-            $address->setType((string)$datas['type'] === "1" ? 1 : 0);
+            $address->setType((string)$datas['type']);
 
             $errors = $validator->validate($address);
 

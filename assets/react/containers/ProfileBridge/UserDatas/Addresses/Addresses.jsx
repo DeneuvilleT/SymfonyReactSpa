@@ -70,7 +70,7 @@ const Addresses = ({ infos }) => {
                       <h2 style={{ backgroundColor: !address.type ? "blue" : "#ef1b2b" }}>{address.alias}</h2>
 
                       <p>
-                        <strong>{`Adresse ${!address.type ? "facturation" : "livraison"}`}</strong>
+                        <strong>{`Adresse ${!address.type ? "livraison" : "facturation"}`}</strong>
                       </p>
 
                       <p>{!address.address ? "" : address.address}</p>

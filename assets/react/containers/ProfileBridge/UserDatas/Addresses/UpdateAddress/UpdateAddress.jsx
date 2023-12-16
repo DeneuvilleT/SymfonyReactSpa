@@ -51,10 +51,10 @@ const UpdateAddress = ({ infos, id, setChange, changeStates }) => {
             label: "Type d'adresse",
             name: "type",
             type: "select",
-            value: 0,
+            value: "0",
             option: [
-              { value: 0, text: "Adresse de livraison" },
-              { value: 1, text: "Adresse de facturation" },
+              { value: "0", text: "Adresse de livraison" },
+              { value: "1", text: "Adresse de facturation" },
             ],
           },
         }}
