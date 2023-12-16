@@ -64,7 +64,7 @@ const UserComments = ({ infos }) => {
                       <strong>{comment.author}</strong>
                     </p>
                   </div>
-                  <BtnDelete url={`/api/v1/comments/delete_comment/${comment.id}`} />
+                  <BtnDelete objet={"ce commentaire"} url={`/api/v1/comments/delete_comment/${comment.id}`} />
                 </article>
               ))
             ) : (

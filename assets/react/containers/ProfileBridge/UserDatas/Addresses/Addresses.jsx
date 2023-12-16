@@ -81,7 +81,7 @@ const Addresses = ({ infos }) => {
                         <Icon icon="gridicons:phone" style={{ marginBottom: "-3px" }} width="18" height="18" />
                         {!address.phone ? "" : `0${address.phone}`}
                       </p>
-                      <BtnDelete url={`/api/v1/addresses/delete_address/${address.id}`} />
+                      <BtnDelete objet={"cette adresse"} url={`/api/v1/addresses/delete_address/${address.id}`} />
                       <button onClick={() => setChangeStates({ ...changeStates, [address.id]: true })}>Modifier l'adresse</button>
                     </address>
                   )

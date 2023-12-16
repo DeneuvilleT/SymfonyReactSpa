@@ -2,22 +2,26 @@ import React from "react";
 import { Icon } from "@iconify/react";
 import axios from "axios";
 
-const BtnDelete = ({ url }) => {
+const BtnDelete = ({ url, objet }) => {
   const token = localStorage.getItem(`${location.origin}_bear_token`);
 
   const handleDelete = async () => {
     try {
-      /**
-       * Ajouter un systéme de notification avec garde-fou
-       */
-      const response = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const fireWall = confirm(`Etes-vous sur de vouloir supprimer ${objet} ?`);
 
-      if (response.status === 200) {
-        location.reload();
+      /**
+       * Ajouter un systéme de notification
+       */
+      if (fireWall) {
+        const response = await axios.get(url, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.status === 200) {
+          location.reload();
+        }
       }
     } catch (error) {
       console.error("Erreur lors de la suppression", error);
