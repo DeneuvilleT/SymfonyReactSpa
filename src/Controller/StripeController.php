@@ -2,10 +2,9 @@
 
 namespace App\Controller;
 
-use App\Repository\ProductsRepository;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
-use Stripe\Product;
+use App\Repository\ProductsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

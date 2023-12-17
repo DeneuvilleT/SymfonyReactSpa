@@ -17,7 +17,7 @@ class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler
     {
         $this->jwtTokenManager = $jwtTokenManager;
     }
-    
+
     public function onAuthenticationSuccess(Request $request, TokenInterface $token): ?Response
     {
         /** @var \App\Entity\Customer $user */

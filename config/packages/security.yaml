@@ -1,13 +1,23 @@
 security:
     enable_authenticator_manager: true
+
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+
     providers:
+
         app_user_provider:
             entity:
                 class: App\Entity\Customer
                 property: email
+
+    access_control:
+        - { path: ^/api/v1/addresses, roles: [ROLE_CUSTOMER, ROLE_SUPER_ADMIN] }
+        - { path: ^/api/v1/comments, roles: [ROLE_CUSTOMER, ROLE_SUPER_ADMIN] }
+        - { path: ^/api/v1/access_admin, roles: ROLE_SUPER_ADMIN }
+
     firewalls:
+
         login:
             pattern: ^/api/login
             stateless: true
@@ -19,22 +29,24 @@ security:
                 # success_handler: lexik_jwt_authentication.handler.authentication_success
                 success_handler: App\Security\CustomAuthenticationSuccessHandler
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
         api:
             pattern: ^/api
             stateless: true
             jwt: ~
+
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
-            lazy: true
-            provider: app_user_provider
 
-    access_control:
-        - { path: ^/api/register, roles: PUBLIC_ACCESS  }
-        - { path: ^/api/login, roles: PUBLIC_ACCESS  }
-        - { path: ^/admin_back_office/protected, roles: Super Admin }
-        # - { path: ^/api, roles: ROLE_CUSTOMER }
+        main:
+            pattern: ^/api
+            stateless: true
+            jwt: ~
+
+            logout:
+                path: app_logout
+                target: app_home
 
     # Configuration spécifique aux tests
 when@test:

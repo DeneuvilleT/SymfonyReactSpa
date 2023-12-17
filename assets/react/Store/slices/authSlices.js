@@ -22,12 +22,9 @@ const authSlice = createSlice({
       state.status = null;
       localStorage.removeItem(`${location.origin}_bear_token`);
     },
-    update(state, action) {
-      // state.infos = action.payload;
-    },
   },
 });
 
-export const { login, logout, update } = authSlice.actions;
+export const { login, logout } = authSlice.actions;
 
 export default authSlice.reducer;

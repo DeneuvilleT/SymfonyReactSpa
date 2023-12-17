@@ -2,40 +2,70 @@
 
 namespace App\Controller;
 
+use App\Controller\Admin\ProductsCrudController;
 use App\Repository\CustomerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class SecurityController extends AbstractController
 {
-   private $tokenStorage;
-   private $jwtManager;
 
-   public function __construct(TokenStorageInterface $tokenStorage, JWTTokenManagerInterface $jwtManager)
+   public function __construct(private TokenStorageInterface $tokenStorage, private JWTTokenManagerInterface $jwtManager)
    {
       $this->tokenStorage = $tokenStorage;
       $this->jwtManager = $jwtManager;
    }
 
-   #[Route('/api/v1/logout', name: 'app_logout', methods: ['GET'])]
-   public function logout(): JsonResponse
+   #[IsGranted('ROLE_SUPER_ADMIN')]
+   #[Route('/api/v1/access_admin', name: 'app_access', methods: ['GET'])]
+   public function accessBackOffice(Request $request, CustomerRepository $customerRepo, AdminUrlGenerator $adminUrlGenerator): JsonResponse
    {
-      $encoders = [new XmlEncoder(), new JsonEncoder()];
-      $normalizers = [new ObjectNormalizer()];
-      $serializer = new Serializer($normalizers, $encoders);
-      $jsonContent = $serializer->serialize(["Success"], 'json');
+      $user = $this->getUser();
+      $tokenBearer = $request->headers->get('Authorization');
 
-      return new JsonResponse($jsonContent);
+      if (!$tokenBearer && $user !== null) {
+         throw new AccessDeniedException("Vous n'avez pas les droits nécesssaires");
+      } else {
+
+         $tokenInterface = $this->tokenStorage->getToken();
+
+         try {
+            $tokenData = $this->jwtManager->decode($tokenInterface);
+
+            $customer = $customerRepo->findOneBy(["email" => $tokenData["email"]]);
+            $role = $customer->getRoles()[0];
+
+            if ($role === "ROLE_SUPER_ADMIN") {
+
+               $url = $adminUrlGenerator->setController(ProductsCrudController::class)
+                  ->set('role', base64_encode($role))
+                  ->generateUrl();
+
+               $data = [
+                  'url' => $url,
+               ];
+               return new JsonResponse($data, Response::HTTP_OK);
+            } else {
+               return $this->redirectToRoute('app_home', [], Response::HTTP_UNAUTHORIZED);
+            }
+         } catch (\Exception $e) {
+            throw new AccessDeniedException('Token invalide');
+         }
+      }
+   }
+
+   #[Route('/api/v1/logout', name: 'app_logout', methods: ['GET'])]
+   public function logout()
+   {
+      return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
    }
 
    #[Route('/api/v1/check_token', name: 'app_token', methods: ['GET'])]
