@@ -11,6 +11,6 @@ class ReactController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(): Response
     {
-        return $this->render('react/index.html.twig');
+        return $this->render('base.html.twig');
     }
 }

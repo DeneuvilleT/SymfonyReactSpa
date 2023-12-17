@@ -35,11 +35,15 @@ class AdminController extends AbstractDashboardController
     private function checkUserRole(): void
     {
         $request = $this->container->get('request_stack')->getCurrentRequest();
-        $encodedRole = $request->query->get('role');
+        $encodedRole = $request->query->get('rules');
+        $tokenRequest = $request->query->get('token');
+        $token = $request->cookies->get('jaat');
         $decodedRole = base64_decode($encodedRole);
+        $decodedToken = base64_decode($tokenRequest);
 
-        if ($decodedRole !=='ROLE_SUPER_ADMIN') {
-            throw $this->createAccessDeniedException('Vous n\'avez pas les droits nécessaires pour accéder à cette page.');
+        if ($decodedRole !== 'ROLE_SUPER_ADMIN' || $token !== $decodedToken) {
+            echo "Token invalide, vous n'avez pas les auorisations nécessaire.";
+            die;
         }
     }
 }

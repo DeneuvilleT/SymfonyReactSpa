@@ -13,6 +13,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class SecurityController extends AbstractController
@@ -45,14 +46,20 @@ class SecurityController extends AbstractController
 
             if ($role === "ROLE_SUPER_ADMIN") {
 
+               $token = $this->jwtManager->create($user);
                $url = $adminUrlGenerator->setController(ProductsCrudController::class)
-                  ->set('role', base64_encode($role))
+                  ->set('rules', base64_encode($role))
+                  ->set('token', base64_encode($token))
                   ->generateUrl();
 
                $data = [
                   'url' => $url,
                ];
-               return new JsonResponse($data, Response::HTTP_OK);
+
+               $expirationTime = new \DateTime('+1 hour');
+               $response = new JsonResponse($data, Response::HTTP_OK);
+               $response->headers->setCookie(new Cookie('jaat', $token, $expirationTime, '/', null, true, true));
+               return $response;
             } else {
                return $this->redirectToRoute('app_home', [], Response::HTTP_UNAUTHORIZED);
             }
@@ -65,7 +72,9 @@ class SecurityController extends AbstractController
    #[Route('/api/v1/logout', name: 'app_logout', methods: ['GET'])]
    public function logout()
    {
-      return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
+      $response = $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
+      $response->headers->setCookie(new Cookie('jaat', '', 1, '/', null, false, true));
+      return $response;
    }
 
    #[Route('/api/v1/check_token', name: 'app_token', methods: ['GET'])]
