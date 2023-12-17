@@ -6,7 +6,7 @@ const UpdateDatas = ({ infos }) => {
     <fieldset>
       <legend>Mise à jour de vos informations</legend>
       <Form
-        url={`/api/v1/customers/edit_customer/${infos.id}`}
+        url={`/api/v1/customers/edit_customer/${infos.uid}`}
         btnSubmit={"Enregistrer"}
         after={true}
         hasLabel={false}

@@ -17,7 +17,7 @@ const UpdateAddress = ({ infos, id, setChange, changeStates }) => {
         />
       </legend>
       <Form
-        url={`/api/v1/addresses/edit_address/${infos.id}/${id}`}
+        url={`/api/v1/addresses/edit_address/${infos.uid}/${id}`}
         btnSubmit={"Enregistrer"}
         after={true}
         hasLabel={false}

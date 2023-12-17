@@ -56,4 +56,13 @@ class CustomerRepository extends ServiceEntityRepository implements PasswordUpgr
             $this->getEntityManager()->flush();
         }
     }
+
+    public function findOneByUid(string $uid): ?Customer
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.uid = :uid')
+            ->setParameter('uid', $uid)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

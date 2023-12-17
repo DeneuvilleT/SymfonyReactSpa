@@ -24,6 +24,10 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[Groups("api")]
+    #[ORM\Column(type: "string", length: 255, unique: true)]
+    private ?string $uid = null;
+
+    #[Groups("api")]
     #[ORM\Column(length: 50, unique: true)]
     #[Assert\NotBlank]
     #[Assert\Email(
@@ -91,6 +95,18 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->comments = new ArrayCollection();
         $this->addresses = new ArrayCollection();
+    }
+
+    public function getUid(): ?string
+    {
+        return $this->uid;
+    }
+
+    public function setUid(string $uid): static
+    {
+        $this->uid = $uid;
+
+        return $this;
     }
 
     public function getId(): ?int

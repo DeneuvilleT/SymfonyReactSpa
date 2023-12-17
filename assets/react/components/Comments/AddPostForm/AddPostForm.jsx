@@ -4,7 +4,6 @@ import Form from "../../Form/Form";
 import styles from "./addPostForm.styles.scss";
 
 const AddPostForm = ({ userId, productId }) => {
-
   return (
     <section className={styles.addPostForm}>
       {userId === undefined ? (
@@ -29,7 +28,7 @@ const AddPostForm = ({ userId, productId }) => {
               type: "text",
             },
             content: {
-              label: "Mot de passe",
+              label: "Commentaire",
               name: "content",
               type: "textarea",
             },

@@ -23,8 +23,8 @@ const Addresses = ({ infos }) => {
   const [addNew, setAddNew] = useState(false);
 
   useEffect(() => {
-    if (addressesStatus === "idle" && infos.id) {
-      dispatch(fetchAddresses(infos.id));
+    if (addressesStatus === "idle" && infos.uid) {
+      dispatch(fetchAddresses(infos.uid));
     }
   }, [addressesStatus, dispatch, infos]);
 
@@ -93,7 +93,7 @@ const Addresses = ({ infos }) => {
               )}
             </div>
           ) : (
-            <AddNewAddress userId={infos.id} />
+            <AddNewAddress userId={infos.uid} />
           )}
         </aside>
       );

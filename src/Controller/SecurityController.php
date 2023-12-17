@@ -105,6 +105,7 @@ class SecurityController extends AbstractController
                      'firstname' => $customer->getFirstname(),
                      'lastname' => $customer->getLastName(),
                      'roles' => $customer->getRoles(),
+                     'uid' => $customer->getUid(),
                   ]
                ];
 

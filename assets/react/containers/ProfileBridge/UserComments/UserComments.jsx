@@ -24,8 +24,8 @@ const UserComments = ({ infos }) => {
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    if (commentsStatus === "idle" && infos.id) {
-      dispatch(fetchComments(infos.id));
+    if (commentsStatus === "idle" && infos.uid) {
+      dispatch(fetchComments(infos.uid));
     }
   }, [commentsStatus, dispatch, infos]);
 

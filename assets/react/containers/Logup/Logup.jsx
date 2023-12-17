@@ -9,7 +9,7 @@ const Logup = () => {
       <h2>Inscription</h2>
 
       <Form
-        url={"/api/v1/register"}
+        url={"/v1/register"}
         btnSubmit={"S'inscrire"}
         after={false}
         inputs={{

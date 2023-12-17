@@ -20,7 +20,6 @@ const Authentication = (props) => {
 
   const checkLog = async () => {
     const token = localStorage.getItem(`${location.origin}_bear_token`);
-
     if (!isLog) {
       if (token === null && props.auth) {
         return navigate("/notFound");
@@ -34,6 +33,7 @@ const Authentication = (props) => {
             },
           });
           if (response.status === 200) {
+ 
             return dispatch(login(response.data));
           }
         } catch (error) {

@@ -5,7 +5,7 @@ namespace App\Controller;
 use DateTime;
 
 use App\Entity\Comments;
-use App\Entity\Customer;
+use App\Repository\CustomerRepository;
 use App\Repository\ProductsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,10 +23,11 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 #[Route('/api/v1/comments')]
 class CommentsController extends AbstractController
 {
-    #[Route('/load_comments/{id}', name: 'app_comments_user', methods: ['GET'])]
-    public function getUserComments(Customer $customer): Response
+    #[Route('/load_comments/{uid}', name: 'app_comments_user', methods: ['GET'])]
+    public function getUserComments(string $uid, CustomerRepository $customerRepository): Response
     {
         $user = $this->getUser();
+        $customer = $customerRepository->findOneByUid($uid);
 
         if ($user !== null && $customer === $user) {
             $encoders = [new XmlEncoder(), new JsonEncoder()];
@@ -57,10 +58,11 @@ class CommentsController extends AbstractController
         }
     }
 
-    #[Route('/add_comment/{id}', name: 'app_comments_new', methods: ['POST'])]
-    public function addNewComment(Customer $customer, Request $request, EntityManagerInterface $entityManager, ProductsRepository $productRepo, ValidatorInterface $validator): Response
+    #[Route('/add_comment/{uid}', name: 'app_comments_new', methods: ['POST'])]
+    public function addNewComment(string $uid, Request $request, EntityManagerInterface $entityManager, ProductsRepository $productRepo, ValidatorInterface $validator, CustomerRepository $customerRepository): Response
     {
         $user = $this->getUser();
+        $customer = $customerRepository->findOneByUid($uid);
 
         if ($user !== null && $customer === $user) {
 

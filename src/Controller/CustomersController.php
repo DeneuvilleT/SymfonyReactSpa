@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Customer;
 use App\Repository\CustomerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,10 +19,11 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[Route('/api/v1/customers')]
 class CustomersController extends AbstractController
 {
-    #[Route('/edit_customer/{id}', name: 'app_customers_edit', methods: ['POST'])]
-    public function editCustomer(Customer $customer, Request $request, UserPasswordHasherInterface $userPasswordHasher, CustomerRepository $customerRepo, ValidatorInterface $validator): Response
+    #[Route('/edit_customer/{uid}', name: 'app_customers_edit', methods: ['POST'])]
+    public function editCustomer(string $uid, Request $request, UserPasswordHasherInterface $userPasswordHasher, CustomerRepository $customerRepo, ValidatorInterface $validator): Response
     {
         $user = $this->getUser();
+        $customer = $customerRepo->findOneByUid($uid);
 
         if ($user !== null && $customer === $user) {
 

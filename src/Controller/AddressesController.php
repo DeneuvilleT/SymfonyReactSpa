@@ -5,7 +5,6 @@ namespace App\Controller;
 use DateTime;
 
 use App\Entity\Addresses;
-use App\Entity\Customer;
 use App\Repository\AddressesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,14 +19,16 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use App\Repository\CustomerRepository;
 
 #[Route('/api/v1/addresses')]
 class AddressesController extends AbstractController
 {
-    #[Route('/load_addresses/{id}', name: 'app_addresses_show', methods: ['GET', 'POST'])]
-    public function getUserAddresses(Customer $customer, Request $request, AddressesRepository $addressesRepository): Response
+    #[Route('/load_addresses/{uid}', name: 'app_addresses_show', methods: ['GET', 'POST'])]
+    public function getUserAddresses(string $uid, CustomerRepository $customerRepository): Response
     {
         $user = $this->getUser();
+        $customer = $customerRepository->findOneByUid($uid);
 
         if ($user !== null && $user === $customer) {
             $encoders = [new XmlEncoder(), new JsonEncoder()];
@@ -59,10 +60,11 @@ class AddressesController extends AbstractController
         }
     }
 
-    #[Route('/new_address/{id}', name: 'app_addresses_new', methods: ['POST'])]
-    public function addNewAddress(Customer $customer, Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator): JsonResponse
+    #[Route('/new_address/{uid}', name: 'app_addresses_new', methods: ['POST'])]
+    public function addNewAddress(string $uid, CustomerRepository $customerRepository, Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator): JsonResponse
     {
         $user = $this->getUser();
+        $customer = $customerRepository->findOneByUid($uid);
 
         if ($user !== null && $customer === $user) {
 
@@ -153,10 +155,11 @@ class AddressesController extends AbstractController
     }
 
 
-    #[Route('/edit_address/{id}/{address}', name: 'app_addresses_edit', methods: ['POST'])]
-    public function edit(Customer $customer, Addresses $address, Request $request, AddressesRepository $addressRepo, ValidatorInterface $validator): Response
+    #[Route('/edit_address/{uid}/{address}', name: 'app_addresses_edit', methods: ['POST'])]
+    public function edit(string $uid, CustomerRepository $customerRepository, Addresses $address, Request $request, AddressesRepository $addressRepo, ValidatorInterface $validator): Response
     {
         $user = $this->getUser();
+        $customer = $customerRepository->findOneByUid($uid);
 
         if ($user !== null && $customer === $user) {
 

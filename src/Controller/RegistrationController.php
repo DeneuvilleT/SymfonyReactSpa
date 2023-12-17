@@ -34,7 +34,7 @@ class RegistrationController extends AbstractController
         $this->emailVerifier = $emailVerifier;
     }
 
-    #[Route('/api/v1/register', name: 'app_register', methods: ['POST', 'GET'])]
+    #[Route('/v1/register', name: 'app_register', methods: ['POST', 'GET'])]
     public function register(Request $request,  UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, ValidatorInterface $validator): JsonResponse
     {
         $encoders = [new XmlEncoder(), new JsonEncoder()];
@@ -51,6 +51,7 @@ class RegistrationController extends AbstractController
         $customer->setEmail($datas['email']);
         $customer->setRoles(['ROLE_CUSTOMER']);
         $customer->setIsVerified(0);
+        $customer->setUid(uniqid());
 
         $errors = $validator->validate($customer);
 
