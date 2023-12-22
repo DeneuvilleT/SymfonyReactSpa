@@ -87,9 +87,13 @@ class Products
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Comments::class)]
     private Collection $comments;
 
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: LineOrders::class)]
+    private Collection $lineOrders;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->lineOrders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -217,6 +221,36 @@ class Products
             // set the owning side to null (unless already changed)
             if ($comment->getProduct() === $this) {
                 $comment->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LineOrders>
+     */
+    public function getLineOrders(): Collection
+    {
+        return $this->lineOrders;
+    }
+
+    public function addLineOrder(LineOrders $lineOrder): static
+    {
+        if (!$this->lineOrders->contains($lineOrder)) {
+            $this->lineOrders->add($lineOrder);
+            $lineOrder->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLineOrder(LineOrders $lineOrder): static
+    {
+        if ($this->lineOrders->removeElement($lineOrder)) {
+            // set the owning side to null (unless already changed)
+            if ($lineOrder->getProduct() === $this) {
+                $lineOrder->setProduct(null);
             }
         }
 

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../Store/slices/authSlices";
+import { login, logout } from "../Store/slices/authSlices";
 
 import axios from "axios";
 
@@ -38,7 +38,7 @@ const Authentication = (props) => {
           }
         } catch (error) {
           if (error.response.status === 401) {
-            return navigate("/login");
+            return dispatch(logout());
           }
           return console.log(error);
         }

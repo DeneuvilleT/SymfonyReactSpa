@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20231217164713 extends AbstractMigration
+final class Version20231221195312 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,14 +20,16 @@ final class Version20231217164713 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE customer ADD uid VARCHAR(255) NOT NULL');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_81398E09539B0606 ON customer (uid)');
+        $this->addSql('ALTER TABLE orders ADD customer_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE orders ADD CONSTRAINT FK_E52FFDEE9395C3F3 FOREIGN KEY (customer_id) REFERENCES customer (id)');
+        $this->addSql('CREATE INDEX IDX_E52FFDEE9395C3F3 ON orders (customer_id)');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('DROP INDEX UNIQ_81398E09539B0606 ON customer');
-        $this->addSql('ALTER TABLE customer DROP uid');
+        $this->addSql('ALTER TABLE orders DROP FOREIGN KEY FK_E52FFDEE9395C3F3');
+        $this->addSql('DROP INDEX IDX_E52FFDEE9395C3F3 ON orders');
+        $this->addSql('ALTER TABLE orders DROP customer_id');
     }
 }

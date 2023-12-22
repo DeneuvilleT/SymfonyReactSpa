@@ -10,6 +10,7 @@ import CartLineItem from "../../components/Cart/CartLineItem/CartLineItem";
 
 const Cart = ({ isLog }) => {
   const { cart, cartTotal } = useSelector((state) => ({ ...state.cart }));
+  const token = localStorage.getItem(`${location.origin}_bear_token`);
 
   const dispatch = useDispatch();
 
@@ -28,7 +29,11 @@ const Cart = ({ isLog }) => {
   const checkout = async () => {
     setIcone("svg-spinners:90-ring-with-bg");
     try {
-      const response = await axios.post("/api/v1/stripe/checkout", JSON.stringify(cart));
+      const response = await axios.post("/api/v1/stripe/checkout", JSON.stringify(cart), {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (response.status === 200) {
         const sessionStripe = response.data;
