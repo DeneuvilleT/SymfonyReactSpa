@@ -31,8 +31,7 @@ class CustomerCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         $roles = [
-            'Client' => 'ROLE_USER',
-            'Administrateur' => 'ROLE_CUSTOMER',
+            'Client' => 'ROLE_CUSTOMER',
             'SuperAdmin' => 'ROLE_SUPER_ADMIN'
         ];
 
@@ -50,9 +49,8 @@ class CustomerCrudController extends AbstractCrudController
                 ->autocomplete()
                 ->setChoices(
                     [
-                        $roles['Client'] => 'Client',
-                        $roles['Administrateur'] => 'Administrateur',
-                        $roles['SuperAdmin'] => 'SuperAdmin',
+                        $roles['Client'] => 'ROLE_CUSTOMER',
+                        $roles['SuperAdmin'] => 'ROLE_SUPER_ADMIN',
                     ]
                 )
         ];

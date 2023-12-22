@@ -40,6 +40,7 @@ class ProductsCrudController extends AbstractCrudController
             TextEditorField::new('description_short', 'Description courte'),
             TextEditorField::new('description', 'Description'),
             ImageField::new('cover', 'Image')
+                ->setRequired(false)
                 ->setBasePath('uploads/images/')
                 ->setUploadDir('public/uploads/images/'),
             IntegerField::new('stock', 'Stock'),

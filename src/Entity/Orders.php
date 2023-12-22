@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Enum\Status;
 use App\Repository\OrdersRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: OrdersRepository::class)]
 class Orders
@@ -32,8 +32,9 @@ class Orders
     #[ORM\OneToMany(mappedBy: 'order_id', targetEntity: LineOrders::class)]
     private Collection $lineOrders;
 
-    #[ORM\Column(type: "string", nullable: true, enumType: Status::class)]
-    private ?Status $status = null;
+    #[Assert\NotBlank]
+    #[ORM\Column(type: 'json')]
+    private array $status = [];
 
     public function __construct()
     {
@@ -123,15 +124,16 @@ class Orders
         return $this;
     }
 
-    public function getStatus(): ?Status
+    public function getStatus(): array
     {
-        return $this->status;
+        return array_unique($this->status);
     }
 
-    public function setStatus(?Status $status): self
+    public function setStatus(array $status): static
     {
         $this->status = $status;
 
         return $this;
     }
+
 }
