@@ -38,33 +38,41 @@ class AdminController extends AbstractDashboardController
 
         if ($action === 'index') {
             $this->checkPermissions();
-        } else {
-
+        } else if ($action === 'edit' || $action === 'new') {
             $cookieToken = $request->cookies->get('jaat');
             $referrer = $request->query->get('referrer');
-            $token = base64_decode($this->extractTokenFromReferrer($referrer));
 
-            if ($cookieToken !== $token) {
-                echo "Token invalide, vous n'avez pas les autorisations nécessaire.";
+            if ($referrer !== null) {
+                $token = base64_decode($this->extractTokenFromReferrer($referrer));
+                if ($cookieToken !== $token) {
+                    echo "Token invalide, vous n'avez pas les autorisations nécessaires.";
+                    die;
+                }
+            } else if ($referrer === null) {
+                echo "Token invalide, vous n'avez pas les autorisations nécessaires.";
                 die;
             }
         }
 
-        yield MenuItem::linkToCrud('Produits', 'fas fa-list', Products::class)
+        yield from $this->yieldMenuItem('Produits', 'fas fa-list', Products::class, $encodedRole, $tokenRequest);
+        yield from $this->yieldMenuItem('Clients', 'fas fa-list', Customer::class, $encodedRole, $tokenRequest);
+        yield from $this->yieldMenuItem('Commentaires', 'fas fa-list', Comments::class, $encodedRole, $tokenRequest);
+        yield from $this->yieldMenuItem('Adresses', 'fas fa-list', Addresses::class, $encodedRole, $tokenRequest);
+        yield from $this->yieldMenuItem('Commandes', 'fas fa-list', Orders::class, $encodedRole, $tokenRequest);
+    }
+
+    private function yieldMenuItem(string $label, string $icon, $entityClass, $encodedRole, $tokenRequest): iterable
+    {
+        $request = $this->container->get('request_stack')->getCurrentRequest();
+        $menu = MenuItem::linkToCrud($label, $icon, $entityClass)
             ->setQueryParameter('rules', $encodedRole)
             ->setQueryParameter('token', $tokenRequest);
-        yield MenuItem::linkToCrud('Clients', 'fas fa-list', Customer::class)
-            ->setQueryParameter('rules', $encodedRole)
-            ->setQueryParameter('token', $tokenRequest);
-        yield MenuItem::linkToCrud('Commentaires', 'fas fa-list', Comments::class)
-            ->setQueryParameter('rules', $encodedRole)
-            ->setQueryParameter('token', $tokenRequest);
-        yield MenuItem::linkToCrud('Adresses', 'fas fa-list', Addresses::class)
-            ->setQueryParameter('rules', $encodedRole)
-            ->setQueryParameter('token', $tokenRequest);
-        yield MenuItem::linkToCrud('Commandes', 'fas fa-list', Orders::class)
-            ->setQueryParameter('rules', $encodedRole)
-            ->setQueryParameter('token', $tokenRequest);
+
+        if ($request->query->get('crudAction') === 'edit' || $request->query->get('crudAction')  === 'new') {
+            $session = $request->getSession();
+            $menu = $menu->setAction('index')->setQueryParameter('rules', base64_encode($session->get('user_role')))->setQueryParameter('token', base64_encode($session->get('jwt_token')));
+        }
+        yield $menu;
     }
 
     public function checkPermissions(): void
