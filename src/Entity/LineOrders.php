@@ -23,6 +23,9 @@ class LineOrders
     #[ORM\ManyToOne(inversedBy: 'lineOrders')]
     private ?Orders $order = null;
 
+    #[ORM\Column]
+    private ?int $quantity = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +63,18 @@ class LineOrders
     public function setOrderId(?Orders $order): static
     {
         $this->order = $order;
+
+        return $this;
+    }
+
+    public function getQuantity(): ?int
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(int $quantity): static
+    {
+        $this->quantity = $quantity;
 
         return $this;
     }

@@ -99,7 +99,6 @@ class SecurityController extends AbstractController
                $data = [
                   'token' => $token,
                   "user" => [
-                     'id' => $customer->getId(),
                      'email' => $customer->getEmail(),
                      'password' => $customer->getPassword(),
                      'firstname' => $customer->getFirstname(),

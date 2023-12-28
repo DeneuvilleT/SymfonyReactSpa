@@ -15,8 +15,8 @@ const UserOrders = ({ infos }) => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    if (ordersStatus === "idle" && infos.id) {
-      dispatch(fetchOrders(infos.id));
+    if (ordersStatus === "idle" && infos.uid) {
+      dispatch(fetchOrders(infos.uid));
     }
   }, [ordersStatus, dispatch, infos]);
 

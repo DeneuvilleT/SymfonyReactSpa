@@ -27,7 +27,6 @@ class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler
         $data = [
             'token' => $token,
             'user' => [
-                'id' => $user->getId(),
                 'email' => $user->getEmail(),
                 'password' => $user->getPassword(),
                 'firstname' => $user->getFirstname(),

@@ -11,10 +11,10 @@ const BtnAdd = ({ product, list }) => {
 
   const dispatch = useDispatch();
 
-  const [quantity, setQuantity] = useState(0);
-  const [stockAvailable, setStockAvailable] = useState(product.stock);
+  const [stock,                         setStock] = useState(true);
+  const [quantity,                   setQuantity] = useState(0);
+  const [stockAvailable,       setStockAvailable] = useState(product.stock);
   const [maxStockAvailable, setMaxStockAvailable] = useState(null);
-  const [stock, setStock] = useState(true);
 
   const index = cart.findIndex((item) => item.id === product.id);
 

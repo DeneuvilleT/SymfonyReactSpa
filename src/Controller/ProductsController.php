@@ -38,7 +38,7 @@ class ProductsController extends AbstractController
                 'priceUnit' => $product->getPriceUnit(),
                 'brand' => $product->getBrand(),
                 'sku' => $product->getSku(),
-                'descsriptionShort' => $product->getDescriptionShort(),
+                'descriptionShort' => $product->getDescriptionShort(),
                 'comments' => $this->getCommentsData($product->getComments()),
             ];
 

@@ -3,87 +3,129 @@
 namespace App\Controller;
 
 use Stripe\Stripe;
+use App\Entity\Orders;
+use App\Entity\LineOrders;
 use Stripe\Checkout\Session;
 use App\Repository\ProductsRepository;
+use App\Repository\CustomerRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class StripeController extends AbstractController
 {
-    #[Route('/api/v1/stripe/checkout', name: 'app_checkout', methods: ['POST', 'GET'])]
-    public function checkout(Request $request)
+    #[Route('/api/v1/stripe/checkout/{uid}', name: 'app_checkout', methods: ['POST', 'GET'])]
+    public function checkout(string $uid, CustomerRepository $customerRepository, Request $request)
     {
-        $data = json_decode($request->getContent(), true);
+        $user = $this->getUser();
+        $customer = $customerRepository->findOneByUid($uid);
 
-        $productData = [];
+        if ($user !== null && $user === $customer) {
+            $data = json_decode($request->getContent(), true);
 
-        foreach ($data as $product) {
-            $realPrice = (int)$product['priceUnit'] * 1;
+            $productData = [];
 
-            $lineItems[] = [
-                'price_data' => [
-                    'currency' => 'eur',
-                    'product_data' => [
-                        'name' => $product['title'],
+            foreach ($data as $product) {
+                $realPrice = (int)$product['priceUnit'] * 1;
+
+                $lineItems[] = [
+                    'price_data' => [
+                        'currency' => 'eur',
+                        'product_data' => [
+                            'name' => $product['title'],
+                        ],
+                        'unit_amount' => $realPrice,
                     ],
-                    'unit_amount' => $realPrice,
-                ],
-                'quantity' => $product['item_quantity'],
-            ];
-            $productData[$product['id']] = $product['item_quantity'];
+                    'quantity' => $product['item_quantity'],
+                ];
+                $productData[$product['id']] = $product['item_quantity'];
+            }
+
+            $productDataJson = json_encode($productData);
+
+            $tokenProvider = $this->container->get('security.csrf.token_manager');
+            $token = $tokenProvider->getToken('stripe_token')->getValue();
+
+            Stripe::setApiKey("sk_test_51LNAhmC17yFFjZeKpt9iZzF7X3zyh8b1nCC8HOnuVDCFL5Fxd08YvUmmw8gOFNaRr6a5LbussyOpWa5o7AFASDst00Mocj7bKg");
+
+            $stripeSession = Session::create([
+                'line_items' => $lineItems,
+                'mode' => 'payment',
+                'success_url' => 'http://localhost:8000/checkout_success/' . $token . '/' . $uid . '?productData=' . urlencode($productDataJson),
+                'cancel_url' => 'http://localhost:8000/checkout_error',
+            ]);
+
+            return new JsonResponse($stripeSession->url);
+        } else {
+            throw new AccessDeniedException("Vous ne pouvez pas faire ça pour le moment.");
         }
-
-        $productDataJson = json_encode($productData);
-
-        $tokenProvider = $this->container->get('security.csrf.token_manager');
-        $token = $tokenProvider->getToken('stripe_token')->getValue();
-
-        Stripe::setApiKey("sk_test_51LNAhmC17yFFjZeKpt9iZzF7X3zyh8b1nCC8HOnuVDCFL5Fxd08YvUmmw8gOFNaRr6a5LbussyOpWa5o7AFASDst00Mocj7bKg");
-
-        $session = Session::create([
-            'line_items' => $lineItems,
-            'mode' => 'payment',
-            'success_url' => 'http://localhost:8000/checkout_success/' . $token . '?productData=' . urlencode($productDataJson),
-            'cancel_url' => 'http://localhost:8000/checkout_error',
-        ]);
-
-        return new JsonResponse($session->url);
     }
 
-    #[Route('checkout_success/{token}', name: 'app_checkout_success', methods: ['GET'])]
-    public function checkoutSuccess(string $token, Request $request, ProductsRepository $productRepo): Response
+    #[Route('checkout_success/{token}/{uid}', name: 'app_checkout_success', methods: ['GET'])]
+    public function checkoutSuccess(string $token, string $uid,  Request $request, ProductsRepository $productRepo,  CustomerRepository $customerRepository, EntityManagerInterface $entityManager): Response
     {
         $productDataJson = $request->query->get('productData');
         $productData = json_decode(urldecode($productDataJson), true);
+        $customer = $customerRepository->findOneByUid($uid);
 
         $products = $productRepo->findBy(['id' => array_keys($productData)]);
 
-        // Parcourez les produits et soustrayez la quantité du stock si le stock le permet
+        $order = new Orders();
+        $order->setName('FA000');
+        $order->setCustomer($customer);
+        $order->setCreatedAt(new \DateTime());
+        $order->setStatus(["En attente"]);
+
+        $totalAmount = 0;
+
         foreach ($products as $product) {
             $productId = $product->getId();
 
             $quantityToSubtract = $productData[$productId];
             $currentStock = $product->getStock();
-
+            
             if ($currentStock >= $quantityToSubtract) {
                 // Mettez à jour le stock
                 $product->setStock($currentStock - $quantityToSubtract);
                 $productRepo->save($product, true);
+
+                // Ajoutez une ligne de commande à la commande
+                $lineOrder = new LineOrders();
+                $lineOrder->setOrderId($order);
+                $lineOrder->setProduct($product);
+                $lineOrder->setAmount($product->getPriceUnit());
+                $lineOrder->setQuantity($quantityToSubtract);
+                
+                $lineAmount = (float)$product->getPriceUnit();
+                $totalAmount += $lineAmount * $quantityToSubtract;
+                
+                $order->addLineOrder($lineOrder);
             } else {
-                // Gérez le cas où le stock n'est pas suffisant (vous pouvez générer une erreur ou effectuer une autre action)
+                return $this->redirectToRoute('app_home');
             }
         }
 
-        // Enregistrez les modifications dans la base de données
-
+        $order->setAmount($totalAmount);
+        
+        $entityManager->persist($order);
+        $entityManager->flush();
+        
+        $order->setName('FA' . $order->getId());
+       
+        $entityManager->persist($order);
+        $entityManager->flush();
 
         if ($this->isCsrfTokenValid('stripe_token', $token)) {
-            return $this->render('react/index.html.twig');
+            return $this->redirectToRoute('app_home');
         }
 
+        /**
+         * Envoyer quelque chose pour faire comprendre que le panier doity être vidé
+         */
         return $this->redirectToRoute('app_home');
     }
 
@@ -91,6 +133,6 @@ class StripeController extends AbstractController
     #[Route('checkout_error', name: 'app_checkout_error', methods: ['GET'])]
     public function checkoutError(): Response
     {
-        return $this->render('react/index.html.twig');
+        return $this->redirectToRoute('app_home');
     }
 }

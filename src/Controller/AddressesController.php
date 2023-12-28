@@ -6,6 +6,7 @@ use DateTime;
 
 use App\Entity\Addresses;
 use App\Repository\AddressesRepository;
+use App\Repository\CustomerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,12 +20,11 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use App\Repository\CustomerRepository;
 
 #[Route('/api/v1/addresses')]
 class AddressesController extends AbstractController
 {
-    #[Route('/load_addresses/{uid}', name: 'app_addresses_show', methods: ['GET', 'POST'])]
+    #[Route('/load_addresses/{uid}', name: 'app_addresses_show', methods: ['GET'])]
     public function getUserAddresses(string $uid, CustomerRepository $customerRepository): Response
     {
         $user = $this->getUser();

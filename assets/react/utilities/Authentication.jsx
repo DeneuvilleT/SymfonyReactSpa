@@ -40,7 +40,7 @@ const Authentication = (props) => {
           if (error.response.status === 401) {
             return dispatch(logout());
           }
-          return console.log(error);
+          return error;
         }
       }
     }

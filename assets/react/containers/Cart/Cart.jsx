@@ -8,7 +8,7 @@ import axios from "axios";
 import styles from "./cart.styles.scss";
 import CartLineItem from "../../components/Cart/CartLineItem/CartLineItem";
 
-const Cart = ({ isLog }) => {
+const Cart = ({ infos, isLog }) => {
   const { cart, cartTotal } = useSelector((state) => ({ ...state.cart }));
   const token = localStorage.getItem(`${location.origin}_bear_token`);
 
@@ -29,18 +29,14 @@ const Cart = ({ isLog }) => {
   const checkout = async () => {
     setIcone("svg-spinners:90-ring-with-bg");
     try {
-      const response = await axios.post("/api/v1/stripe/checkout", JSON.stringify(cart), {
+      const response = await axios.post(`/api/v1/stripe/checkout/${infos.uid}`, JSON.stringify(cart), {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
       if (response.status === 200) {
-        const sessionStripe = response.data;
-        window.location.href = sessionStripe;
-        /**
-         * Ajouter notif
-         */
+        window.location.href = response.data;
       } else {
         console.error("Erreur lors de la création de la session de paiement");
       }
@@ -62,22 +58,22 @@ const Cart = ({ isLog }) => {
           {cart?.map((item) => (
             <CartLineItem item={item} key={item.id} />
           ))}
-          {/*  */}
+
           <div className={styles.resume_price}>
             <p>
               Livraison :&nbsp;
               {!free ? <span>{tax.toFixed(2)} €</span> : <span style={{ color: "green", letterSpacing: "1px" }}>offerte !</span>}
             </p>
-            {/*  */}
+
             <p>
               Vos achats : <span>{cartTotal.toFixed(2)} €</span>
             </p>
-            {/*  */}
+
             <p>
               Total TTC : <span>{(cartTotal + tax).toFixed(2)} €</span>
             </p>
           </div>
-          {/*  */}
+
           <div className={styles.resume_price}>
             <button style={{ backgroundColor: "rgb(185, 0, 0)" }} onClick={() => dispatch(clearCart())}>
               Vider le panier <Icon icon="line-md:close-circle" color="white" width="30" height="30" />

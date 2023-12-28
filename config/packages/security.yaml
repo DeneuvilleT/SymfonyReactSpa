@@ -32,7 +32,7 @@ security:
 
         api:
             pattern: ^/api
-            stateless: true
+            stateless: false
             jwt: ~
 
         dev:
@@ -40,9 +40,9 @@ security:
             security: false
 
         main:
-            pattern: ^/api
-            stateless: true
-            jwt: ~
+            # pattern: ^/api
+            # stateless: false
+            # jwt: ~
 
             logout:
                 path: app_logout
