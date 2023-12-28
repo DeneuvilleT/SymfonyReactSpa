@@ -11,9 +11,9 @@ const BtnAdd = ({ product, list }) => {
 
   const dispatch = useDispatch();
 
-  const [stock,                         setStock] = useState(true);
-  const [quantity,                   setQuantity] = useState(0);
-  const [stockAvailable,       setStockAvailable] = useState(product.stock);
+  const [stock, setStock] = useState(true);
+  const [quantity, setQuantity] = useState(0);
+  const [stockAvailable, setStockAvailable] = useState(product.stock);
   const [maxStockAvailable, setMaxStockAvailable] = useState(null);
 
   const index = cart.findIndex((item) => item.id === product.id);
@@ -79,7 +79,7 @@ const BtnAdd = ({ product, list }) => {
           <p>Stock épuisé</p>
         </aside>
       ) : stock ? (
-        <aside className={list ? styles.btnAdd : styles.btnAddProduct}>
+        <aside className={list ? (product.stock <= 5 ? styles.btnAddMiddle : styles.btnAdd) : styles.btnAddProduct}>
           <section>
             {list ? (
               <Icon
@@ -118,8 +118,8 @@ const BtnAdd = ({ product, list }) => {
             </div>
 
             {list ? (
-              <p style={{ fontSize: "1.5em" }}>
-                / {stockAvailable} <span style={{ fontWeight: "400" }}>dispo</span>
+              <p style={{ fontSize: "1.6em" }}>
+                / {stockAvailable} <span style={{ fontWeight: "600", letterSpacing: "0.05em" }}>dispo</span>
               </p>
             ) : (
               <></>

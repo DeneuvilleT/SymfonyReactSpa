@@ -29,7 +29,7 @@ class Orders
     #[ORM\ManyToOne(inversedBy: 'orders')]
     private ?Customer $customer = null;
 
-    #[ORM\OneToMany(mappedBy: 'order_id', targetEntity: LineOrders::class, cascade: ['persist'])]
+    #[ORM\OneToMany(mappedBy: 'order', targetEntity: LineOrders::class, cascade: ['persist'])]
     private Collection $lineOrders;
 
     #[Assert\NotBlank]

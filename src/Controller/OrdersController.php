@@ -11,6 +11,7 @@ use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Doctrine\Common\Collections\Collection;
 
 #[Route('/api/v1/orders')]
 class OrdersController extends AbstractController
@@ -37,15 +38,33 @@ class OrdersController extends AbstractController
                     'name' => $order->getName(),
                     'amount' => $order->getAmount(),
                     'date' => $order->getCreatedAt()->format('Y-m-d H:i:s'),
-                    // 'line_orders' => $order->getLineOrders(),
+                    'line_orders' => $this->getLineOrderData($order->getLineOrders()),
                     'status' => $order->getStatus(),
                 ];
             }
+
 
             $jsonContent = $serializer->serialize($ordersData, 'json');
             return new Response($jsonContent);
         } else {
             throw new AccessDeniedException("Vous ne pouvez pas faire ça pour le moment.");
         }
+    }
+
+    private function getLineOrderData(Collection $lineOrders)
+    {
+        $lineOrderData = [];
+
+        foreach ($lineOrders as $lineOrder) {
+
+            $lineOrderData[] = [
+                'id' => $lineOrder->getId(),
+                'amount' => $lineOrder->getAmount(),
+                'product' => $lineOrder->getProduct()->getTitle(),
+                'quantity' => $lineOrder->getQuantity(),
+            ];
+        }
+
+        return $lineOrderData;
     }
 }
