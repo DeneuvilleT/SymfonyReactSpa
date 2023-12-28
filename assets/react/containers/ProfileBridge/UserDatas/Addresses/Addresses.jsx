@@ -13,14 +13,14 @@ import styles from "./address.styles.scss";
 const Addresses = ({ infos }) => {
   const dispatch = useDispatch();
 
-  const allAddresses = useSelector(getAllAddresses);
+  const allAddresses    = useSelector(getAllAddresses);
   const addressesStatus = useSelector(getAddressesStatus);
-  const addressesErros = useSelector(getAddressesErrors);
+  const addressesErros  = useSelector(getAddressesErrors);
 
-  const [errMsg, setErrMsg] = useState("");
-  const [addresses, setAddresses] = useState([]);
+  const [errMsg,             setErrMsg] = useState("");
+  const [addresses,       setAddresses] = useState([]);
   const [changeStates, setChangeStates] = useState({});
-  const [addNew, setAddNew] = useState(false);
+  const [addNew,             setAddNew] = useState(false);
 
   useEffect(() => {
     if (addressesStatus === "idle" && infos.uid) {
@@ -37,6 +37,7 @@ const Addresses = ({ infos }) => {
   }, [addressesStatus, dispatch]);
 
   switch (addressesStatus) {
+    
     case "loading":
       return (
         <aside className={styles.addresses}>

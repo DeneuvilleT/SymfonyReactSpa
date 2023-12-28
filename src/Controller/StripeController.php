@@ -75,7 +75,7 @@ class StripeController extends AbstractController
         $products = $productRepo->findBy(['id' => array_keys($productData)]);
 
         $order = new Orders();
-        $order->setName('FA000');
+        $order->setName('Facture');
         $order->setCustomer($customer);
         $order->setCreatedAt(new \DateTime());
         $order->setStatus(["En attente"]);
@@ -87,22 +87,21 @@ class StripeController extends AbstractController
 
             $quantityToSubtract = $productData[$productId];
             $currentStock = $product->getStock();
-            
+
             if ($currentStock >= $quantityToSubtract) {
-                // Mettez à jour le stock
+
                 $product->setStock($currentStock - $quantityToSubtract);
                 $productRepo->save($product, true);
 
-                // Ajoutez une ligne de commande à la commande
                 $lineOrder = new LineOrders();
                 $lineOrder->setOrderId($order);
                 $lineOrder->setProduct($product);
                 $lineOrder->setAmount($product->getPriceUnit());
                 $lineOrder->setQuantity($quantityToSubtract);
-                
+
                 $lineAmount = (float)$product->getPriceUnit();
                 $totalAmount += $lineAmount * $quantityToSubtract;
-                
+
                 $order->addLineOrder($lineOrder);
             } else {
                 return $this->redirectToRoute('app_home');
@@ -110,12 +109,12 @@ class StripeController extends AbstractController
         }
 
         $order->setAmount($totalAmount);
-        
+
         $entityManager->persist($order);
         $entityManager->flush();
-        
-        $order->setName('FA' . $order->getId());
-       
+
+        $order->setName('Facture' . ' ' . $order->getId());
+
         $entityManager->persist($order);
         $entityManager->flush();
 

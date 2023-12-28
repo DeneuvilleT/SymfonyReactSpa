@@ -5,6 +5,7 @@ import { Icon } from "@iconify/react";
 const UpdateAddress = ({ infos, id, setChange, changeStates }) => {
   return (
     <fieldset>
+      
       <legend style={{ position: "relative" }}>
         Mise à jour de l'adresse{" "}
         <Icon
@@ -16,6 +17,7 @@ const UpdateAddress = ({ infos, id, setChange, changeStates }) => {
           onClick={() => setChange({ ...changeStates, [id]: false })}
         />
       </legend>
+
       <Form
         url={`/api/v1/addresses/edit_address/${infos.uid}/${id}`}
         btnSubmit={"Enregistrer"}

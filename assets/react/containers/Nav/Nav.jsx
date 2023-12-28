@@ -8,7 +8,7 @@ import { getProductsStatus, fetchProducts } from "../../Store/slices/productsSli
 import styles from "./nav.styles.scss";
 
 const Nav = () => {
-  const { isLog, status, infos } = useSelector((state) => ({ ...state.auth }));
+  const { isLog, status } = useSelector((state) => ({ ...state.auth }));
   const token = localStorage.getItem(`${location.origin}_bear_token`);
 
   const dispatch = useDispatch();

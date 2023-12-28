@@ -22,7 +22,7 @@ const Authentication = (props) => {
     const token = localStorage.getItem(`${location.origin}_bear_token`);
     if (!isLog) {
       if (token === null && props.auth) {
-        return navigate("/notFound");
+        return navigate("/");
       }
 
       if (token !== null) {
@@ -33,12 +33,12 @@ const Authentication = (props) => {
             },
           });
           if (response.status === 200) {
- 
             return dispatch(login(response.data));
           }
         } catch (error) {
           if (error.response.status === 401) {
-            return dispatch(logout());
+            dispatch(logout());
+            return navigate("/"); 
           }
           return error;
         }

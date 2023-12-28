@@ -38,7 +38,7 @@ class OrdersController extends AbstractController
                     'name' => $order->getName(),
                     'amount' => $order->getAmount(),
                     'date' => $order->getCreatedAt()->format('Y-m-d H:i:s'),
-                    'line_orders' => $this->getLineOrderData($order->getLineOrders()),
+                    'lines_orders' => $this->getLineOrderData($order->getLineOrders()),
                     'status' => $order->getStatus(),
                 ];
             }
@@ -61,6 +61,7 @@ class OrdersController extends AbstractController
                 'id' => $lineOrder->getId(),
                 'amount' => $lineOrder->getAmount(),
                 'product' => $lineOrder->getProduct()->getTitle(),
+                'productId' => $lineOrder->getProduct()->getId(),
                 'quantity' => $lineOrder->getQuantity(),
             ];
         }
