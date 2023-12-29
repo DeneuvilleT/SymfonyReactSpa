@@ -4,8 +4,9 @@ import axios from "axios";
 import { Icon } from "@iconify/react";
 
 import styles from "./form.styles.scss";
+import { notification } from "../../utilities";
 
-const Form = ({ url, btnSubmit, hasLabel, after, inputs }) => {
+const Form = ({ url, btnSubmit, hasLabel, after, inputs, success }) => {
 
   const initialFormData = Object.fromEntries(
     Object.entries(inputs).map(([key, input]) => [key, key === "type" ? input.value || 0 : input.value || ""])
@@ -13,10 +14,11 @@ const Form = ({ url, btnSubmit, hasLabel, after, inputs }) => {
 
   const token = localStorage.getItem(`${location.origin}_bear_token`);
 
-  const [icone,       setIcone] = useState("line-md:arrow-right-circle");
-  const [formData, setFormData] = useState(initialFormData);
-  const [canSave,   setCanSave] = useState(false);
-  const [msgsErr,   setMsgsErr] = useState([]);
+  const [icone,           setIcone] = useState("line-md:arrow-right-circle");
+  const [formData,     setFormData] = useState(initialFormData);
+  const [canSave,       setCanSave] = useState(false);
+  const [msgsErr,       setMsgsErr] = useState([]);
+  const [msgSuccess, setMsgSuccess] = useState(success);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,6 +36,7 @@ const Form = ({ url, btnSubmit, hasLabel, after, inputs }) => {
         setMsgsErr([]);
 
         if (response.status === 200) {
+          notification(setMsgSuccess, msgSuccess);
           setIcone("line-md:circle-to-confirm-circle-transition");
           return after ? location.reload() : (location.href = "/");
         }

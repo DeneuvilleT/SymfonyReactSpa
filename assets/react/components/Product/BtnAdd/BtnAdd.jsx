@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
+
 import { addToCart } from "../../../Store/slices/cartSlices";
+import { notificationPush } from "../../../Store/slices/notifSlices";
 
 import styles from "./btnAdd.styles.scss";
 
@@ -11,9 +13,9 @@ const BtnAdd = ({ product, list }) => {
 
   const dispatch = useDispatch();
 
-  const [stock, setStock] = useState(true);
-  const [quantity, setQuantity] = useState(0);
-  const [stockAvailable, setStockAvailable] = useState(product.stock);
+  const [stock,                         setStock] = useState(true);
+  const [quantity,                   setQuantity] = useState(0);
+  const [stockAvailable,       setStockAvailable] = useState(product.stock);
   const [maxStockAvailable, setMaxStockAvailable] = useState(null);
 
   const index = cart.findIndex((item) => item.id === product.id);
@@ -26,9 +28,7 @@ const BtnAdd = ({ product, list }) => {
     e.preventDefault();
 
     if (quantity > 0) {
-      /** TODO
-       * Ajouter un systéme de notification
-       */
+      dispatch(notificationPush({ msg: "Vous avez ajouté un produit à votre panier", timer: 5000 }));
       dispatch(addToCart({ product: product, quantity: quantity }));
       setQuantity(0);
 

@@ -1,17 +1,5 @@
 export const valueOk = /(?=.*[a-z])+(?=.*[A-Z])+(?=.*[0-9])+(?=.*[^A-Za-z0-9])+(?=.{8,})/;
 
-let id = null;
-export const notification = (setMsg, msg) => {
-   clearTimeout(id);
-   setMsg('');
-   setMsg(msg);
-   
-   id = window.setTimeout(() => {
-      clearTimeout(id)
-      setMsg('');
-   }, 5000);
-};
-
 export const pagination = (array, max, setNewArray) => {
    const tempArr = [];
 

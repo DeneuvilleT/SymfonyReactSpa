@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const PRODUCTS_URL = "/api/v1/products/";
-
 const initialState = {
   products: [],
   status: "idle",
@@ -11,9 +9,13 @@ const initialState = {
 
 export const fetchProducts = createAsyncThunk("products/fetchProducts", async () => {
   try {
-    const response = await axios.get(PRODUCTS_URL);
+    const response = await axios.get("/api/v1/products/");
     return [...response.data];
   } catch (err) {
+    if (err.status === 401) {
+      localStorage.removeItem(`${location.origin}_bear_token`);
+      return location.href = '/';
+    }
     return console.error(err.message);
   }
 });

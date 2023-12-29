@@ -23,6 +23,7 @@ const UpdateAddress = ({ infos, id, setChange, changeStates }) => {
         btnSubmit={"Enregistrer"}
         after={true}
         hasLabel={false}
+        success={"Adresse mise à jour"}
         inputs={{
           alias: {
             label: "Alias",

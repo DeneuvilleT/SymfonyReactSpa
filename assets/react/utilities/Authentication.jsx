@@ -38,7 +38,7 @@ const Authentication = (props) => {
         } catch (error) {
           if (error.response.status === 401) {
             dispatch(logout());
-            return navigate("/"); 
+            return navigate("/");
           }
           return error;
         }

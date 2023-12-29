@@ -1,0 +1,17 @@
+.notif {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 999;
+
+  font-size: 1.2em;
+  color: #fff;
+  background-color: blue;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.notif_hidden {
+    padding: 0;
+    height: 0;
+}

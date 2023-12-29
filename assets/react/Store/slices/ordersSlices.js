@@ -17,8 +17,11 @@ export const fetchOrders = createAsyncThunk("orders/fetchOrders", async (userId)
     });
     return [...response.data];
   } catch (err) {
-    console.error(err.message);
-    throw err;
+    if (err.status === 401) {
+      localStorage.removeItem(`${location.origin}_bear_token`);
+      return location.href = '/';
+    }
+    return console.error(err.message);
   }
 });
 

@@ -17,8 +17,11 @@ export const fetchComments = createAsyncThunk("comments/fetchComments", async (u
     });
     return [...response.data];
   } catch (err) {
-    console.error(err);
-    throw err;
+    if (err.status === 401) {
+      localStorage.removeItem(`${location.origin}_bear_token`);
+      return location.href = '/';
+    }
+    return console.error(err.message);
   }
 });
 
