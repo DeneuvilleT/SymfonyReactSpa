@@ -9,7 +9,7 @@ const BtnDelete = ({ url, objet }) => {
     try {
       const fireWall = confirm(`Etes-vous sur de vouloir supprimer ${objet} ?`);
 
-      /**
+      /** TODO
        * Ajouter un systéme de notification
        */
       if (fireWall) {

@@ -5,6 +5,7 @@ export const notification = (setMsg, msg) => {
    clearTimeout(id);
    setMsg('');
    setMsg(msg);
+   
    id = window.setTimeout(() => {
       clearTimeout(id)
       setMsg('');

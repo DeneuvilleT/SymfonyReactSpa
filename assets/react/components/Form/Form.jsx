@@ -34,9 +34,6 @@ const Form = ({ url, btnSubmit, hasLabel, after, inputs }) => {
         setMsgsErr([]);
 
         if (response.status === 200) {
-          /**
-           * Ajout notification d'attente de mail de vérification pour activation
-           */
           setIcone("line-md:circle-to-confirm-circle-transition");
           return after ? location.reload() : (location.href = "/");
         }

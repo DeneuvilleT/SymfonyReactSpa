@@ -26,6 +26,9 @@ const BtnAdd = ({ product, list }) => {
     e.preventDefault();
 
     if (quantity > 0) {
+      /** TODO
+       * Ajouter un systéme de notification
+       */
       dispatch(addToCart({ product: product, quantity: quantity }));
       setQuantity(0);
 
