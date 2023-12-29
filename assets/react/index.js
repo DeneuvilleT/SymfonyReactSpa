@@ -14,7 +14,7 @@ root.render(
   <HashRouter>
     <React.StrictMode>
       <Provider store={store}>
-        <App />
+        <App container={container} />
       </Provider>
     </React.StrictMode>
   </HashRouter>

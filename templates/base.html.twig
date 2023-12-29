@@ -26,6 +26,6 @@
     {% endblock %}
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app" {% if clean %} data-clean="true" {% endif %}></div>
   </body>
 </html>

@@ -5,7 +5,7 @@ const Order = ({ linesOrder, display }) => {
 
   const navigate = useNavigate();
 
-  const [heightLine, setHeightLine] = useState(55);
+  const [heightLine, setHeightLine] = useState(60);
 
   useEffect(() => {
     setHeightLine(heightLine * linesOrder.length);

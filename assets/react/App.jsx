@@ -1,5 +1,5 @@
+import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import React from "react";
 
 import Header from "./containers/Header/Header";
 import Product from "./components/Product/Product";
@@ -18,7 +18,19 @@ import UserDatas from "./containers/ProfileBridge/UserDatas/UserDatas";
 import UserComments from "./containers/ProfileBridge/UserComments/UserComments";
 import UserOrders from "./containers/ProfileBridge/UserOrders/UserOrders";
 
-const App = () => {
+import { useDispatch } from "react-redux";
+import { clearCart } from "./Store/slices/cartSlices";
+
+const App = ({ container }) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (container.dataset.clean) {
+      dispatch(clearCart());
+      container.removeAttribute("data-clean");
+    }
+  }, [container.dataset.clean, dispatch]);
+
   return (
     <>
       <Header />

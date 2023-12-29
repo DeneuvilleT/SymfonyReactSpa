@@ -72,7 +72,13 @@
     display: flex;
     justify-content: space-between;
     margin-top: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #999;
     width: 100%;
+  }
+
+  article aside div:last-child {
+    border-bottom: none;
   }
 
   article aside div * {

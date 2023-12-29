@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -66,7 +67,7 @@ class StripeController extends AbstractController
     }
 
     #[Route('checkout_success/{token}/{uid}', name: 'app_checkout_success', methods: ['GET'])]
-    public function checkoutSuccess(string $token, string $uid,  Request $request, ProductsRepository $productRepo,  CustomerRepository $customerRepository, EntityManagerInterface $entityManager): Response
+    public function checkoutSuccess(string $token, string $uid,  Request $request, ProductsRepository $productRepo,  CustomerRepository $customerRepository, EntityManagerInterface $entityManager, SessionInterface $session): Response
     {
         $productDataJson = $request->query->get('productData');
         $productData = json_decode(urldecode($productDataJson), true);
@@ -119,19 +120,20 @@ class StripeController extends AbstractController
         $entityManager->flush();
 
         if ($this->isCsrfTokenValid('stripe_token', $token)) {
+            $session->set('clean', true);
             return $this->redirectToRoute('app_home');
         }
 
-        /**
-         * Envoyer quelque chose pour faire comprendre que le panier doity être vidé
-         */
+        $session->set('clean', true);
         return $this->redirectToRoute('app_home');
     }
 
 
     #[Route('checkout_error', name: 'app_checkout_error', methods: ['GET'])]
-    public function checkoutError(): Response
+    public function checkoutError(SessionInterface $session): Response
     {
+        $session->set('clean', true);
+
         return $this->redirectToRoute('app_home');
     }
 }
