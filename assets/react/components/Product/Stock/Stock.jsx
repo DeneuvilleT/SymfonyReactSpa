@@ -11,7 +11,7 @@ const Quantity = ({ stock }) => {
   }, [stock]);
 
   const changeAvailability = () => {
-    if (stock >= 10) {
+    if (stock > 5) {
       setAvailability(
         <Icon
           icon="line-md:circle-twotone-to-confirm-circle-twotone-transition"
