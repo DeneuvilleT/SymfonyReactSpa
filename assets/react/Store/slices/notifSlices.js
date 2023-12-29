@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  notif: null,
+  push: null,
   timer: null,
   msg: '',
 };
@@ -11,7 +11,7 @@ const notifSlice = createSlice({
   initialState,
   reducers: {
     notificationPushLaunch(state, action) {
-      state.notif = action.payload;
+      state.push = action.payload;
     },
     notificationPush(state, action) {
       state.msg = action.payload.msg;
@@ -19,7 +19,7 @@ const notifSlice = createSlice({
     },
     resetNotif(state, action) {
       state.msg = '';
-      state.notif = null;
+      state.push = null;
       state.timer = null;
     }
   }
