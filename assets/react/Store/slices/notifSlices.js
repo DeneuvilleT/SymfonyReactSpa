@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { v4 as uuidv4 } from 'uuid';
 
 const initialState = {
-  push: null,
-  timer: null,
+  uid: null,
+  timer: 0,
   msg: '',
 };
 
@@ -10,17 +11,15 @@ const notifSlice = createSlice({
   name: "notif",
   initialState,
   reducers: {
-    notificationPushLaunch(state, action) {
-      state.push = action.payload;
-    },
     notificationPush(state, action) {
+      state.uid = uuidv4();
       state.msg = action.payload.msg;
       state.timer = action.payload.timer;
     },
     resetNotif(state, action) {
       state.msg = '';
-      state.push = null;
-      state.timer = null;
+      state.timer = 0;
+      state.uid = null;
     }
   }
 });

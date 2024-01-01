@@ -111,6 +111,10 @@ php bin/console make:subscriber
 
 php bin/console
 
+# Vide le cache
+
+php bin/console cache:clear
+
 # Affiche les options de php
 
 php bin/console debug:router
@@ -132,7 +136,6 @@ $env:MERCURE_EXTRA_DIRECTIVES="cors_origins http://localhost:8000";
 .\mercure.exe run --config Caddyfile.dev
 
 # JWT
-
 
 composer require lexik/jwt-authentication-bundle:*
 mkdir -p config/jwt
