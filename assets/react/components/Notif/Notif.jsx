@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import styles from "./notif.styles.scss";
@@ -11,31 +11,35 @@ const Notif = () => {
 
   const [timerOut, setTimerOut] = useState(0);
 
-  let test;
-  let initialTimer = 0;
+  const intervalRef = useRef();
 
   useEffect(() => {
-console.log('first')
-    clearInterval(test);
-    initialTimer = 0;
+    // Nettoyez le setInterval précédent avec la référence actuelle
+    clearInterval(intervalRef.current);
+
+    let initialTimer = 0;
 
     if (timer !== 0) {
       initialTimer = timer / 1000;
-      test = setInterval(() => {
+      // Utilisez la référence pour stocker le setInterval actuel
+      intervalRef.current = setInterval(() => {
         initialTimer--;
         setTimerOut(initialTimer);
 
         if (initialTimer === 0) {
-          clearInterval(test);
+          clearInterval(intervalRef.current);
           dispatch(resetNotif());
         }
-
-        console.log(test, initialTimer);
       }, 1000);
     }
+
+    // Nettoyez le setInterval lorsque le composant est démonté ou lorsque uid change
+    return () => {
+      clearInterval(intervalRef.current);
+    };
   }, [uid]);
 
-  return <div className={timerOut !== 0 ? styles.notif : styles.notif_hiden}>{msg}</div>;
+  return <div className={timerOut !== 0 ? styles.notif : styles.notif_hiden}>{timerOut ? msg : ""}</div>;
 };
 
 export default Notif;
