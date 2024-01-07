@@ -39,7 +39,12 @@ const Notif = () => {
     };
   }, [uid]);
 
-  return <div className={timerOut !== 0 ? styles.notif : styles.notif_hiden}>{timerOut ? msg : ""}</div>;
+  return (
+    <div className={styles.notif} style={{ width: timer === 0 ? "0" : "360px" }}>
+      <p className={timer === 0 ? "" : styles.appearAnimation}>{timer === 0 ? "" : msg}</p>
+      <progress value={100} max={100} className={timer === 0 ? "" : styles.deleteAnimation}></progress>
+    </div>
+  );
 };
 
 export default Notif;

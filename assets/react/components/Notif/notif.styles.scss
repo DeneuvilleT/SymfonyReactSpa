@@ -1,20 +1,72 @@
 .notif {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   position: fixed;
-  top: 25%;
+  top: 110px;
   right: 2.5%;
+  height: 60px;
   z-index: 999;
-
-  font-size: 1.25em;
-  letter-spacing: 0.08em;
-  color: #fff;
-  background-color: blue;
-  padding: 20px;
+  background-color: rgb(0 117 255 / 90%);
   border-radius: 20px;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 4px;
   overflow: hidden;
+  transition: width 0.75s ease-in-out;
+
+  p {
+    color: #fff;
+    text-align: center;
+    font-size: 1.45em;
+    margin: auto;
+    letter-spacing: 0.08em;
+    visibility: hidden;
+  }
+
+  progress {
+    height: 8px;
+    width: 0;
+    appearance: none;
+    border: none;
+  }
+
+  progress::-webkit-progress-bar {
+    background-color: rgb(0 117 255 / 90%);
+  }
+
+  progress::-webkit-progress-value {
+    background-color: rgba(73, 219, 255, 0.9);
+  }
+
+  progress::-moz-progress-bar {
+    background-color: rgba(73, 219, 255, 0.9);
+  }
+
+  @keyframes appear {
+    0% {
+      visibility: hidden;
+    }
+
+    100% {
+      visibility: visible;
+    }
+  }
+
+  @keyframes deleteBar {
+    0% {
+      visibility: visible;
+      width: 100%;
+    }
+
+    100% {
+      visibility: hidden;
+      width: 0;
+    }
+  }
 }
 
-.notif_hidden {
-    padding: 0;
-    height: 0;
+.appearAnimation {
+  animation: appear 5s ease-out 0.75s;
+}
+
+.deleteAnimation {
+  animation: deleteBar 5s ease-out 0.5s;
 }
