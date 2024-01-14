@@ -8,8 +8,11 @@
   height: 60px;
   z-index: 999;
   background-color: rgb(0 117 255 / 90%);
+  box-shadow: rgba(0, 0, 0, 0.20) 0px 2px 10px;
   border-radius: 20px;
   overflow: hidden;
+  // border-left: 1px solid #999;
+  // border-right: 1px solid #999;
   transition: width 0.75s ease-in-out;
 
   p {
@@ -23,9 +26,10 @@
 
   progress {
     height: 8px;
-    width: 0;
+    width: 100%;
     appearance: none;
     border: none;
+    opacity: 0;
   }
 
   progress::-webkit-progress-bar {
@@ -52,13 +56,17 @@
 
   @keyframes deleteBar {
     0% {
-      visibility: visible;
+      opacity: 0;
       width: 100%;
     }
 
+    50% {
+      opacity: 1;
+    }
+
     100% {
-      visibility: hidden;
-      width: 0;
+      opacity: 0;
+      width: 0%;
     }
   }
 }
@@ -68,5 +76,5 @@
 }
 
 .deleteAnimation {
-  animation: deleteBar 5s ease-out 0.5s;
+  animation: deleteBar 5s ease-out 0.25s;
 }

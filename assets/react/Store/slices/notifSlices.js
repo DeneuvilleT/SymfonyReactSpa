@@ -17,13 +17,16 @@ const notifSlice = createSlice({
       state.timer = action.payload.timer;
     },
     resetNotif(state, action) {
+      state.uid = null;
       state.msg = '';
       state.timer = 0;
+    },
+    restartAnimation(state) {
       state.uid = null;
-    }
-  }
+    },
+  },
 });
 
-export const { notificationPush, notificationPushLaunch, resetNotif } = notifSlice.actions;
+export const { notificationPush, resetNotif, restartAnimation } = notifSlice.actions;
 
 export default notifSlice.reducer;

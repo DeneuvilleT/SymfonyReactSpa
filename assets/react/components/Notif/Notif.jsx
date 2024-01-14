@@ -8,20 +8,18 @@ const Notif = () => {
   const dispatch = useDispatch();
 
   const { msg, timer, uid } = useSelector((state) => ({ ...state.notif }));
-
-  const [timerOut, setTimerOut] = useState(0);
-
+  const [timerOut, setTimerOut] = useState(timer);
   const intervalRef = useRef();
 
   useEffect(() => {
-    // Nettoyez le setInterval précédent avec la référence actuelle
     clearInterval(intervalRef.current);
+    setTimerOut(timer);
 
     let initialTimer = 0;
 
     if (timer !== 0) {
       initialTimer = timer / 1000;
-      // Utilisez la référence pour stocker le setInterval actuel
+
       intervalRef.current = setInterval(() => {
         initialTimer--;
         setTimerOut(initialTimer);
@@ -33,16 +31,15 @@ const Notif = () => {
       }, 1000);
     }
 
-    // Nettoyez le setInterval lorsque le composant est démonté ou lorsque uid change
     return () => {
       clearInterval(intervalRef.current);
     };
-  }, [uid]);
+  }, [uid, timer]);
 
   return (
-    <div className={styles.notif} style={{ width: timer === 0 ? "0" : "360px" }}>
-      <p className={timer === 0 ? "" : styles.appearAnimation}>{timer === 0 ? "" : msg}</p>
-      <progress value={100} max={100} className={timer === 0 ? "" : styles.deleteAnimation}></progress>
+    <div className={styles.notif} style={{ width: timerOut === 0 ? "0" : "360px" }}>
+      <p className={timerOut === 0 ? "" : styles.appearAnimation}>{timerOut === 0 ? "" : msg}</p>
+      <progress value={100} max={100} className={timerOut === 0 ? "" : styles.deleteAnimation}></progress>
     </div>
   );
 };
