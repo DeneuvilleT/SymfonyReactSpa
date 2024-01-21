@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import styles from "./notif.styles.scss";
@@ -14,10 +14,12 @@ const Notif = () => {
 
   useEffect(() => {
     clearInterval(intervalRef.current);
-
     let initialTimer = 0;
 
     if (timer !== 0) {
+      const progressStyle = progressBar.current.style;
+      progressStyle.setProperty("--progress-animation-duration", `${timer / 1000}s`);
+
       initialTimer = timer / 1000;
 
       intervalRef.current = setInterval(() => {
@@ -33,7 +35,7 @@ const Notif = () => {
     return () => {
       clearInterval(intervalRef.current);
     };
-  }, [uid]);
+  }, [uid, timer]);
 
   useEffect(() => {
     if (progressBar.current) {

@@ -29,7 +29,7 @@ const BtnAdd = ({ product, list }) => {
 
     if (quantity > 0) {
       dispatch(resetNotif());
-      dispatch(notificationPush({ msg: "Vous avez ajouté un produit à votre panier", timer: 15000 }));
+      dispatch(notificationPush({ msg: "Vous avez ajouté un produit à votre panier", timer: 5000 }));
       dispatch(addToCart({ product: product, quantity: quantity }));
       setQuantity(0);
 

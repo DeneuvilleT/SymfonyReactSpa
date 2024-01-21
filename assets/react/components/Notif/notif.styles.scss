@@ -30,7 +30,8 @@
     appearance: none;
     border: none;
     opacity: 0;
-    -webkit-animation: progressBar 5s infinite;
+    --progress-animation-duration: 5s;
+    -webkit-animation: progressBar var(--progress-animation-duration) normal;
   }
 
   progress::-webkit-progress-bar {
