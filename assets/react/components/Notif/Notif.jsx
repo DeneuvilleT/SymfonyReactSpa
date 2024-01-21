@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import styles from "./notif.styles.scss";
@@ -8,12 +8,12 @@ const Notif = () => {
   const dispatch = useDispatch();
 
   const { msg, timer, uid } = useSelector((state) => ({ ...state.notif }));
-  const [timerOut, setTimerOut] = useState(timer);
+
   const intervalRef = useRef();
+  const progressBar = useRef();
 
   useEffect(() => {
     clearInterval(intervalRef.current);
-    setTimerOut(timer);
 
     let initialTimer = 0;
 
@@ -22,7 +22,6 @@ const Notif = () => {
 
       intervalRef.current = setInterval(() => {
         initialTimer--;
-        setTimerOut(initialTimer);
 
         if (initialTimer === 0) {
           clearInterval(intervalRef.current);
@@ -34,12 +33,21 @@ const Notif = () => {
     return () => {
       clearInterval(intervalRef.current);
     };
-  }, [uid, timer]);
+  }, [uid]);
+
+  useEffect(() => {
+    if (progressBar.current) {
+      progressBar.current.style.webkitAnimation = "none";
+      setTimeout(() => {
+        progressBar.current.style.webkitAnimation = "";
+      }, 10);
+    }
+  }, [uid]);
 
   return (
-    <div className={styles.notif} style={{ width: timerOut === 0 ? "0" : "360px" }}>
-      <p className={timerOut === 0 ? "" : styles.appearAnimation}>{timerOut === 0 ? "" : msg}</p>
-      <progress value={100} max={100} className={timerOut === 0 ? "" : styles.deleteAnimation}></progress>
+    <div className={styles.notif} style={{ width: timer === 0 ? "0" : "360px" }}>
+      <p>{timer === 0 ? "" : msg}</p>
+      <progress ref={progressBar} value={100} max={100}></progress>
     </div>
   );
 };

@@ -21,12 +21,9 @@ const notifSlice = createSlice({
       state.msg = '';
       state.timer = 0;
     },
-    restartAnimation(state) {
-      state.uid = null;
-    },
   },
 });
 
-export const { notificationPush, resetNotif, restartAnimation } = notifSlice.actions;
+export const { notificationPush, resetNotif } = notifSlice.actions;
 
 export default notifSlice.reducer;

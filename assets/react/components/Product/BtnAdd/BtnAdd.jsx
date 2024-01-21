@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
 
 import { addToCart } from "../../../Store/slices/cartSlices";
-import { notificationPush, resetNotif, restartAnimation } from "../../../Store/slices/notifSlices";
+import { notificationPush, resetNotif } from "../../../Store/slices/notifSlices";
 
 import styles from "./btnAdd.styles.scss";
 
@@ -28,8 +28,8 @@ const BtnAdd = ({ product, list }) => {
     e.preventDefault();
 
     if (quantity > 0) {
-      dispatch(notificationPush({ msg: "Vous avez ajouté un produit à votre panier", timer: 5000 }));
-      dispatch(restartAnimation());
+      dispatch(resetNotif());
+      dispatch(notificationPush({ msg: "Vous avez ajouté un produit à votre panier", timer: 15000 }));
       dispatch(addToCart({ product: product, quantity: quantity }));
       setQuantity(0);
 
@@ -122,7 +122,7 @@ const BtnAdd = ({ product, list }) => {
             </div>
 
             {list ? (
-              <p style={{ fontSize: "1.6em" }}>
+              <p style={{ fontSize: "1.45em" }}>
                 / {stockAvailable} <span style={{ fontWeight: "600", letterSpacing: "0.05em" }}>dispo</span>
               </p>
             ) : (

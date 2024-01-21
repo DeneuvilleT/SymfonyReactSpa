@@ -3,16 +3,14 @@
   flex-direction: column;
   justify-content: flex-end;
   position: fixed;
-  top: 110px;
+  top: 130px;
   right: 2.5%;
   height: 60px;
   z-index: 999;
-  background-color: rgb(0 117 255 / 90%);
-  box-shadow: rgba(0, 0, 0, 0.20) 0px 2px 10px;
+  background-color: rgba(0, 140, 255, 1);
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 10px;
   border-radius: 20px;
   overflow: hidden;
-  // border-left: 1px solid #999;
-  // border-right: 1px solid #999;
   transition: width 0.75s ease-in-out;
 
   p {
@@ -21,7 +19,9 @@
     font-size: 1.45em;
     margin: auto;
     letter-spacing: 0.08em;
-    visibility: hidden;
+    width: 360px;
+    overflow-x: hidden;
+    font-family: cursive;
   }
 
   progress {
@@ -30,31 +30,22 @@
     appearance: none;
     border: none;
     opacity: 0;
+    -webkit-animation: progressBar 5s infinite;
   }
 
   progress::-webkit-progress-bar {
-    background-color: rgb(0 117 255 / 90%);
+    background-color: rgba(0, 140, 255, 1);
   }
 
   progress::-webkit-progress-value {
-    background-color: rgba(73, 219, 255, 0.9);
+    background-color: rgba(73, 228, 255, 1);
   }
 
   progress::-moz-progress-bar {
-    background-color: rgba(73, 219, 255, 0.9);
+    background-color: rgba(73, 228, 255, 1);
   }
 
-  @keyframes appear {
-    0% {
-      visibility: hidden;
-    }
-
-    100% {
-      visibility: visible;
-    }
-  }
-
-  @keyframes deleteBar {
+  @-webkit-keyframes progressBar {
     0% {
       opacity: 0;
       width: 100%;
@@ -65,16 +56,8 @@
     }
 
     100% {
-      opacity: 0;
       width: 0%;
     }
   }
 }
 
-.appearAnimation {
-  animation: appear 5s ease-out 0.75s;
-}
-
-.deleteAnimation {
-  animation: deleteBar 5s ease-out 0.25s;
-}
