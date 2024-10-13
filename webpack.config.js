@@ -27,7 +27,6 @@ Encore.setOutputPath("public/build/")
     "./assets/react/containers/Cart/cart.styles.scss",
     "./assets/react/components/Cart/CartLineItem/cartLineItem.styles.scss",
     "./assets/react/containers/Login/login.styles.scss",
-    "./assets/react/containers/Logup/logup.styles.scss",
     "./assets/react/containers/Logout/logout.styles.scss",
     "./assets/react/containers/ProfileBridge/profileBridge.styles.scss",
     "./assets/react/containers/ProfileBridge/UserDatas/userDatas.styles.scss",

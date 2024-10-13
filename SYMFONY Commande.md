@@ -26,7 +26,6 @@ php bin/console make:entity **name**
 # Finaliser la table User (firstname, lastname ...)
 
 5 ==============>
-php bin/console make:migration
 
 # Prépare la migration de la BDD
 
